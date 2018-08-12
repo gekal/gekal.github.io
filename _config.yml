@@ -10,6 +10,8 @@ github_username:  gekal
 # Build settings
 markdown: kramdown
 theme: minima
+minima:
+  date_format: "%Y/%m/%d"
 plugins:
   - jekyll-feed
 
