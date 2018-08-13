@@ -1,8 +1,9 @@
 ---
 layout: post
 title:  "Windowsのパッケージ管理ツール"
-date:   2018-03-12 +0900
-categories: windows package choco
+date:   2018-03-12T10:20:00+0900
+categories: blogs jp
+tags: choco package
 ---
 
 # 前書き
