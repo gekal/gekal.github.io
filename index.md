@@ -1,4 +1,4 @@
 ---
 layout: home
-list_title: 我的随笔
+list_title: 投稿一覧
 ---
