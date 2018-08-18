@@ -33,4 +33,4 @@ tags: windows Environment Variables
 
 コマンドラインにコマンド(envars)を実行すれば、環境変数の画面ができていきます
 
-![結果画面](../assets/imgs/blogs-20180818-envars-run-result.jpg)
+![結果画面](/assets/imgs/blogs/2018-08-18/envars-run-result.jpg)
