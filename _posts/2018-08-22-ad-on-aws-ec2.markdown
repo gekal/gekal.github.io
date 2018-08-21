@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "コマンドで環境変数の画面を開き"
+date:   2018-08-22T00:10:00+0900
+categories: blogs
+tags: aws ec2 ad
+---
+
+# TODO
+
+# 参照資料
+
+　  https://dev.classmethod.jp/series/active-directory-on-aws/
