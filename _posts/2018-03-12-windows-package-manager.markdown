@@ -36,9 +36,10 @@ $proxy.Credentials = $creds
 [System.Net.WebRequest]::DefaultWebProxy = $proxy
 
 # Chocoインストール用プロキシ
-$env:chocolateyProxyUser = $user
-$env:chocolateyProxyPassword = $password
+$env:chocolateyProxyUser = $proxyUser
+$env:chocolateyProxyPassword = $proxyPassword
 $env:chocolateyProxyLocation = $proxyServer
+$env:chocolateyUseWindowsCompression = 'true'
 
 # Chocoインストール処理
 Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
