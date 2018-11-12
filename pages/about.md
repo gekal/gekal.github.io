@@ -15,7 +15,7 @@ permalink: /about/
 * JavaScript
 * Dotnet
 * VBA
-* Bash
+* Shell
 * Groovy
 
 オープンが好きなため、今後、OSSをメインに勉強して、プロジェクトに活用するか思います。
