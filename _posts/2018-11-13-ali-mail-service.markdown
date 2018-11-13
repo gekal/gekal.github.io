@@ -33,7 +33,7 @@ gmail,hotmailなど
 | ------------ | ------------------ | ------ | --------- |
 | POP          | pop3.mxhichina.com | 110    | 995       |
 | IMAP         | imap.mxhichina.com | 143    | 993       |
-| SMTP         | pop3.mxhichina.com | 25     | 465       |
+| SMTP         | smtp.mxhichina.com | 25     | 465       |
 
 > 上記以外にも、個人ドメインでも行けますか、証明証の問題があります。上記のホストを使った方が無難です。
 
