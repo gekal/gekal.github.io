@@ -11,7 +11,6 @@ tags: ali mail dingding
 先日からgekal.cnの中国のドメインを購入しました。無料のメールサービスも付いています。
 詳細は下記のURLを参考ください。
 [https://help.aliyun.com/product/35466.html](https://help.aliyun.com/product/35466.html)
-gmail,hotmailなど
 
 # メールの設定
 
