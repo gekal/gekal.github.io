@@ -1,7 +1,7 @@
 ---
 title: MacにJekyll環境の構築
 layout: post
-date:   2018-11-13T01:05:00+0900
+date:   2019-01-01T22:05:00+0900
 categories: blogs
 tags: jekyll mac
 ---
