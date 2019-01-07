@@ -14,7 +14,7 @@ kramdown:
   input: GFM
   hard_wrap: false
   syntax_highlighter: rouge
-theme: minima
+theme: jekyll-theme-cayman
 minima:
   date_format: "%Y/%m/%d"
 plugins:
