@@ -1,5 +1,5 @@
 ---
-title: OpenAPI仕様（OAS）概要
+title: OpenAPI仕様（OAS）概要
 layout: post
 date:   2019-01-11T23:05:00+0900
 categories: blogs
@@ -34,7 +34,7 @@ OpenAPI仕様（OAS）は、REST APIの標準のプログラミング言語に�
 
             OpenAPI仕様を扱うチームや個人のための設計およびドキュメンテーションプラットフォーム。
 
-        ※ 個人なら、無料で使えますので、ぜひ使ってみてください。
+        ※ 個人なら、無料で使えますので、ぜひ使ってみてください。
         https://swagger.io/tools/swaggerhub/pricing/
 
     2. [Swagger Inspector](https://inspector.swagger.io)
