@@ -18,21 +18,21 @@ OpenAPI仕様（OAS）は、REST APIの標準のプログラミング言語に�
 
     1. [Swagger Editor](https://swagger.io/tools/swagger-editor/)
 
-            OpenAPI仕様でAPIを設計するためのAPIエディタ
+        OpenAPI仕様でAPIを設計するためのAPIエディタ
 
     2. [Swagger UI](https://swagger.io/tools/swagger-ui/)
 
-            対話型UIでOpenAPI仕様定義を視覚化する
+        対話型UIでOpenAPI仕様定義を視覚化する
 
     3. [Swagger Codegen](https://swagger.io/tools/swagger-codegen/)
 
-            OpenAPI仕様の定義からサーバースタブとクライアントSDKを生成する
+        OpenAPI仕様の定義からサーバースタブとクライアントSDKを生成する
 
 - Open Source Tools
 
     1. [SwaggerHub](https://app.swaggerhub.com)
 
-            OpenAPI仕様を扱うチームや個人のための設計およびドキュメンテーションプラットフォーム。
+        OpenAPI仕様を扱うチームや個人のための設計およびドキュメンテーションプラットフォーム。
 
         ※ 個人なら、無料で使えますので、ぜひ使ってみてください。
         https://swagger.io/tools/swaggerhub/pricing/
