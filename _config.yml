@@ -7,6 +7,9 @@ url: "https://gekal.cn"
 twitter_username: KoeiRyu
 github_username:  gekal
 
+# disqus config
+disqus: 'gekalcn'
+
 # Build settings
 markdown: kramdown
 highlighter: rouge
