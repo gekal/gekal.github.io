@@ -8,7 +8,8 @@ twitter_username: KoeiRyu
 github_username:  gekal
 
 # disqus config
-disqus: 'gekalcn'
+disqus:
+  shortname: 'gekalcn'
 
 # Build settings
 markdown: kramdown
@@ -17,7 +18,7 @@ kramdown:
   input: GFM
   hard_wrap: false
   syntax_highlighter: rouge
-theme: jekyll-theme-cayman
+theme: minima
 minima:
   date_format: "%Y/%m/%d"
 plugins:
