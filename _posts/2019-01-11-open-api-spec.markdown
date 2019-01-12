@@ -28,7 +28,7 @@ OpenAPI仕様（OAS）は、REST APIの標準のプログラミング言語に�
 
         OpenAPI仕様の定義からサーバースタブとクライアントSDKを生成する
 
-- Open Source Tools
+- Pro Tools
 
     1. [SwaggerHub](https://app.swaggerhub.com)
 
