@@ -11,6 +11,9 @@ github_username:  gekal
 disqus:
   shortname: 'gekalcn'
 
+# google analytics
+google_analytics: UA-132360060-1
+
 # Build settings
 markdown: kramdown
 highlighter: rouge
