@@ -43,7 +43,7 @@ OpenAPI仕様（OAS）は、REST APIの標準のプログラミング言語に�
 
 # 参照資料
 
-## spec資料
+## spec資料
 
 - [v3.0.1](http://spec.openapis.org/oas/v3.0.1.html)
 - [v2.0](http://spec.openapis.org/oas/v2.0.html)
