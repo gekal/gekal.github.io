@@ -40,3 +40,10 @@ OpenAPI仕様（OAS）は、REST APIの標準のプログラミング言語に�
     2. [Swagger Inspector](https://inspector.swagger.io)
 
         ブラウザからAPIを簡単にテストして試し、すぐにOpenAPI仕様の定義を生成します。
+
+# 参照資料
+
+## spec資料
+
+- [v3.0.1](http://spec.openapis.org/oas/v3.0.1.html)
+- [v2.0](http://spec.openapis.org/oas/v2.0.html)
