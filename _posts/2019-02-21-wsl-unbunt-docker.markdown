@@ -79,7 +79,7 @@ sudo service docker start
 
 ```bash
 # Apacheを起動
-docker run -p 8080:80 -d httpd
+docker run -p 8080:80 --rm httpd
 ```
 
 ## 動作確認
