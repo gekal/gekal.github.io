@@ -93,8 +93,8 @@ docker run -p 8080:80 --rm httpd
 
 ```bash
 # /etc/default/docker
-export http_proxy="http://your-proxy...:your-port"
-export https_proxy="http://your-proxy...:your-port"
+export http_proxy="http://username:passwd@proxyserver:8080"
+export https_proxy="http://username:passwd@proxyserver:8080"
 ```
 
 # 参照資料
