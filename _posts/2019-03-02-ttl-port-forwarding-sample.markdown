@@ -13,7 +13,7 @@ Windowのユーザなら、LinuxにSSHログインするとき、何を使いま
 # 検証環境
 
 - [Windows 10](https://www.microsoft.com/ja-jp/store/b/windows)
-- [Teraterm 4.*]([https://www.microsoft.com/ja-jp/p/ubuntu-1604-lts/9pjn388hp8c9?activetab=pivot:overviewtab](https://ja.osdn.net/projects/ttssh2/))
+- [Teraterm 4.*](https://ja.osdn.net/projects/ttssh2/)
 
 # Teratermの自動ログイン
 
