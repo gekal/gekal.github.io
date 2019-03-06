@@ -6,7 +6,11 @@ categories: blogs
 tags: docker kubernetes playground.
 ---
 
-# Online環境
+# 前書き
+
+Dockder/Kubernetesの環境には、自前で構築のは一般的なんですが、遊んでみたい時、オンライン環境があれば、幸いと思います。有名な遊び場を整理します。
+
+# 遊び場
 
 ## Docker
 
@@ -17,6 +21,3 @@ tags: docker kubernetes playground.
 
 1. [Play with Kubernetes](https://labs.play-with-k8s.com/)
 2. [Play with Kubernetes Classroom](https://training.play-with-kubernetes.com/)
-
-
-
