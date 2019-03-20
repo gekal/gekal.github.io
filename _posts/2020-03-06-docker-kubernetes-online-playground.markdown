@@ -1,5 +1,5 @@
 ---
-title: Dockder/Kubernetesのオンライン遊び場
+title: Docker/Kubernetesのオンライン遊び場
 layout: post
 date:   2019-03-06T23:40:00+0900
 categories: blogs
