@@ -93,3 +93,7 @@ aspell-dictionaries
 # 終わり
 
 Macを楽々に使いましょう。
+
+# 参照
+
+1. [Homebrew Documentation](https://docs.brew.sh/)
