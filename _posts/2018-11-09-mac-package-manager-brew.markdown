@@ -13,7 +13,7 @@ Macを利用するなら、Homebrewを知らないといけないため、Homebr
 # Homebrewとは
 
 Homebrew（ホームブルー）は、macOSオペレーティングシステム上でソフトウェアの導入を単純化するパッケージ管理システムのひとつである。
-※ [wikipediaにより](https://ja.wikipedia.org/wiki/Homebrew_%28%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%29)
+※ [wikipediaにより](https://ja.wikipedia.org/wiki/Homebrew_(パッケージ管理システム))
 
 # Homebrewのインストール
 ```bash
