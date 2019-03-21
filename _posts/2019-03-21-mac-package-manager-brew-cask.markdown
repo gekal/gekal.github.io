@@ -83,6 +83,32 @@ brew tapは、追跡、更新、およびインストールに使用する式の
     $ brew tap <tap_name>
    ```
 
+# 俺の使用
+
+```bash
+# sublime
+brew tap caskroom/homebrew-versions
+brew cask install sublime-text3
+
+# Visual Studio Code
+brew cask install visual-studio-code
+
+# Oracle VM VirtualBox
+brew cask install virtualbox
+
+# Vagrant by HashiCorp
+brew cask install vagrant
+
+# iTerm2
+brew cask install iterm2
+
+# Docker
+brew cask install docker
+
+# openjdk
+brew cask install java
+```
+
 # 参照
 
 1. [How to Use Homebrew Cask](https://github.com/Homebrew/homebrew-cask/blob/master/USAGE.md)
