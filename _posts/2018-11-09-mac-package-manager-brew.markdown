@@ -88,7 +88,7 @@ aspell-dictionaries
 ざっと見ると、多いですね。当然、全部覚える必要が有りません。
 よく利用するので、
 
-![brewコマンド](https://www.gekal.cn/assets/svg/brew.svg)
+![brewコマンド](/assets/svg/brew.svg)
 
 # 終わり
 
