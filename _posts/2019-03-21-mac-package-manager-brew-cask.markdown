@@ -9,7 +9,7 @@ tags: mac brew cask
 # 初めに
 
 HomeBrewの使い方に関して、前に関連の記事を書きました。  
-※ [Macのパッケージ管理ツール - brew](/_posts/2018-11-09-mac-package-manager-brew.markdown)
+※ [Macのパッケージ管理ツール - brew]({% post_url 2018-11-09-mac-package-manager-brew.markdown %})
 
 でも、ソフトウェア（VirtualBoxなど）をインストールする時、**Download->Install**の手順でした。ちょっと面倒だと思います。特に、更新する時、手間が掛かり過ぎます。
 
