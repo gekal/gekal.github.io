@@ -49,7 +49,10 @@ Certified Kubernetes Application Developer試験は、ユーザーがKubernetes�
 
 1. 認証情報切り替え
 
-    ```bash
+    ```shell
+    # コンテツ一覧
+    kubectl config get-contexts
+    # コンテツ切り替え
     kubectl config use-context k8s
     ```
 
