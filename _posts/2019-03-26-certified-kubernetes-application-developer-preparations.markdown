@@ -72,3 +72,7 @@ Certified Kubernetes Application Developer試験は、ユーザーがKubernetes�
 # 参照
 
 1. [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/)
+2. [CKAD-exercises](https://github.com/dgkanatsios/CKAD-exercises)
+3. [CKA/CKADに合格したので比較してみた + Tips](https://qiita.com/oke-py/items/e8bf3863c8f48d750427)
+4. [ckad-prep-notes](https://github.com/twajr/ckad-prep-notes)
+5. [CKADをさっさと合格するためのTips](https://qiita.com/kentakozuka/items/c1a30f1545752264dfe6)
