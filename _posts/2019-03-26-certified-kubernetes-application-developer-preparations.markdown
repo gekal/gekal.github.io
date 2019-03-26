@@ -38,12 +38,12 @@ Certified Kubernetes Application Developer試験は、ユーザーがKubernetes�
 
 # CKAD CLUSTERS
 
-    | Cluster | Members            | CNI     | Description |
-    | ------- | ------------------ | ------- | ----------- |
-    | k8s     | 1 master, 2 worker | flannel | k8s cluster |
-    | dk8s    | 1 master, 1 worker | flannel | k8s cluster |
-    | nk8s    | 1 master, 2 worker | calico  | k8s cluster |
-    | sk8s    | 1 master, 1 worker | flannel | k8s cluster |
+| Cluster | Members            | CNI     | Description |
+| ------- | ------------------ | ------- | ----------- |
+| k8s     | 1 master, 2 worker | flannel | k8s cluster |
+| dk8s    | 1 master, 1 worker | flannel | k8s cluster |
+| nk8s    | 1 master, 2 worker | calico  | k8s cluster |
+| sk8s    | 1 master, 1 worker | flannel | k8s cluster |
 
 ## 試験中注意点
 
