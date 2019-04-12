@@ -134,7 +134,7 @@ $ minikube start
 | cache          | Add or delete an image from the local cache.                                      |
 | completion     | Outputs minikube shell completion for the given shell (bash or zsh)               |
 | config         | Modify minikube config                                                            |
-| dashboard      | Access the kubernetes dashboard running within the minikube cluster               |
+| **dashboard**  | Access the kubernetes dashboard running within the minikube cluster               |
 | delete         | Deletes a local kubernetes cluster                                                |
 | docker-env     | Sets up docker env variables; similar to '$(docker-machine env)'                  |
 | help           | Help about any command                                                            |
@@ -143,15 +143,15 @@ $ minikube start
 | mount          | Mounts the specified directory into minikube                                      |
 | profile        | Profile sets the current minikube profile                                         |
 | service        | Gets the kubernetes URL(s) for the specified service in your local cluster        |
-| ssh            | Log into or run a command on a machine with SSH; similar to 'docker-machine ssh'  |
+| **ssh**        | Log into or run a command on a machine with SSH; similar to 'docker-machine ssh'  |
 | ssh-key        | Retrieve the ssh identity key path of the specified cluster                       |
-| start          | Starts a local kubernetes cluster                                                 |
-| status         | Gets the status of a local kubernetes cluster                                     |
-| stop           | Stops a running local kubernetes cluster                                          |
+| **start**      | Starts a local kubernetes cluster                                                 |
+| **status**     | Gets the status of a local kubernetes cluster                                     |
+| **stop**       | Stops a running local kubernetes cluster                                          |
 | tunnel         | tunnel makes services of type LoadBalancer accessible on localhost                |
 | update-check   | Print current and latest version number                                           |
 | update-context | Verify the IP address of the running cluster in kubeconfig.                       |
-| version        | Print the version of minikube                                                     |
+| **version**    | Print the version of minikube                                                     |
 
 # まとめ
 
