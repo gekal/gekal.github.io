@@ -16,7 +16,7 @@ Minikubeでは仮想化ソフトウェアを使ってLinuxがインストール�
 
 CPUの仮想化機能を有効する。
 
-## Minikuvwをインストール
+## Minikubeをインストール
 
 ```shell
 # Minikubeをインストール
