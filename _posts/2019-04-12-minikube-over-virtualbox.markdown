@@ -159,11 +159,11 @@ $ minikube start
 
     minikubeを起動する。
 
-    |option|detail|
-    |---|---|
-    |--cpus int|Number of CPUs allocated to the minikube VM (default 2)|
-    |--memory int|Amount of RAM allocated to the minikube VM in MB (default 2048)|
-    |--vm-driver string|VM driver is one of: [virtualbox parallels vmwarefusion kvm xhyve hyperv hyperkit kvm2 vmware none] (default "virtualbox")|
+    | option             | detail                                                                                                                     |
+    | ------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+    | --cpus int         | Number of CPUs allocated to the minikube VM (default 2)                                                                    |
+    | --memory int       | Amount of RAM allocated to the minikube VM in MB (default 2048)                                                            |
+    | --vm-driver string | VM driver is one of: [virtualbox parallels vmwarefusion kvm xhyve hyperv hyperkit kvm2 vmware none] (default "virtualbox") |
 
 2. status
 
