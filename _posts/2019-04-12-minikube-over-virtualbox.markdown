@@ -105,7 +105,7 @@ $ minikube start
 
 3. VirtualBox
 
-    ![minikube virtualbox](/assets/imgs/blogs/2019-04-11/minikube-virtualbox.png)
+    ![minikube virtualbox](/assets/imgs/blogs/2019-04-12/minikube-virtualbox.png)
     
     > ネットワーク
 
@@ -123,7 +123,7 @@ $ minikube start
     🎉  Opening http://127.0.0.1:59308/api/v1/namespaces/kube-system/services/http:kubernetes-dashboard:/proxy/ in your default browser...
     ```
 
-    ![minikube dashboard](/assets/imgs/blogs/2019-04-11/minikube-dashboard.png)
+    ![minikube dashboard](/assets/imgs/blogs/2019-04-12/minikube-dashboard.png)
 
 
 ## Minikubeコマンド
