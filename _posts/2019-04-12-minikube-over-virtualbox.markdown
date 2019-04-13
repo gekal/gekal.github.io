@@ -153,6 +153,30 @@ $ minikube start
 | update-context | Verify the IP address of the running cluster in kubeconfig.                       |
 | **version**    | Print the version of minikube                                                     |
 
+### よく利用するコマンド
+
+1. start
+
+    minikubeを起動する。
+
+    |option|detail|
+    |---|---|
+    |--cpus int|Number of CPUs allocated to the minikube VM (default 2)|
+    |--memory int|Amount of RAM allocated to the minikube VM in MB (default 2048)|
+    |--vm-driver string|VM driver is one of: [virtualbox parallels vmwarefusion kvm xhyve hyperv hyperkit kvm2 vmware none] (default "virtualbox")|
+
+2. status
+
+    minikubeのステータスを確認する。
+
+3. stop
+
+    minikubeを停止する。
+
+4. delete
+
+    nimikubeのクラスタを削除する。
+
 # まとめ
 
 v1.0.0にバージョンアップしたため、前より使えやすくになりました。
