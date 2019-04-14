@@ -69,6 +69,10 @@ helm install --name my-release --set server.service.type=NodePort stable/spring-
 
 # GUIへのアクセス
 
+## kubectlで調べ
+
+> アクセスURL（http://<minikubeのIP>:<scdfのServerのNodePort>/dashboard）
+
 1. HTTP
 2. MinikuberのIP
 
@@ -85,7 +89,19 @@ helm install --name my-release --set server.service.type=NodePort stable/spring-
     my-release-data-flow-server   NodePort   10.101.21.115   <none>        80:30553/TCP   29m   app=spring-cloud-data-flow,component=server,release=my-release
     ```
 
-    ![Spring Cloud Data Flow GUI](/assets/imgs/blogs/2019-04-13/spring-cloud-data-flow-gui.png)
+## minikubeで調べ
+
+```bash
+$ minikube service --url my-release-data-flow-server
+http://192.168.99.102:30553
+
+# Macで下記のコマンドを使って、デフォルトのブラウザを開く
+$ open $(minikube service --url my-release-data-flow-server)/dashboard
+```
+
+## GUI画面
+
+![Spring Cloud Data Flow GUI](/assets/imgs/blogs/2019-04-13/spring-cloud-data-flow-gui.png)
 
 # デモ
 
