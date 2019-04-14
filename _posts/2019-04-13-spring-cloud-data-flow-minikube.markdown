@@ -107,11 +107,29 @@ $ open $(minikube service --url my-release-data-flow-server)/dashboard
 
 1. App登録
 
-    TODO
+    ```bash
+    wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=http://bit.ly/Einstein-GA-stream-applications-rabbit-docker&force=true";
+    echo "Stream apps imported"
+    wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=http://bit.ly/Dearborn-SR1-task-applications-docker&force=true";
+    echo "Task apps imported""
+    ```
 
 2. Stream作成
 
-    TODO
+    [official's demo](https://cloud.spring.io/spring-cloud-dataflow/)をご参考ください。
+
+    ![create ticktock stream](/assets/imgs/blogs/2019-04-13/create-ticktock-stream.png)
+
+    ```bash
+    $ kubectl get deployment
+    NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+    my-release-data-flow-server    1/1     1            1           19h
+    my-release-data-flow-skipper   1/1     1            1           19h
+    my-release-mysql               1/1     1            1           19h
+    my-release-rabbitmq            1/1     1            1           19h
+    ticktock-log-v1                1/1     1            1           2m17s
+    ticktock-time-v1               1/1     1            1           2m17s
+    ```
 
 # 参照URL
 
