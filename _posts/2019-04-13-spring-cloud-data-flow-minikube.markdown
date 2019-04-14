@@ -1,5 +1,5 @@
 ---
-title: spring-cloud-data-flow-minikube
+title: Spring Cloud Data Flow @ Minikuber
 layout: post
 date:   2019-04-13T16:00:00+0900
 categories: blogs
