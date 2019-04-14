@@ -111,7 +111,7 @@ $ open $(minikube service --url my-release-data-flow-server)/dashboard
     wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=http://bit.ly/Einstein-GA-stream-applications-rabbit-docker&force=true";
     echo "Stream apps imported"
     wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=http://bit.ly/Dearborn-SR1-task-applications-docker&force=true";
-    echo "Task apps imported""
+    echo "Task apps imported"
     ```
 
 2. Stream作成
