@@ -92,14 +92,14 @@ tags: git
            git clean [-d] [-f] [-i] [-n] [-q] [-e <pattern>] [-x | -X] [--] <path>...
            ```
 
-        ２. Options
+        2. Options
 
            * -n: Don't actually remove anything, just show what would be done.
            * -d: Remove untracked directories in addition to untracked files.
            * -x: Don't use the standard ignore rules.
            * -f, --force
 
-        ３. use pattern
+        3. use pattern
 
             ```bash
             # 全てのファイルを削除(クラーンの状態に戻る)
