@@ -4,7 +4,7 @@ title: 自己紹介
 permalink: /about/
 ---
 
-# 僕、だれ
+## 僕、だれ
 
 ニックネームがgekalです。  
 初めに、英語を勉強した時、この単語の発音が名前の発音と類似するかと思いました。
@@ -24,6 +24,12 @@ permalink: /about/
 
 ![似顔](../assets/imgs/gekal.png)
 
-# 直近
+## 勉強中
+
+1. Spring Cloud
+2. Docker/kubernets
+3. Cloud
+
+## 直近
 
 最近、クラウドとコンテナーに興味がすごく有りました。それで、AWSとDockerを夢中に勉強中です。
