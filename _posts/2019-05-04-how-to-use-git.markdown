@@ -70,6 +70,15 @@ tags: git
     | rebase   | Reapply commits on top of another base tip                  |
     | tag      | Create, list, delete or verify a tag object signed with GPG |
 
+    * ブランチの切り替え
+
+        ```bash
+        # developerブランチにチェンジ
+        $ git checkout develop
+        Branch 'develop' set up to track remote branch 'develop' from 'origin'.
+        Switched to a new branch 'develop'
+        ```
+
 5. collaborate (see also: git help workflows)
 
     | コマンド | 説明                                                               |
