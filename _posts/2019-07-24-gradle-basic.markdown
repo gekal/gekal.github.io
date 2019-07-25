@@ -1,7 +1,7 @@
 ---
 title: Gradle入門
 layout: post
-date:   2019-07-25T11:00:00+0900
+date:   2019-07-24T11:00:00+0900
 categories: blogs
 tags: gradle
 ---
