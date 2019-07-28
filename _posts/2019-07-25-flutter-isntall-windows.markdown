@@ -126,7 +126,7 @@ Googleが開発したポータブルのUIツールキットである。
 
 3. 結果確認
 
-![PHP導入なし](/assets/imgs/blogs/2019-07-25/flutter-sample-starter-app.png)
+![Flutterサンプル結果](/assets/imgs/blogs/2019-07-25/flutter-sample-starter-app.png)
 
 ## 参照
 
