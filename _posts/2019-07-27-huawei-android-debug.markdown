@@ -52,7 +52,7 @@ tags: huawei andorid usb debug
 
 ## 動作確認
 
-> [Flutter環境構築（Windows）]({% post_url 2018-11-09-mac-package-manager-brew %})の動作確認サンプルで確認
+> [Flutter環境構築（Windows）]({% post_url 2019-07-25-flutter-isntall-windows %})の動作確認サンプルで確認
 
 ```powershell
 flutter create myapp
