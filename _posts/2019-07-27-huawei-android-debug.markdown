@@ -1,5 +1,5 @@
 ---
-title: HUAWEI端末のUSBデバッグ（TODO）
+title: HUAWEI端末のUSBデバッグ
 layout: post
 date:   2019-07-27T11:00:00+0900
 categories: blogs
@@ -51,6 +51,16 @@ tags: huawei andorid usb debug
 ---
 
 ## 動作確認
+
+> [Flutter環境構築（Windows）]({% post_url 2018-11-09-mac-package-manager-brew %})の動作確認サンプルで確認
+
+```powershell
+flutter create myapp
+cd myapp
+flutter run
+```
+
+![Flutterサンプル結果](/assets/imgs/blogs/2019-07-25/flutter-sample-starter-app.png)
 
 ## 参照
 
