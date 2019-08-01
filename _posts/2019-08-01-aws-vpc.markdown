@@ -1,0 +1,9 @@
+---
+title: Amazon Virtual Private Cloud (VPC)
+layout: post
+date:   2019-08-01T23:00:00+0900
+categories: blogs
+tags: aws vpc
+---
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aHEVvsk6pkI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
