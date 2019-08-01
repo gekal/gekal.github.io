@@ -6,4 +6,20 @@ categories: blogs
 tags: aws vpc
 ---
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/aHEVvsk6pkI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## Webinar 資料
+
+1. Amazon Virtual Private Cloud (VPC) Basic(2019/03/13)
+
+    > [Slide(PDF)](https://d1.awsstatic.com/webinars/jp/pdf/services/20190313_AWS-BlackBelt-VPC.pdf)
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/aHEVvsk6pkI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+2. Amazon Virtual Private Cloud (VPC) Advanced(2019/04/17)
+
+    > [Slide(PDF)](https://d1.awsstatic.com/webinars/jp/pdf/services/20190417_AWS-BlackBelt-VPC-Advanced.pdf)
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/WCq_2-zkV44" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## 参照
+
+1. [AWS サービス別資料](https://aws.amazon.com/jp/aws-jp-introduction/aws-jp-webinar-service-cut/)
