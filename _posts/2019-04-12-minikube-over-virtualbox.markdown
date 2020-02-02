@@ -2,6 +2,7 @@
 title: Macでminikubeをインストールしてみる。
 layout: post
 date:   2019-04-12T23:00:00+0900
+update:   2020-02-02T16:00:00+0900
 categories: blogs
 tags: minikube virtualbox
 ---
@@ -60,7 +61,7 @@ zsh completions have been installed to:
 
 ## Minikubeを開始
 
-```shell
+```bash
 $ minikube start
 😄  minikube v1.0.0 on darwin (amd64)
 🤹  Downloading Kubernetes v1.14.0 images in the background ...
@@ -81,6 +82,45 @@ $ minikube start
 🤔  Verifying component health .....
 💗  kubectl is now configured to use "minikube"
 🏄  Done! Thank you for using minikube!
+```
+
+`2020/02/02追記`
+
+> 最近のデフォルトドライバは「hyperkit」に変更された様です。
+> 起動できない場合があります様での、その時、VirtualBoxを使って見てください。
+
+`[hyperkit]`
+
+```bash
+$ minikube start
+😄  minikube v1.6.2 on Darwin 10.15.2
+✨  Automatically selected the 'hyperkit' driver (alternates: [virtualbox])
+🔥  Creating hyperkit VM (CPUs=2, Memory=2000MB, Disk=20000MB) ...
+
+💣  Unable to start VM. Please investigate and run 'minikube delete' if possible
+❌  Error: [HYPERKIT_CRASHED] create: Error creating machine: Error in driver during machine creation: hyperkit crashed! command line:
+  hyperkit loglevel=3 console=ttyS0 console=tty0 noembed nomodeset norestore waitusb=10 systemd.legacy_systemd_cgroup_controller=yes random.trust_cpu=on hw_rng_model=virtio base host=minikube
+💡  Suggestion: Hyperkit is broken. Upgrade to the latest hyperkit version and/or Docker for Desktop. Alternatively, you may choose an alternate --vm-driver
+⁉️   Related issues:
+    ▪ https://github.com/kubernetes/minikube/issues/6079
+    ▪ https://github.com/kubernetes/minikube/issues/5780
+
+😿  If the above advice does not help, please let us know:
+👉  https://github.com/kubernetes/minikube/issues/new/choose
+```
+
+`[virtualbox]`
+
+```bash
+$ minikube start --vm-driver=virtualbox
+😄  minikube v1.6.2 on Darwin 10.15.2
+✨  Selecting 'virtualbox' driver from user configuration (alternates: [hyperkit])
+🔥  Creating virtualbox VM (CPUs=2, Memory=2000MB, Disk=20000MB) ...
+🐳  Preparing Kubernetes v1.17.0 on Docker '19.03.5' ...
+🚜  Pulling images ...
+🚀  Launching Kubernetes ...
+⌛  Waiting for cluster to come online ...
+🏄  Done! kubectl is now configured to use "minikube"
 ```
 
 ## Minikubeのステータスを確認
@@ -106,7 +146,7 @@ $ minikube start
 3. VirtualBox
 
     ![minikube virtualbox](/assets/imgs/blogs/2019-04-12/minikube-virtualbox.png)
-    
+
     > ネットワーク
 
     1. NAT
@@ -124,7 +164,6 @@ $ minikube start
     ```
 
     ![minikube dashboard](/assets/imgs/blogs/2019-04-12/minikube-dashboard.png)
-
 
 ## Minikubeコマンド
 
