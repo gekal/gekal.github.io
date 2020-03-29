@@ -14,6 +14,10 @@ disqus:
 # google analytics
 google_analytics: UA-132360060-1
 
+# google advertisements
+google_advertisements: ca-pub-7697967482848510
+google_advertisements_slot: 8123451
+
 # Build settings
 markdown: kramdown
 highlighter: rouge
