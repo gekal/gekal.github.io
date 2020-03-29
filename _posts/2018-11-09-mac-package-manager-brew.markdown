@@ -6,16 +6,17 @@ categories: blogs
 tags: mac brew package manager
 ---
 
-# 初めに
+## 初めに
 
 Macを利用するなら、Homebrewを知らないといけないため、Homebrewの使い方を整理します。
 
-# Homebrewとは
+## Homebrewとは
 
 Homebrew（ホームブルー）は、macOSオペレーティングシステム上でソフトウェアの導入を単純化するパッケージ管理システムのひとつである。
 ※ [wikipediaにより](https://ja.wikipedia.org/wiki/Homebrew_(パッケージ管理システム))
 
-# Homebrewのインストール
+## Homebrewのインストール
+
 ```bash
 $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ==> This script will install:
@@ -64,7 +65,7 @@ Homebrew/homebrew-cask (git revision 01853; last commit 2018-11-09)
 
 * 詳細を[本家サイト](https://brew.sh/index_ja)をご参考ください。
 
-# Homebrewのサブコマンド一覧
+## Homebrewのサブコマンド一覧
 
 > コマンドで確認すると、下記のコメントが有ります。
 
@@ -90,10 +91,10 @@ aspell-dictionaries
 
 ![brewコマンド](/assets/svg/brew.svg)
 
-# 終わり
+## 終わり
 
 Macを楽々に使いましょう。
 
-# 参照
+## 参照
 
 1. [Homebrew Documentation](https://docs.brew.sh/)

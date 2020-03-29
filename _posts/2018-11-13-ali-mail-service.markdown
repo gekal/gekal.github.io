@@ -6,15 +6,15 @@ categories: blogs
 tags: ali mail dingding
 ---
 
-# 前書き
+## 前書き
 
 先日からgekal.cnの中国のドメインを購入しました。無料のメールサービスも付いています。
 詳細は下記のURLを参考ください。
 [https://help.aliyun.com/product/35466.html](https://help.aliyun.com/product/35466.html)
 
-# メールの設定
+## メールの設定
 
-## DNSの設定
+### DNSの設定
 
 | レコードタイプ | 記録レコード | 記録値                                |
 | -------------- | ------------ | ------------------------------------- |
@@ -26,7 +26,7 @@ tags: ali mail dingding
 | CNAME          | smtp         | smtp.mxhichina.com                    |
 | CNAME          | pop3         | pop3.mxhichina.com                    |
 
-## POP\SMTP\IMAPの接続情報
+### POP\SMTP\IMAPの接続情報
 
 | プロトコール | ホスト             | ポート | SSLポート |
 | ------------ | ------------------ | ------ | --------- |
@@ -36,16 +36,16 @@ tags: ali mail dingding
 
 > 上記以外にも、個人ドメインでも行けますか、証明証の問題があります。上記のホストを使った方が無難です。
 
-## Webログイン
+### Webログイン
 
-### メールログイン画面
+#### メールログイン画面
         
 [https://qiye.aliyun.com/](https://qiye.aliyun.com/)
 
-### 管理コンソール
+#### 管理コンソール
 
 [https://oa.dingtalk.com](https://oa.dingtalk.com)
 
-# 終りに
+## 終りに
 
 今回独自のDomainのMailを使えるようになりました。メールの設定に関しても、ちょっと整理ました。

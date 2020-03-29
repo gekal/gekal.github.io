@@ -6,15 +6,15 @@ categories: blogs
 tags: Kubernetes CKAD
 ---
 
-# はじめに
+## はじめに
 
 CKADの試験を準備中ですが、注意点をメモしたいと思います。
 
-# CKAD詳細
+## CKAD詳細
 
 Certified Kubernetes Application Developer試験は、ユーザーがKubernetes用のクラウドネイティブアプリケーションを設計、構築、構成、および公開できることを証明します。
 
-# 試験詳細
+## 試験詳細
 
 * 13% – Core Concepts
 * 18% Configuration
@@ -26,7 +26,7 @@ Certified Kubernetes Application Developer試験は、ユーザーがKubernetes�
 
 > [CKAD_Curriculum_V1.13.0.pdf](https://github.com/cncf/curriculum/blob/master/CKAD_Curriculum_V1.13.0.pdf)
 
-# Candidate Handbook
+## Candidate Handbook
 
 ## 試験中にアクセスできるサイト(ワンタブ)
 
@@ -34,9 +34,9 @@ Certified Kubernetes Application Developer試験は、ユーザーがKubernetes�
 2. https://github.com/kubernetes/
 3. https://kubernetes.io/blog/
 
-# [Exam Tips](https://www2.thelinuxfoundation.org/ckad-tips)
+## [Exam Tips](https://www2.thelinuxfoundation.org/ckad-tips)
 
-# CKAD CLUSTERS
+## CKAD CLUSTERS
 
 | Cluster | Members            | CNI     | Description |
 | ------- | ------------------ | ------- | ----------- |
@@ -45,7 +45,7 @@ Certified Kubernetes Application Developer試験は、ユーザーがKubernetes�
 | nk8s    | 1 master, 2 worker | calico  | k8s cluster |
 | sk8s    | 1 master, 1 worker | flannel | k8s cluster |
 
-## 試験中注意点
+### 試験中注意点
 
 1. 認証情報切り替え
 
@@ -69,7 +69,7 @@ Certified Kubernetes Application Developer試験は、ユーザーがKubernetes�
     # -i, --login                 run login shell as the target user; a command may also be specified
     ```
 
-# 参照
+## 参照
 
 1. [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/)
 2. [CKAD-exercises](https://github.com/dgkanatsios/CKAD-exercises)

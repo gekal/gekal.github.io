@@ -6,18 +6,18 @@ categories: blogs
 tags: teraterm auto port forwarding
 ---
 
-# 前書き
+## 前書き
 
 Windowのユーザなら、LinuxにSSHログインするとき、何を使いますか。Teratermを選べますでしょうか。ログインの自動処理シェルを作成したと思います。
 
-# 検証環境
+## 検証環境
 
 - [Windows 10](https://www.microsoft.com/ja-jp/store/b/windows)
 - [Teraterm 4.*](https://ja.osdn.net/projects/ttssh2/)
 
-# Teratermの自動ログイン
+## Teratermの自動ログイン
 
-## TTLスクリプト
+### TTLスクリプト
 
 > 自動ログインスクリプト
 
@@ -110,10 +110,10 @@ end
 ; 9999:10.00.00.00:9999
 ```
 
-## ダウンロード
+### ダウンロード
 
 TTLのサンプルを[ここ](/assets/archives/ttl_sample.zip)からダウンロード下さい。
 
-# 終わりに
+## 終わりに
 
 自動化が凄いなので、自分が日々自動化を考えて、開発環境をコード化に頑張ろうか思います。

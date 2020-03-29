@@ -6,12 +6,12 @@ categories: blogs
 tags: jekyll wsl
 ---
 
-# Jekyllとは
+## Jekyllとは
 
 プレーンテキストから静的な Web サイトやブログを作成するツールである。
 静的なサイトでも、全部手で作成するのは大変でしょう。じゃ、Jekyllを使ってください。もう一つ大きなメリットがGithubのpagesを利用すれば、無料でホストできます。個人として、ただが一番だと思います。
 
-# WSL(ubuntu)に環境構築
+## WSL(ubuntu)に環境構築
 
 1. システム更新
 
@@ -44,7 +44,7 @@ tags: jekyll wsl
     sudo gem install bundler jekyll
     ```
 
-# ローカル実施
+## ローカル実施
 
 ```bash
 jekyll new my-awesome-site

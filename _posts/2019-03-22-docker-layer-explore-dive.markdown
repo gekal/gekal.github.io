@@ -6,14 +6,14 @@ categories: blogs
 tags: docker layer viewer dive
 ---
 
-# 初めに
+## 初めに
 
 Dockerのイメージを確認しようと思う時、各レイヤーを解析する必要があります。
 
 Diveの公式に、下記のDemoがあります。すごいでしょう。
 ![dive demo](/assets/imgs/blogs/2019-03-22/dive-demo.gif)
 
-# diveをインストール
+## diveをインストール
 
 ## インストール(MacOS)
 
@@ -32,14 +32,14 @@ Already downloaded: /Users/gekal/Library/Caches/Homebrew/downloads/c352a41fa19d4
 🍺  /usr/local/Cellar/dive/0.7.0: 5 files, 11.8MB, built in 4 seconds
 ```
 
-## バージョン確認
+### バージョン確認
 
 ```bash
 $ dive --version
 dive 0.7.0
 ```
 
-# 動作確認
+## 動作確認
 
 ```bash
 $ dive ruby:2.5-slim
@@ -50,7 +50,7 @@ Building cache...
 # 詳細を確認・・・
 ```
 
-# 使い方
+## 使い方
 
 ```bash
 $ dive --help
@@ -76,7 +76,6 @@ Flags:
 Use "dive [command] --help" for more information about a command.
 ```
 
-# 参照
+## 参照
 
 1. [dive](https://github.com/wagoodman/dive)
-

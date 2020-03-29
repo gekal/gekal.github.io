@@ -6,11 +6,11 @@ categories: blogs
 tags: cicd
 ---
 
-# CICDとは
+## CICDとは
 
 CI/CDとは「Continous Integration／Contiious Delivery」の略で、日本語では継続的インティグレーション／継続的デリバリーといいます。
 
-# CICDツール
+## CICDツール
 
 1. [Jenkins](https://jenkins.io/)
 2. [Jenkins X](https://jenkins.io/projects/jenkins-x/)
@@ -24,6 +24,6 @@ CI/CDとは「Continous Integration／Contiious Delivery」の略で、日本語
 10. [GitLab CI/CD](https://docs.gitlab.com/ce/ci/)
 11. [actions](https://github.com/features/actions)
 
-# 参照資料
+## 参照資料
 
 1. [CI/CDのエキスパートが解説：CI/CDとは何か？ なぜ今、必要とされるのか？](https://codezine.jp/article/detail/11083)

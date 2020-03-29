@@ -6,11 +6,11 @@ categories: blogs
 tags: SSH Config file
 ---
 
-# SSH config file
+## SSH config file
 
 SSHコマンドを使うチャンスが増えたので、SSHコンフィグの内容をちょっと纏めます。
 
-# サンプル
+## サンプル
 
 1. キー認証
 
@@ -41,6 +41,6 @@ SSHコマンドを使うチャンスが増えたので、SSHコンフィグの�
     LogLevel FATAL
     ```
 
-# 参照
+## 参照
 
 1. [OpenSSH SSH client configuration files](https://linux.die.net/man/5/ssh_config)

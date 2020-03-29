@@ -7,17 +7,17 @@ categories: blogs
 tags: minikube virtualbox
 ---
 
-# Minikubeとは
+## Minikubeとは
 
 Minikubeでは仮想化ソフトウェアを使ってLinuxがインストールされた仮想マシンを作成し、そこでKubernetesクラスタを動作させることができるツールです。
 
-# 環境構築
+## 環境構築
 
-## 事前準備
+### 事前準備
 
 CPUの仮想化機能を有効する。
 
-## Minikubeをインストール
+### Minikubeをインストール
 
 ```shell
 # Minikubeをインストール
@@ -59,7 +59,7 @@ zsh completions have been installed to:
 ==> Summary
 ```
 
-## Minikubeを開始
+### Minikubeを開始
 
 ```bash
 $ minikube start
@@ -123,7 +123,7 @@ $ minikube start --vm-driver=virtualbox
 🏄  Done! kubectl is now configured to use "minikube"
 ```
 
-## Minikubeのステータスを確認
+### Minikubeのステータスを確認
 
 1. Minikubeコマンド
 
@@ -165,7 +165,7 @@ $ minikube start --vm-driver=virtualbox
 
     ![minikube dashboard](/assets/imgs/blogs/2019-04-12/minikube-dashboard.png)
 
-## Minikubeコマンド
+### Minikubeコマンド
 
 | command        | detail                                                                            |
 | -------------- | --------------------------------------------------------------------------------- |
@@ -192,7 +192,7 @@ $ minikube start --vm-driver=virtualbox
 | update-context | Verify the IP address of the running cluster in kubeconfig.                       |
 | **version**    | Print the version of minikube                                                     |
 
-### よく利用するコマンド
+#### よく利用するコマンド
 
 1. start
 
@@ -216,11 +216,11 @@ $ minikube start --vm-driver=virtualbox
 
     nimikubeのクラスタを削除する。
 
-# まとめ
+## まとめ
 
 v1.0.0にバージョンアップしたため、前より使えやすくになりました。
 
-# 参照
+## 参照
 
 1. [minikube](https://github.com/kubernetes/minikube)
 2. [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)

@@ -6,12 +6,12 @@ categories: blogs
 tags: choco package
 ---
 
-# 前書き
+## 前書き
 
 最近、Chocoを使って、ソフトウェアのインストール・更新をやりました。すごく便利だと思います。  
 手頃な使い方を整理しようと思われます。
 
-# Chocolateyのインストール方法
+## Chocolateyのインストール方法
 
 **管理者権限**で、下記のPSコマンドを実行してください。
 
@@ -44,7 +44,8 @@ $env:chocolateyUseWindowsCompression = 'true'
 # Chocoインストール処理
 Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 ```
-# パッケージのインストール方法
+
+## パッケージのインストール方法
 
 jdk8のインストールを例にして、説明します。
 
@@ -69,7 +70,7 @@ choco config unset proxyUser
 choco config unset proxyPassword
 ```
 
-# よく利用するコマンド
+## よく利用するコマンド
 
 ## インストール  
 
@@ -78,21 +79,21 @@ choco install pkgName
 # cinst pkgName
 ```
 
-## アンインストール  
+### アンインストール  
 
 ```powershell
 choco uninstall pkgName
 # cuninst pkgName
 ```
 
-## パッケージ更新
+### パッケージ更新
 
 ```powershell
 choco upgrade pkgName
 # cup pkgName
 ```
 
-## インストールしたパッケージの調べ  
+### インストールしたパッケージの調べ  
 
 ```powershell
 choco list -l

@@ -6,11 +6,11 @@ categories: blogs
 tags: Spring Cloud Data Flow Minikube
 ---
 
-# [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/)とは
+## [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/)とは
 
 Spring Cloud Data Flow is a toolkit for building data integration and real-time data processing pipelines.
 
-# 環境
+## 環境
 
 1. macOS Mojve
 2. [minikube(v1.0.0)]({% post_url 2019-04-12-minikube-over-virtualbox %})
@@ -22,7 +22,7 @@ Spring Cloud Data Flow is a toolkit for building data integration and real-time 
     brew install kubernetes-helm
     ```
 
-## 環境起動
+### 環境起動
 
 ```bash
 # デフォルトの２Gが不足ので、⭐️4G以上⭐️をご指定ください。
@@ -35,7 +35,7 @@ helm init
 helm install --name my-release --set server.service.type=NodePort stable/spring-cloud-data-flow
 ```
 
-## 環境確認
+### 環境確認
 
 1. mysql
 
@@ -67,7 +67,7 @@ helm install --name my-release --set server.service.type=NodePort stable/spring-
     my-release-rabbitmq-5657497d7c-ljwms           1/1     Running   0          105m
     ```
 
-# GUIへのアクセス
+## GUIへのアクセス
 
 ## kubectlで調べ
 
@@ -89,7 +89,7 @@ helm install --name my-release --set server.service.type=NodePort stable/spring-
     my-release-data-flow-server   NodePort   10.101.21.115   <none>        80:30553/TCP   29m   app=spring-cloud-data-flow,component=server,release=my-release
     ```
 
-## minikubeで調べ
+### minikubeで調べ
 
 ```bash
 $ minikube service --url my-release-data-flow-server
@@ -99,11 +99,11 @@ http://192.168.99.102:30553
 $ open $(minikube service --url my-release-data-flow-server)/dashboard
 ```
 
-## GUI画面
+### GUI画面
 
 ![Spring Cloud Data Flow GUI](/assets/imgs/blogs/2019-04-13/spring-cloud-data-flow-gui.png)
 
-# デモ
+## デモ
 
 1. App登録
 
@@ -131,7 +131,7 @@ $ open $(minikube service --url my-release-data-flow-server)/dashboard
     ticktock-time-v1               1/1     1            1           2m17s
     ```
 
-# 参照URL
+## 参照URL
 
 1. [Getting Started - Kubernetes](http://docs.spring.io/spring-cloud-dataflow/docs/2.0.2.RELEASE/reference/htmlsingle/#getting-started-kubernetes)
 2. [helm charts](https://github.com/helm/charts/tree/master/incubator/spring-cloud-data-flow)
