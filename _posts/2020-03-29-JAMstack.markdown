@@ -1,0 +1,30 @@
+---
+title: JAMstack紹介
+layout: post
+auther: gekal
+date:   2020-03-29T16:31:00+0900
+categories: blogs
+tags: JAMstack
+---
+
+## JAMstackとは
+
+JAMstackはJavaScript、API、Markupの頭文字を取ったもので、それぞれ以下のような役割を担っています。
+
+- JavaScript＋API：動的データコンテンツの取り扱い
+  - リクエスト／レスポンスサイクル中の動的プログラムの制御（JavaScript）
+  - すべてのサーバーサイドの処理やデータベースへのリクエスト（API）
+- Markup：静的データコンテンツの取り扱い
+  - デプロイ時にビルドされるテンプレート化されたマークアップ
+
+## JAMstackのメリット
+
+- 高パフォーマンス
+- 高いセキュリティ
+- 低コストなスケーラビリティ
+- よりよい開発者体験
+
+## 参照
+
+1. [jamstack.org](https://jamstack.org/)
+2. [AWSでJAMstackことはじめ（基礎知識編）](https://www.mitsue.co.jp/knowledge/blog/frontend/201912/10_0000.html)
