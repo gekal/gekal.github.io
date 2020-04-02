@@ -7,6 +7,12 @@ categories: blogs
 tags: cdk TypeScript
 ---
 
+## AWS Cloud Development Kit (AWS CDK)とは
+
+AWS クラウド開発キット (AWS CDK) は、使い慣れたプログラミング言語を使用してクラウドアプリケーションリソースをモデル化およびプロビジョニングするためのオープンソースのソフトウェア開発フレームワークです。
+
+> refer from: <https://aws.amazon.com/jp/cdk/>
+
 ## 事前準備
 
 1. nodejs
@@ -50,4 +56,5 @@ $ cdk deploy
 
 ## 参照
 
-1. [Getting Started With the AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
+1. [AWS クラウド開発キット](https://aws.amazon.com/jp/cdk/)
+2. [Getting Started With the AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
