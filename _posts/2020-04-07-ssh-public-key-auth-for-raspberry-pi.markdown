@@ -2,7 +2,7 @@
 title: SSHの公開鍵認証を有効(For Raspberry PI)
 layout: post
 auther: gekal
-date:   2020-04-07T10:09:00+0900
+date:   2020-04-07T20:14:00+0900
 categories: blogs
 tags: ssh "public key" raspebrrypi
 ---
@@ -65,7 +65,7 @@ Last login: Tue Apr  7 09:36:16 2020 from 192.168.0.XXX
 
 ```conf
 Host raspberrypi.local
-  HostName 192.168.0.XXX
+  HostName raspberrypi.local
   User pi
   Port 22
   UserKnownHostsFile /dev/null
