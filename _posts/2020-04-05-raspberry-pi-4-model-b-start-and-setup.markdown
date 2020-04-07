@@ -90,6 +90,26 @@ tags: Raspberry Pi 4 Model B
     Last login: Sat Apr  4 20:39:41 2020
     ```
 
+### VNCリモート
+
+1. VNCクライアントをインストール
+
+    <https://www.realvnc.com/en/connect/download/viewer/>
+
+2. VNC接続有効
+
+    ```bash
+    # piにログインして、下記のコマンドをコンフィグを開き
+    $ sudo raspi-config
+    - Interfacing Options
+    -- P3 VNC
+    --- ↑有効にしてください↑
+    ```
+
+3. VNC接続をしに行く
+
+    > SSHのログイン情報と同じ
+
 ### システム更新
 
 > DebianベースのOSなので、apt/apt-getを使って更新
