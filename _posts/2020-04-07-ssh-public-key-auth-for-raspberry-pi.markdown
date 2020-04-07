@@ -36,6 +36,14 @@ The key's randomart image is:
 ## Publicキーをホストに登録
 
 ```bash
+# ローカルの鍵をリモートサーバーにコピー（パスワードの入力が必要）
+ssh-copy-id -i ~/.ssh/id_rsa.pub pi@raspberrypi.local
+```
+
+又は
+
+```bash
+# リモートサーバーにログインしてから、公開鍵を書き込む
 $ mkdir ~/.ssh
 $ echo "ssh-rsa public key contents" > ~/.ssh/authorized_keys
 $ chmod 700 ~/.ssh/
