@@ -16,29 +16,29 @@ SSHコマンドを使うチャンスが増えたので、SSHコンフィグの�
 
     ```config
     Host 别名
-    HostName ホスト名
-    User ユーザー名
-    Port ポート
-    UserKnownHostsFile /dev/null
-    StrictHostKeyChecking no
-    PasswordAuthentication no
-    IdentityFile アイデンティティーファイルパス
-    IdentitiesOnly yes
-    LogLevel FATAL
+      HostName ホスト名
+      User ユーザー名
+      Port ポート
+      UserKnownHostsFile /dev/null
+      StrictHostKeyChecking no
+      PasswordAuthentication no
+      IdentityFile アイデンティティーファイルパス
+      IdentitiesOnly yes
+      LogLevel FATAL
     ```
 
 2. パスワード認証
 
     ```config
     Host 别名
-    HostName ホスト名
-    User ユーザー名
-    Port ポート
-    UserKnownHostsFile /dev/null
-    StrictHostKeyChecking no
-    PasswordAuthentication yes
-    IdentitiesOnly yes
-    LogLevel FATAL
+      HostName ホスト名
+      User ユーザー名
+      Port ポート
+      UserKnownHostsFile /dev/null
+      StrictHostKeyChecking no
+      PasswordAuthentication yes
+      IdentitiesOnly yes
+      LogLevel FATAL
     ```
 
 ## 参照
