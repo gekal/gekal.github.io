@@ -110,6 +110,17 @@ tags: Raspberry Pi 4 Model B
 
     > SSHのログイン情報と同じ
 
+#### VNCのトラブルシューティング
+
+1. VNC: Cannot currently show the desktop
+
+    `/boot/config.txt`に下記の設定をコメントアウト
+
+    ```config
+    # uncomment if hdmi display is not detected and composite is being output
+    hdmi_force_hotplug=1
+    ```
+
 ### システム更新
 
 > DebianベースのOSなので、apt/apt-getを使って更新
