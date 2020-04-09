@@ -40,7 +40,7 @@ FilderからTerminalを開くには、数クリックでTerminalを開ますが�
 
 4. 楽々コマンドを打ち
 
-    ![FilderからTerminalを開く](../assets/imgs/blogs/2020-04-08/open-terminal-from-finder.png)
+    ![FilderからTerminalを開く](/assets/imgs/blogs/2020-04-08/open-terminal-from-finder.png)
 
 ## 便利な設定
 
@@ -61,7 +61,7 @@ FilderからTerminalを開くには、数クリックでTerminalを開ますが�
 4. 「ショートカット」タブを選択
 5. 左箱にあるサービスを選択して、右の箱にあるiTerm2のサービスのホットキーを設定
 
-![iTermのホットキー設定キャプチャ](../assets/imgs/blogs/2020-04-08/hotkey-setting-capture-for-iTerm2.png)
+![iTermのホットキー設定キャプチャ](/assets/imgs/blogs/2020-04-08/hotkey-setting-capture-for-iTerm2.png)
 
 #### GUIの手順からどう変わったのか
 
