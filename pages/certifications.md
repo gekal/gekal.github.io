@@ -12,6 +12,10 @@ permalink: /certifications/
 4. AWS Certified SysOps Administrator - Associate (SOA)
 5. AWS Certified Solutions Architect - Professional (SAP)
 
+## Azure
+
+1. Microsoft Certified: Azure Fundamentals
+
 ## GCP
 
 1. Associate Cloud Engineer

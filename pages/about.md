@@ -22,13 +22,16 @@ permalink: /about/
 
 > これが僕の似顔ですよ。
 
-![似顔](../assets/imgs/gekal.png)
+![似顔](/assets/imgs/gekal.png)
 
 ## 勉強中
 
 1. Spring Cloud
 2. Docker/kubernets
 3. Cloud
+   1. AWS
+   2. GCP
+   3. Azure
 
 ## 直近
 
