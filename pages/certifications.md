@@ -4,7 +4,7 @@ title: 資格
 permalink: /certifications/
 ---
 
-## AWS
+## [AWS](https://www.aws.training/certification)
 
 1. AWS Certified Cloud Practitioner (CLF)
 2. AWS Certified Developer - Associate (DVA)
@@ -12,7 +12,7 @@ permalink: /certifications/
 4. AWS Certified SysOps Administrator - Associate (SOA)
 5. AWS Certified Solutions Architect - Professional (SAP)
 
-## Azure
+## [Azure](https://www.microsoft.com/ja-jp/learning/dashboard.aspx)
 
 1. Microsoft Certified: Azure Fundamentals
 
@@ -22,6 +22,6 @@ permalink: /certifications/
 2. Professional Cloud Developer
 3. Professional Cloud Architect
 
-## Kubernetes
+## [Kubernetes](https://portal.linuxfoundation.org/portal)
 
 1. Certified Kubernetes Application Developer (CKAD)
