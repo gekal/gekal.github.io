@@ -2,6 +2,7 @@
 title: Spring Cloud Data Flow @ Minikuber
 layout: post
 date:   2019-04-13T16:00:00+0900
+update: 2020-04-13T23:00:00+0900
 categories: blogs
 tags: Spring Cloud Data Flow Minikube
 ---
@@ -27,12 +28,25 @@ Spring Cloud Data Flow is a toolkit for building data integration and real-time 
 ```bash
 # デフォルトの２Gが不足ので、⭐️4G以上⭐️をご指定ください。
 minikube start --memory 4096
+```
 
+> ver2
+
+```bash
 # minikube(namespace:kube-system)にhelmsサーバー（tiller）のサービスをインストール
 helm init
 
 # LoadBalanceが使えないため、NodePortへ変更ください。
 helm install --name my-release --set server.service.type=NodePort stable/spring-cloud-data-flow
+```
+
+> ver3
+
+```bash
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+# LoadBalanceが使えないため、NodePortへ変更ください。
+helm install my-release --set server.service.type=NodePort stable/spring-cloud-data-flow
 ```
 
 ### 環境確認
@@ -108,9 +122,9 @@ $ open $(minikube service --url my-release-data-flow-server)/dashboard
 1. App登録
 
     ```bash
-    wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=http://bit.ly/Einstein-GA-stream-applications-rabbit-docker&force=true";
+    wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=https://dataflow.spring.io/rabbitmq-docker-latest&force=true";
     echo "Stream apps imported"
-    wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=http://bit.ly/Dearborn-SR1-task-applications-docker&force=true";
+    wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=https://dataflow.spring.io/task-docker-latest&force=true";
     echo "Task apps imported"
     ```
 
