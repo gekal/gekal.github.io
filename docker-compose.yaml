@@ -6,7 +6,7 @@ services:
     image: jekyll/jekyll:stable
     ports:
       - 4000:4000
-    command: jekyll serve
+    command: jekyll serve --incremental
     restart: always
     volumes:
       - ${VOLUMES_BASE:-.}:/srv/jekyll
