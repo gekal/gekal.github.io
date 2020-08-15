@@ -7,6 +7,9 @@ url: "https://www.gekal.cn"
 twitter_username: GekalCn
 github_username:  gekal
 
+site:
+  lang: ja
+
 # disqus config
 disqus:
   shortname: 'gekalcn'
