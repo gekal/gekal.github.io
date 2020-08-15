@@ -1,10 +1,10 @@
 ---
-title: Spring Cloud Data Flow @ Minikuber
+title: 素早く Spring Cloud Dataflow @ Minikuber を構築しましょう
 layout: post
 date:   2019-04-13T16:00:00+0900
 update: 2020-04-13T23:00:00+0900
 categories: blogs
-tags: Spring Cloud Data Flow Minikube
+tags: Spring Cloud Dataflow Minikube
 ---
 
 ## [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/)とは
