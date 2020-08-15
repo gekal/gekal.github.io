@@ -16,7 +16,7 @@ URL：[https://www.gekal.cn/](https://www.gekal.cn/)
     docker run --rm \
         --volume="$PWD:/srv/jekyll" \
         --volume="$PWD/vendor/bundle:/usr/local/bundle" \
-        -it jekyll/jekyll:stable \
+        -it jekyll/jekyll:4 \
         jekyll serve
     ```
 
