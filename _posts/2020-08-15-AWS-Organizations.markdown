@@ -13,7 +13,7 @@ AWS Organizations は、作成し一元管理する組織に、複数の AWS ア
 
 ### AWS Organizations の用語
 
-![基本的な組織の図](../assets/imgs/blogs/2020-08-15/BasicOrganization.png)
+![基本的な組織の図](/assets/imgs/blogs/2020-08-15/BasicOrganization.png)
 
 1. 組織(Organization)
 
