@@ -2,7 +2,7 @@
 title: AWS Organizations 概要を解説します。(更新中)
 layout: post
 auther: gekal
-date:   2020-08-13T18:32:00+0900
+date:   2020-08-15T11:37:00+0900
 categories: blogs
 tags: 初心者 AWS Organizations 解説
 ---
