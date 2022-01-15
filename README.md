@@ -6,7 +6,7 @@ URL：[https://www.gekal.cn/](https://www.gekal.cn/)
 
 1. ローカルインストール
 
-    1. [WSL(Ubuntu18.4)にJekyll環境の構築](https://www.gekal.cn/blogs/2019/11/29/jekyll-wsl-ubuntu18.html)
+    1. [WSL(Ubuntu20.4)にJekyll環境の構築](https://www.gekal.cn/blogs/2019/11/29/jekyll-wsl-ubuntu18.html)
 
     2. [MacにJekyll環境の構築](https://www.gekal.cn/blogs/2019/01/01/jekyll-mac.html)
 

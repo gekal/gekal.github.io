@@ -1,10 +1,12 @@
 ---
 title: Window で Proxomitron(ProxN45j) 導入して、気楽にプロキシの峠を飛び越え
+subtitle: Scott R. Lemmonが開発したWindows上で動作するプロキシソフトウェア
 layout: post
 auther: gekal
 date:   2020-08-15T16:19:00+0900
 categories: blogs
 tags: Proxomitron ProxN45j 導入 認証
+# background: '/img/posts/01.jpg'
 ---
 
 ## 認証付きプロキシのお悩み

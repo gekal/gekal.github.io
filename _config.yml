@@ -2,19 +2,23 @@ title: 鴻鷹
 email: liu.hongying@hotmail.com
 description: >
   良い未来のため、頑張っています。
+author: gekal
 baseurl: ""
-url: "https://www.gekal.cn"
-twitter_username: GekalCn
-github_username:  gekal
+url: "https://gekal-study-jekyll.github.io/"
 
-lang: ja
+# Social Profiles
+twitter_username: GekalCn
+github_username: gekal
+# facebook_username: GekalCn
+# instagram_username: gekalcn
+linkedin_username: gekal
 
 # disqus config
 disqus:
   shortname: 'gekalcn'
 
 # google analytics
-google_analytics: UA-132360060-1
+google_analytics:   UA-132360060-1
 
 # google advertisements
 google_advertisements: ca-pub-7697967482848510
@@ -27,10 +31,9 @@ kramdown:
   input: GFM
   hard_wrap: false
   syntax_highlighter: rouge
-theme: minima
-minima:
-  date_format: "%Y/%m/%d"
+paginate: 5
+paginate_path: "/posts/page:num/"
 plugins:
   - jekyll-feed
-
-include: [pages]
+  - jekyll-paginate
+  - jekyll-sitemap
