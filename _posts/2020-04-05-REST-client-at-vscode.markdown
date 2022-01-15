@@ -25,7 +25,7 @@ ExtensionsタグでREST Clientを検索して、インストールください�
 REST ClientはVSCodeをプロキシを使ってるので、すでにセットした方は追加の設定は不要です。
 
 > プロキシの一般のフォーマット
->>　<http://username:passwd@proxyserver:8080>
+>> <http://username:passwd@proxyserver:8080>
 
 ## 使い方
 
