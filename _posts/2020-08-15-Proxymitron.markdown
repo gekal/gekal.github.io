@@ -1,5 +1,5 @@
 ---
-title: Window で Proxomitron(ProxN45j) 導入して、気楽にプロキシの峠を飛び越え
+title: Window で Proxomitron (ProxN45j) 導入して、気楽にプロキシの峠を飛び越え
 subtitle: Scott R. Lemmonが開発したWindows上で動作するプロキシソフトウェア
 layout: post
 auther: gekal
