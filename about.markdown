@@ -34,6 +34,37 @@ background: '/img/bg-about.jpg'
    2. GCP
    3. Azure
 
+## 取った資格
+
+### Amazon Web Services (AWS)
+
+1. AWS Certified Cloud Practitioner
+2. AWS Certified Developer - Associate
+3. AWS Certified Solutions Architect - Associate
+4. AWS Certified SysOps Administrator - Associate
+5. AWS Certified Solutions Architect - Professional
+
+### Google Cloud Platform（GCP）
+
+1. Associate Cloud Engineer
+2. Professional Cloud Architect
+3. Professional Cloud DevOps Engineer
+4. Professional Data Engineer
+5. Professional Cloud Developer
+
+### Azure
+
+1. Azure Fundamentals
+2. Azure Developer Associate
+3. Azure Administrator Associate
+4. DevOps Engineer Expert
+5. Azure Solutions Architect Expert
+6. Security, Compliance, and Identity Fundamentals
+
+### Cloud Native
+
+1. Certified Kubernetes Application Developer (CKAD)
+
 ## 直近
 
 最近、クラウドとコンテナーに興味がすごく有りました。それで、AWSとDockerを夢中に勉強中です。
