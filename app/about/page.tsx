@@ -4,90 +4,76 @@ import HeroSection from '@/components/HeroSection'
 
 export const metadata: Metadata = {
   title: 'About',
-  description:
-    'フリーランスエンジニア gekal のプロフィール。AWS/GCP/Azure のマルチクラウドを専門とし、システム開発から DevOps まで幅広く対応します。',
+  description: 'フリーランスエンジニア gekal のプロフィール。AWS/GCP/Azure マルチクラウド専門、システム開発から DevOps まで。',
 }
 
 const services = [
   {
     icon: '☁️',
-    title: 'クラウドインフラ構築・運用',
-    description:
-      'AWS / GCP / Azure を活用したインフラ設計・構築・最適化。コスト削減から高可用性アーキテクチャまで対応。',
+    title: 'クラウドインフラ',
+    desc: 'AWS / GCP / Azure を活用した設計・構築・最適化。高可用性からコスト削減まで対応。',
+    tags: ['AWS', 'GCP', 'Azure', 'Terraform'],
   },
   {
     icon: '🚀',
-    title: 'DevOps / CI-CD 環境構築',
-    description:
-      'GitHub Actions・Jenkins を使った CI/CD パイプライン構築。Docker/Kubernetes による コンテナ化・オーケストレーション。',
+    title: 'DevOps / CI-CD',
+    desc: 'GitHub Actions・Jenkins によるパイプライン構築。Docker/Kubernetes コンテナ化。',
+    tags: ['Docker', 'Kubernetes', 'GitHub Actions', 'Jenkins'],
   },
   {
     icon: '💻',
-    title: 'バックエンドシステム開発',
-    description:
-      'Java / Spring Boot・Node.js・.NET を使った API・マイクロサービス開発。設計から実装・テストまで一貫対応。',
+    title: 'バックエンド開発',
+    desc: 'Java / Spring Boot・Node.js・.NET による API・マイクロサービス開発。',
+    tags: ['Java', 'Spring Boot', 'Node.js', '.NET'],
   },
   {
     icon: '🔍',
     title: '技術コンサルティング',
-    description:
-      'クラウド移行・アーキテクチャレビュー・技術選定サポート。ベストプラクティスに基づいた改善提案。',
+    desc: 'クラウド移行・アーキテクチャレビュー・技術選定支援。',
+    tags: ['Architecture', 'Migration', 'Review'],
   },
 ]
 
-const skills = [
+const skillGroups = [
   {
-    category: 'クラウド',
-    items: [
-      { name: 'AWS', level: 95 },
-      { name: 'Google Cloud', level: 90 },
-      { name: 'Azure', level: 90 },
-    ],
+    name: 'Cloud',
+    color: 'text-orange-400',
+    skills: ['AWS (Professional)', 'Google Cloud (Professional)', 'Azure (Expert)', 'Terraform / IaC'],
   },
   {
-    category: 'コンテナ / オーケストレーション',
-    items: [
-      { name: 'Docker', level: 92 },
-      { name: 'Kubernetes', level: 85 },
-      { name: 'Helm', level: 78 },
-    ],
+    name: 'Container',
+    color: 'text-blue-400',
+    skills: ['Docker', 'Kubernetes', 'Helm', 'CKAD 認定'],
   },
   {
-    category: 'バックエンド',
-    items: [
-      { name: 'Java / Spring Boot', level: 90 },
-      { name: 'JavaScript / Node.js', level: 82 },
-      { name: '.NET / C#', level: 75 },
-      { name: 'Shell Script / Groovy', level: 80 },
-    ],
+    name: 'Backend',
+    color: 'text-green-400',
+    skills: ['Java / Spring Boot', 'JavaScript / Node.js', '.NET / C#', 'Shell / Groovy'],
   },
   {
-    category: 'DevOps / ツール',
-    items: [
-      { name: 'GitHub Actions', level: 88 },
-      { name: 'Jenkins', level: 85 },
-      { name: 'Terraform / IaC', level: 80 },
-    ],
+    name: 'DevOps',
+    color: 'text-purple-400',
+    skills: ['GitHub Actions', 'Jenkins', 'CI/CD Pipeline', 'SRE プラクティス'],
   },
 ]
 
-const certifications = [
+const certs = [
   {
-    provider: 'Amazon Web Services (AWS)',
-    color: 'bg-orange-50 border-orange-200',
-    badgeColor: 'bg-orange-500',
+    vendor: 'AWS',
+    color: 'border-orange-200 bg-orange-50',
+    dot: 'bg-orange-400',
     items: [
-      'AWS Certified Cloud Practitioner',
-      'AWS Certified Developer - Associate',
-      'AWS Certified Solutions Architect - Associate',
-      'AWS Certified SysOps Administrator - Associate',
-      'AWS Certified Solutions Architect - Professional',
+      'Cloud Practitioner',
+      'Developer Associate',
+      'Solutions Architect Associate',
+      'SysOps Administrator Associate',
+      'Solutions Architect Professional',
     ],
   },
   {
-    provider: 'Google Cloud Platform (GCP)',
-    color: 'bg-blue-50 border-blue-200',
-    badgeColor: 'bg-blue-500',
+    vendor: 'Google Cloud',
+    color: 'border-blue-200 bg-blue-50',
+    dot: 'bg-blue-400',
     items: [
       'Associate Cloud Engineer',
       'Professional Cloud Architect',
@@ -97,23 +83,23 @@ const certifications = [
     ],
   },
   {
-    provider: 'Microsoft Azure',
-    color: 'bg-sky-50 border-sky-200',
-    badgeColor: 'bg-sky-500',
+    vendor: 'Azure',
+    color: 'border-sky-200 bg-sky-50',
+    dot: 'bg-sky-400',
     items: [
-      'Azure Fundamentals (AZ-900)',
-      'Azure Developer Associate (AZ-204)',
-      'Azure Administrator Associate (AZ-104)',
+      'Fundamentals (AZ-900)',
+      'Developer Associate (AZ-204)',
+      'Administrator Associate (AZ-104)',
       'DevOps Engineer Expert (AZ-400)',
-      'Azure Solutions Architect Expert (AZ-305)',
-      'Security, Compliance, and Identity Fundamentals (SC-900)',
+      'Solutions Architect Expert (AZ-305)',
+      'Security Fundamentals (SC-900)',
     ],
   },
   {
-    provider: 'Cloud Native / Kubernetes',
-    color: 'bg-purple-50 border-purple-200',
-    badgeColor: 'bg-purple-500',
-    items: ['Certified Kubernetes Application Developer (CKAD)'],
+    vendor: 'Cloud Native',
+    color: 'border-purple-200 bg-purple-50',
+    dot: 'bg-purple-400',
+    items: ['CKAD — Certified Kubernetes Application Developer'],
   },
 ]
 
@@ -122,17 +108,19 @@ export default function AboutPage() {
     <>
       <HeroSection
         title="About Me"
-        subtitle="フリーランスエンジニア — Cloud / DevOps / Backend"
+        subtitle="フリーランスエンジニア — 13 年以上の経験 · 16 資格"
         backgroundImage="/img/bg-about.jpg"
+        size="sm"
       />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 space-y-20">
+      <div className="max-w-4xl mx-auto px-5 sm:px-8 py-16 space-y-24">
 
-        {/* Introduction */}
-        <section>
-          <div className="flex flex-col md:flex-row gap-10 items-start">
-            <div className="flex-shrink-0 text-center">
-              <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg mx-auto">
+        {/* ── Profile ──────────────────────────────── */}
+        <section className="flex flex-col md:flex-row gap-12 items-start">
+          {/* Avatar card */}
+          <div className="flex-shrink-0">
+            <div className="relative w-40">
+              <div className="w-40 h-40 rounded-2xl overflow-hidden ring-4 ring-primary/20 shadow-xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://github.com/gekal.png"
@@ -140,108 +128,80 @@ export default function AboutPage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="mt-3 font-bold text-dark text-lg">鴻 鷹</p>
-              <p className="text-gray-500 text-sm">gekal</p>
-              <div className="flex justify-center gap-3 mt-3">
-                <a href="https://github.com/gekal" target="_blank" rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-dark transition-colors">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
-                  </svg>
-                </a>
-                <a href="https://www.linkedin.com/in/gekal" target="_blank" rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-blue-600 transition-colors">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                </a>
-              </div>
+              {/* Online indicator */}
+              <span className="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full bg-green-400 border-2 border-white shadow" />
             </div>
 
-            <div className="flex-1">
-              <h2 className="font-serif text-3xl font-bold text-dark mb-4">
-                フリーランスエンジニア
-              </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                2011年よりソフトウェアエンジニアとしてのキャリアをスタート。
-                Java・JavaScript・.NET・Shellなど多様な言語での開発経験を積んだ後、
-                クラウドとコンテナ技術に特化。現在はフリーランスとして
-                <strong>AWS・GCP・Azure のマルチクラウド</strong>を軸に、
-                インフラ設計・DevOps 環境構築・バックエンド開発まで幅広くサポートしています。
+            <div className="mt-4 text-center">
+              <p className="font-serif font-bold text-ink text-lg">鴻 鷹</p>
+              <p className="text-slate-500 text-xs mt-0.5">gekal · @GekalCn</p>
+            </div>
+
+            <div className="flex justify-center gap-2 mt-3">
+              {[
+                { href: 'https://github.com/gekal', label: 'GitHub' },
+                { href: 'https://www.linkedin.com/in/gekal', label: 'LinkedIn' },
+              ].map(({ href, label }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-slate-500 hover:text-primary border border-slate-200 hover:border-primary/40 px-3 py-1 rounded-lg transition-all"
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Bio */}
+          <div className="flex-1 pt-1">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-5 h-px bg-primary" />
+              <span className="text-xs font-semibold text-primary uppercase tracking-widest">
+                Freelance Engineer
+              </span>
+            </div>
+            <h2 className="font-serif text-3xl font-bold text-ink mb-4 leading-tight">
+              クラウドとコンテナの<br />専門エンジニア
+            </h2>
+            <div className="space-y-3 text-slate-600 text-sm leading-relaxed">
+              <p>
+                2011 年よりソフトウェアエンジニアとして活動。Java・JavaScript・.NET など多様な言語で開発経験を積んだ後、クラウドとコンテナ技術に特化。
               </p>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                AWS・GCP・Azure 合計 <strong>16 資格</strong>、
-                Kubernetes (CKAD) を取得済み。
-                オープンソース技術を積極的に活用し、現場での実践的なソリューションを提供します。
+              <p>
+                現在は<strong className="text-ink">フリーランス</strong>として、AWS・GCP・Azure の<strong className="text-ink">マルチクラウド</strong>を軸にインフラ設計・DevOps 環境構築・バックエンド開発まで一貫してサポートしています。
               </p>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  '経験 13 年以上',
-                  'マルチクラウド',
-                  '16 資格取得',
-                  'リモート対応可',
-                  '日本語・中国語',
-                ].map((badge) => (
-                  <span
-                    key={badge}
-                    className="bg-primary/10 text-primary text-sm px-3 py-1 rounded-full font-medium"
-                  >
-                    {badge}
-                  </span>
-                ))}
-              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2 mt-5">
+              {['13 年以上の経験', 'マルチクラウド対応', '16 資格取得', 'リモート作業可', '日本語・中国語'].map((b) => (
+                <span key={b} className="text-xs font-medium text-primary bg-primary/8 border border-primary/15 px-3 py-1 rounded-full">
+                  {b}
+                </span>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Services */}
+        {/* ── Services ─────────────────────────────── */}
         <section>
-          <h2 className="font-serif text-3xl font-bold text-dark mb-8 text-center">
-            提供サービス
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {services.map((service) => (
-              <div
-                key={service.title}
-                className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 hover:shadow-md transition-shadow"
-              >
-                <div className="text-3xl mb-3">{service.icon}</div>
-                <h3 className="font-bold text-dark text-lg mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-            ))}
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">Services</p>
+            <h2 className="section-heading">提供サービス</h2>
           </div>
-        </section>
-
-        {/* Skills */}
-        <section>
-          <h2 className="font-serif text-3xl font-bold text-dark mb-8 text-center">
-            スキルセット
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {skills.map((group) => (
-              <div key={group.category}>
-                <h3 className="font-semibold text-dark mb-4 text-sm uppercase tracking-wider border-b border-gray-200 pb-2">
-                  {group.category}
-                </h3>
-                <div className="space-y-3">
-                  {group.items.map((skill) => (
-                    <div key={skill.name}>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-700 font-medium">{skill.name}</span>
-                        <span className="text-gray-400">{skill.level}%</span>
-                      </div>
-                      <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary rounded-full"
-                          style={{ width: `${skill.level}%` }}
-                        />
-                      </div>
-                    </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {services.map((s) => (
+              <div key={s.title} className="card p-6 group">
+                <div className="text-3xl mb-4">{s.icon}</div>
+                <h3 className="font-bold text-ink text-base mb-2">{s.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-4">{s.desc}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {s.tags.map((t) => (
+                    <span key={t} className="text-xs bg-slate-50 border border-slate-100 text-slate-500 px-2 py-0.5 rounded-md">
+                      {t}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -249,26 +209,48 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Certifications */}
+        {/* ── Skills ───────────────────────────────── */}
         <section>
-          <h2 className="font-serif text-3xl font-bold text-dark mb-8 text-center">
-            取得資格
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {certifications.map((cert) => (
-              <div
-                key={cert.provider}
-                className={`rounded-xl border ${cert.color} p-5`}
-              >
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">Skills</p>
+            <h2 className="section-heading">スキルセット</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {skillGroups.map((g) => (
+              <div key={g.name} className="bg-ink rounded-2xl p-6">
+                <p className={`text-xs font-bold uppercase tracking-widest mb-4 ${g.color}`}>{g.name}</p>
+                <ul className="space-y-2.5">
+                  {g.skills.map((skill) => (
+                    <li key={skill} className="flex items-center gap-2.5 text-sm text-slate-300">
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${g.color.replace('text-', 'bg-')}`} />
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Certifications ───────────────────────── */}
+        <section>
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">Certifications</p>
+            <h2 className="section-heading">取得資格 <span className="gradient-text">16</span></h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {certs.map((c) => (
+              <div key={c.vendor} className={`rounded-2xl border ${c.color} p-5`}>
                 <div className="flex items-center gap-2 mb-4">
-                  <span className={`w-3 h-3 rounded-full ${cert.badgeColor}`} />
-                  <h3 className="font-bold text-dark text-sm">{cert.provider}</h3>
+                  <span className={`w-2 h-2 rounded-full ${c.dot}`} />
+                  <h3 className="font-bold text-ink text-sm">{c.vendor}</h3>
+                  <span className="ml-auto text-xs text-slate-400">{c.items.length} certs</span>
                 </div>
                 <ul className="space-y-1.5">
-                  {cert.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-gray-700">
-                      <svg className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  {c.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-xs text-slate-600">
+                      <svg className="h-3.5 w-3.5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                       {item}
                     </li>
@@ -279,19 +261,28 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="text-center bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-10 border border-primary/20">
-          <h2 className="font-serif text-3xl font-bold text-dark mb-4">
-            お仕事のご依頼・ご相談
-          </h2>
-          <p className="text-gray-600 mb-8 max-w-lg mx-auto">
-            クラウド移行・インフラ構築・システム開発など、
-            お気軽にお問い合わせください。初回相談は無料です。
-          </p>
-          <Link href="/contact" className="btn-primary text-base px-8 py-4">
-            お問い合わせ
-          </Link>
+        {/* ── CTA ──────────────────────────────────── */}
+        <section className="bg-ink rounded-3xl p-10 md:p-14 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <p className="text-xs font-semibold text-primary-light uppercase tracking-widest mb-3">
+              Currently Available
+            </p>
+            <h2 className="font-serif text-2xl md:text-3xl text-white font-bold mb-3">
+              お仕事のご依頼・ご相談
+            </h2>
+            <p className="text-slate-400 text-sm mb-8 max-w-sm mx-auto leading-relaxed">
+              クラウド移行・インフラ構築・システム開発など、<br />初回相談は無料です。
+            </p>
+            <Link href="/contact" className="btn-primary">
+              お問い合わせ
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
         </section>
+
       </div>
     </>
   )
