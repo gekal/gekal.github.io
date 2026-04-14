@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getAllPostSlugs, getPostData, formatDate } from '@/lib/posts'
 import Link from 'next/link'
+import { getAllPostSlugs, getPostData, formatDate } from '@/lib/posts'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -15,10 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await getPostData(slug).catch(() => null)
   if (!post) return { title: 'Not Found' }
-  return {
-    title: post.title,
-    description: post.excerpt,
-  }
+  return { title: post.title, description: post.excerpt }
 }
 
 export default async function PostPage({ params }: Props) {
@@ -29,83 +26,90 @@ export default async function PostPage({ params }: Props) {
   const tags = Array.isArray(post.tags)
     ? post.tags
     : post.tags
-    ? String(post.tags).split(/\s+/)
+    ? String(post.tags).split(/\s+/).filter(Boolean)
     : []
 
   return (
     <>
-      {/* Hero */}
+      {/* ── Hero ──────────────────────────────────── */}
       <header
-        className="relative flex items-center justify-center pt-16"
+        className="relative flex items-end pt-16 min-h-[340px]"
         style={{
-          minHeight: '360px',
-          backgroundImage: post.background
-            ? `url(${post.background})`
-            : 'url(/img/bg-post.jpg)',
+          backgroundImage: post.background ? `url(${post.background})` : 'url(/img/bg-post.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
         }}
       >
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 text-center px-4 py-16 max-w-3xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-xs bg-white/20 text-white px-3 py-1 rounded-full backdrop-blur-sm"
-              >
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/30" />
+
+        <div className="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 pb-10 w-full">
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-5">
+            {tags.slice(0, 4).map((tag) => (
+              <span key={tag} className="text-xs font-medium text-primary-light bg-primary/15 border border-primary/25 px-2.5 py-1 rounded-full">
                 {tag}
               </span>
             ))}
           </div>
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white font-bold leading-tight drop-shadow-lg">
+
+          {/* Accent line */}
+          <div className="w-8 h-0.5 bg-primary-light mb-4" />
+
+          <h1 className="font-serif text-3xl md:text-4xl text-white font-bold leading-snug">
             {post.title}
           </h1>
           {post.subtitle && (
-            <p className="mt-3 text-lg text-gray-200 drop-shadow">{post.subtitle}</p>
+            <p className="mt-2 text-slate-300 text-base">{post.subtitle}</p>
           )}
-          <p className="mt-4 text-gray-300 text-sm">
+          <p className="mt-4 text-sm text-slate-500">
             <time dateTime={post.date}>{formatDate(post.date)}</time>
           </p>
         </div>
       </header>
 
-      {/* Content */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+      {/* ── Content ───────────────────────────────── */}
+      <div className="max-w-3xl mx-auto px-5 sm:px-8 py-12">
+
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <Link href="/" className="hover:text-primary transition-colors">ホーム</Link>
-          <span>/</span>
-          <Link href="/posts" className="hover:text-primary transition-colors">ブログ</Link>
-          <span>/</span>
-          <span className="text-gray-700 truncate max-w-xs">{post.title}</span>
+        <nav className="flex items-center gap-1.5 text-xs text-slate-400 mb-10">
+          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+          <svg className="h-3 w-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+          <Link href="/posts" className="hover:text-primary transition-colors">Blog</Link>
+          <svg className="h-3 w-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+          <span className="text-slate-500 truncate max-w-[200px]">{post.title}</span>
         </nav>
 
         {/* Article */}
         <article
-          className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-dark prose-a:text-primary prose-img:rounded-lg prose-code:text-sm"
+          className="prose prose-lg max-w-none
+            prose-headings:font-serif prose-headings:text-ink
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-img:rounded-xl prose-img:shadow-lg
+            prose-code:text-primary prose-code:text-sm
+            prose-blockquote:border-primary prose-blockquote:text-slate-500
+            prose-pre:p-0 prose-pre:bg-transparent"
           dangerouslySetInnerHTML={{ __html: post.content ?? '' }}
         />
 
         {/* Footer */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
+        <div className="mt-16 pt-8 border-t border-slate-100">
           <div className="flex flex-wrap gap-2 mb-8">
             {tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-sm bg-gray-100 text-gray-600 px-3 py-1 rounded-full"
-              >
-                #{tag}
-              </span>
+              <span key={tag} className="tag">#{tag}</span>
             ))}
           </div>
+
+          {/* Nav */}
           <Link
             href="/posts"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-primary transition-colors group"
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg className="h-4 w-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             記事一覧へ戻る
           </Link>

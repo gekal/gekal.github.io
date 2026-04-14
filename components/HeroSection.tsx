@@ -2,35 +2,38 @@ interface HeroSectionProps {
   title: string
   subtitle?: string
   backgroundImage?: string
-  overlay?: boolean
+  size?: 'sm' | 'md' | 'lg'
 }
 
 export default function HeroSection({
   title,
   subtitle,
   backgroundImage = '/img/bg-index.jpg',
-  overlay = true,
+  size = 'md',
 }: HeroSectionProps) {
+  const heights = { sm: 'min-h-[280px]', md: 'min-h-[380px]', lg: 'min-h-[500px]' }
+
   return (
     <header
-      className="relative flex items-center justify-center pt-16"
+      className={`relative flex items-end pt-16 ${heights[size]}`}
       style={{
-        minHeight: '420px',
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
       }}
     >
-      {overlay && (
-        <div className="absolute inset-0 bg-black/55" />
-      )}
-      <div className="relative z-10 text-center px-4 py-16 max-w-4xl mx-auto">
-        <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white font-bold leading-tight drop-shadow-lg">
+      {/* Multi-layer overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-ink/40 to-transparent" />
+
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-5 sm:px-8 pb-12">
+        {/* Accent line */}
+        <div className="w-10 h-0.5 bg-primary-light mb-4 animate-fade-up" />
+        <h1 className="font-serif text-4xl md:text-5xl text-white font-bold leading-tight animate-fade-up delay-100">
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-4 text-lg md:text-xl text-gray-200 font-light drop-shadow">
+          <p className="mt-3 text-base text-slate-300 max-w-xl animate-fade-up delay-200">
             {subtitle}
           </p>
         )}
