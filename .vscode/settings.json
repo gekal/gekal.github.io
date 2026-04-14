@@ -1,8 +1,8 @@
 {
     "pasteImage.namePrefix": "",
     "pasteImage.defaultName": "Y-MM-DD-HH-mm-ss",
-    "pasteImage.path": "${projectRoot}/assets/imgs/blogs/${currentFileNameWithoutExt}",
-    "pasteImage.basePath": "${projectRoot}",
+    "pasteImage.path": "${projectRoot}/public/assets/imgs/blogs/${currentFileNameWithoutExt}",
+    "pasteImage.basePath": "${projectRoot}/public",
     "pasteImage.prefix": "/",
     "pasteImage.showFilePathConfirmInputBox": true,
     "pasteImage.filePathConfirmInputBoxMode": "onlyName",

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00a8cc"/>
+      <stop offset="100%" stop-color="#004e5f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background: rounded square in site primary gradient -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+
+  <!-- Hawk in flight — top-down silhouette (鷹) -->
+
+  <!-- Left wing: upper surface -->
+  <path d="M13.5 14.5 C11 12.5 7.5 11 3 13
+           C6.5 13.5 9.5 14.5 12.5 15.5 Z"
+        fill="white"/>
+  <!-- Left wing: lower / secondary feathers -->
+  <path d="M13.5 15.5 C11 15.5 8 16 5 17.5
+           C8 17 11 16.5 13.5 16.5 Z"
+        fill="white" opacity="0.65"/>
+
+  <!-- Right wing: upper surface -->
+  <path d="M18.5 14.5 C21 12.5 24.5 11 29 13
+           C25.5 13.5 22.5 14.5 19.5 15.5 Z"
+        fill="white"/>
+  <!-- Right wing: lower / secondary feathers -->
+  <path d="M18.5 15.5 C21 15.5 24 16 27 17.5
+           C24 17 21 16.5 18.5 16.5 Z"
+        fill="white" opacity="0.65"/>
+
+  <!-- Head -->
+  <circle cx="16" cy="11" r="2.3" fill="white"/>
+  <!-- Beak (small hook pointing forward) -->
+  <path d="M16 12.8 L14.8 14.2 L16 13.6 L17.2 14.2 Z"
+        fill="url(#bg)"/>
+
+  <!-- Body -->
+  <ellipse cx="16" cy="16.5" rx="2.2" ry="4.5" fill="white"/>
+
+  <!-- Tail feathers -->
+  <path d="M13.8 20.5 Q16 25 18.2 20.5
+           Q17 21.5 16 21.5 Q15 21.5 13.8 20.5 Z"
+        fill="white"/>
+</svg>

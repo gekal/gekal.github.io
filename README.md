@@ -1,32 +1,39 @@
-# gekal's blogs
+# gekal's blog
 
-URL：[https://www.gekal.cn/](https://www.gekal.cn/)
+URL: [https://www.gekal.cn/](https://www.gekal.cn/)
 
-## ローカルテスト
+Next.js 15 static site, deployed to GitHub Pages via GitHub Actions.
 
-1. ローカルインストール
+## ローカル開発
 
-    1. [WSL(Ubuntu20.4)にJekyll環境の構築](https://www.gekal.cn/blogs/2019/11/29/jekyll-wsl-ubuntu18.html)
+```bash
+npm install
+npm run dev      # http://localhost:3000
+```
 
-    2. [MacにJekyll環境の構築](https://www.gekal.cn/blogs/2019/01/01/jekyll-mac.html)
+## ビルド
 
-2. [Jekyll Docker](https://github.com/envygeeks/jekyll-docker)
+```bash
+npm run build    # 静的ファイルを out/ に生成
+```
 
-    ```bash
-    docker run --rm \
-        --volume="$PWD:/srv/jekyll" \
-        --volume="$PWD/vendor/bundle:/usr/local/bundle" \
-        -it jekyll/jekyll:4 \
-        jekyll serve
-    ```
+## 記事の追加
 
-3. [Docker Composer](docker-compose.yaml)
+`_posts/` に `YYYY-MM-DD-slug.markdown` を作成する。
 
-    ```bash
-    # 開始
-    docker-compose up
-    ```
+```yaml
+---
+title: 記事タイトル
+date: 2024-01-01T12:00:00+0900
+categories: blogs
+tags: tag1 tag2
+background: /assets/imgs/blogs/YYYY-MM-DD/image.png
+---
+本文...
+```
 
-## 参照
+記事内で使う画像は `public/assets/imgs/blogs/<slug>/` に置く（VS Code の pasteImage 拡張で自動保存される）。
 
-1. [プレーンテキストを静的サイトやブログに変えましょう。](http://jekyllrb-ja.github.io/)
+## デプロイ
+
+`master` へのプッシュで GitHub Actions が自動的にビルド・デプロイする。
