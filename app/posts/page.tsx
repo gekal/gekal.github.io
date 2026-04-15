@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getSortedPostsData } from '@/lib/posts'
-import PostCard from '@/components/PostCard'
-import HeroSection from '@/components/HeroSection'
+import PostCard from '@/components/organisms/PostCard'
+import HeroSection from '@/components/organisms/HeroSection'
 
 export const metadata: Metadata = {
   title: 'ブログ',
@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 export default function PostsPage() {
   const posts = getSortedPostsData()
 
-  // Group posts by year
   const byYear = posts.reduce<Record<string, typeof posts>>((acc, post) => {
     const year = new Date(post.date).getFullYear().toString()
     if (!acc[year]) acc[year] = []
@@ -29,15 +28,17 @@ export default function PostsPage() {
         size="sm"
       />
 
-      <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16">
+      <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16">
         {years.map((year) => (
           <div key={year} className="mb-16">
-            {/* Year heading */}
             <div className="flex items-center gap-4 mb-8">
-              <span className="font-serif text-5xl font-bold text-slate-100 select-none">
+              <span
+                className="text-5xl font-bold select-none"
+                style={{ color: 'var(--separator)', letterSpacing: '-0.04em' }}
+              >
                 {year}
               </span>
-              <span className="text-xs text-slate-400 font-medium">
+              <span className="text-[12px] font-medium" style={{ color: 'var(--text-tertiary)' }}>
                 {byYear[year].length} 記事
               </span>
             </div>

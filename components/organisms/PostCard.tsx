@@ -1,17 +1,20 @@
 import Link from 'next/link'
 import { Post, formatDate } from '@/lib/posts'
+import TagList from '@/components/molecules/TagList'
 
 interface PostCardProps {
   post: Post
   featured?: boolean
 }
 
+function parseTags(raw: Post['tags']): string[] {
+  if (Array.isArray(raw)) return raw
+  if (raw) return String(raw).split(/\s+/).filter(Boolean)
+  return []
+}
+
 export default function PostCard({ post, featured = false }: PostCardProps) {
-  const tags = Array.isArray(post.tags)
-    ? post.tags
-    : post.tags
-    ? String(post.tags).split(/\s+/).filter(Boolean)
-    : []
+  const tags = parseTags(post.tags)
 
   if (featured) {
     return (
@@ -27,9 +30,13 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
               alt=""
               className="w-full h-full object-cover opacity-25 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700"
             />
-            <div className="absolute inset-0" style={{
-              background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)',
-            }} />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)',
+              }}
+            />
           </div>
         )}
         <div className="relative z-10 p-8 md:p-10 flex flex-col justify-end min-h-[340px]">
@@ -54,17 +61,7 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
           <p className="text-[14px] text-white/50 leading-relaxed line-clamp-2 mb-5 max-w-2xl">
             {post.excerpt}
           </p>
-          <div className="flex items-center gap-2">
-            {tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className="text-[12px] text-white/40 rounded-full px-2.5 py-1"
-                style={{ background: 'rgba(255,255,255,0.08)' }}
-              >
-                #{tag}
-              </span>
-            ))}
-          </div>
+          <TagList tags={tags} max={3} dark />
         </div>
       </article>
     )
@@ -82,7 +79,6 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
           />
         </div>
       )}
-
       <div className={`p-5 ${!post.background ? 'pt-6' : ''}`}>
         <div className="flex items-center gap-2 mb-3">
           <time
@@ -92,11 +88,8 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
           >
             {formatDate(post.date)}
           </time>
-          {tags.slice(0, 2).map((tag) => (
-            <span key={tag} className="tag text-[11px]">{tag}</span>
-          ))}
+          <TagList tags={tags} max={2} />
         </div>
-
         <h2
           className="font-semibold leading-snug mb-2 group-hover:opacity-70 transition-opacity duration-200"
           style={{ color: 'var(--text-primary)', fontSize: '15px', letterSpacing: '-0.01em' }}
@@ -105,7 +98,6 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
             {post.title}
           </Link>
         </h2>
-
         <p className="text-[13px] leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
           {post.excerpt}
         </p>

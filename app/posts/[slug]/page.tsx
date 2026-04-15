@@ -2,6 +2,10 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getAllPostSlugs, getPostData, formatDate } from '@/lib/posts'
+import TagList from '@/components/molecules/TagList'
+import BreadcrumbNav from '@/components/molecules/BreadcrumbNav'
+import AccentLine from '@/components/atoms/AccentLine'
+import Icon from '@/components/atoms/Icon'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -33,84 +37,73 @@ export default async function PostPage({ params }: Props) {
     <>
       {/* ── Hero ──────────────────────────────────── */}
       <header
-        className="relative flex items-end pt-16 min-h-[340px]"
+        className="relative flex items-end pt-[52px] min-h-[320px]"
         style={{
           backgroundImage: post.background ? `url(${post.background})` : 'url(/img/bg-post.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/30" />
-
-        <div className="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 pb-10 w-full">
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-5">
-            {tags.slice(0, 4).map((tag) => (
-              <span key={tag} className="text-xs font-medium text-primary-light bg-primary/15 border border-primary/25 px-2.5 py-1 rounded-full">
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {/* Accent line */}
-          <div className="w-8 h-0.5 bg-primary-light mb-4" />
-
-          <h1 className="font-serif text-3xl md:text-4xl text-white font-bold leading-snug">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.18) 100%)',
+          }}
+        />
+        <div className="relative z-10 max-w-3xl mx-auto px-6 sm:px-10 pb-10 w-full">
+          <TagList tags={tags.slice(0, 4)} dark className="mb-5" />
+          <AccentLine className="mb-4" />
+          <h1
+            className="font-bold text-white leading-snug"
+            style={{ fontSize: 'clamp(22px, 4vw, 32px)', letterSpacing: '-0.025em' }}
+          >
             {post.title}
           </h1>
           {post.subtitle && (
-            <p className="mt-2 text-slate-300 text-base">{post.subtitle}</p>
+            <p className="mt-2 text-[15px] text-white/60">{post.subtitle}</p>
           )}
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-4 text-[13px] text-white/40">
             <time dateTime={post.date}>{formatDate(post.date)}</time>
           </p>
         </div>
       </header>
 
       {/* ── Content ───────────────────────────────── */}
-      <div className="max-w-3xl mx-auto px-5 sm:px-8 py-12">
+      <div className="max-w-3xl mx-auto px-6 sm:px-10 py-12">
+        <BreadcrumbNav
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Blog', href: '/posts' },
+            { label: post.title },
+          ]}
+        />
 
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-slate-400 mb-10">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-          <svg className="h-3 w-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-          <Link href="/posts" className="hover:text-primary transition-colors">Blog</Link>
-          <svg className="h-3 w-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-          <span className="text-slate-500 truncate max-w-[200px]">{post.title}</span>
-        </nav>
-
-        {/* Article */}
         <article
           className="prose prose-lg max-w-none
-            prose-headings:font-serif prose-headings:text-ink
-            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-            prose-img:rounded-xl prose-img:shadow-lg
-            prose-code:text-primary prose-code:text-sm
-            prose-blockquote:border-primary prose-blockquote:text-slate-500
+            prose-headings:text-[#1D1D1F] prose-headings:tracking-tight
+            prose-a:text-[#0071E3] prose-a:no-underline hover:prose-a:underline
+            prose-img:rounded-2xl prose-img:shadow-lg
+            prose-code:text-[#0071E3] prose-code:text-sm
+            prose-blockquote:border-[#0071E3] prose-blockquote:text-[#6E6E73]
             prose-pre:p-0 prose-pre:bg-transparent"
           dangerouslySetInnerHTML={{ __html: post.content ?? '' }}
         />
 
         {/* Footer */}
-        <div className="mt-16 pt-8 border-t border-slate-100">
-          <div className="flex flex-wrap gap-2 mb-8">
-            {tags.map((tag) => (
-              <span key={tag} className="tag">#{tag}</span>
-            ))}
-          </div>
+        <div className="mt-16 pt-8" style={{ borderTop: '1px solid var(--separator-opaque)' }}>
+          <TagList tags={tags} className="mb-8" />
 
-          {/* Nav */}
           <Link
             href="/posts"
-            className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-primary transition-colors group"
+            className="inline-flex items-center gap-2 text-[14px] font-medium transition-opacity hover:opacity-60 group"
+            style={{ color: 'var(--text-secondary)' }}
           >
-            <svg className="h-4 w-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
+            <Icon
+              name="arrow-left"
+              className="h-4 w-4 group-hover:-translate-x-1 transition-transform"
+              strokeWidth={2}
+            />
             記事一覧へ戻る
           </Link>
         </div>

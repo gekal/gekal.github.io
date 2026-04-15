@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import NavLink from '@/components/molecules/NavLink'
+import Icon from '@/components/atoms/Icon'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -29,7 +31,6 @@ export default function Navbar() {
 
   useEffect(() => { setIsOpen(false) }, [pathname])
 
-  /* On the home page the hero is dark, so nav text starts white */
   const isHome = pathname === '/'
   const useDark = isHome && isHero
 
@@ -55,9 +56,9 @@ export default function Navbar() {
               鷹
             </span>
             <span
-              className={`font-semibold text-[15px] tracking-[-0.01em] transition-colors ${
+              className={`font-semibold text-[15px] tracking-[-0.01em] transition-colors group-hover:opacity-70 ${
                 useDark ? 'text-white' : 'text-[#1D1D1F]'
-              } group-hover:opacity-70`}
+              }`}
             >
               鴻鷹
             </span>
@@ -65,27 +66,15 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-0.5">
-            {navLinks.map(({ href, label }) => {
-              const isActive = pathname === href
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className={`relative px-3.5 py-1.5 rounded-lg text-[13px] font-normal tracking-[-0.01em] transition-all duration-200 ${
-                    useDark
-                      ? isActive
-                        ? 'text-white'
-                        : 'text-white/70 hover:text-white'
-                      : isActive
-                      ? 'text-[#1D1D1F]'
-                      : 'text-[#6E6E73] hover:text-[#1D1D1F]'
-                  }`}
-                >
-                  {label}
-                </Link>
-              )
-            })}
-
+            {navLinks.map(({ href, label }) => (
+              <NavLink
+                key={href}
+                href={href}
+                label={label}
+                isActive={pathname === href}
+                dark={useDark}
+              />
+            ))}
             <Link
               href="/contact"
               className="ml-3 px-4 py-1.5 rounded-full text-white text-[13px] font-normal tracking-[-0.01em] transition-opacity hover:opacity-80 active:scale-95"
@@ -103,12 +92,7 @@ export default function Navbar() {
             }`}
             aria-label={isOpen ? 'メニューを閉じる' : 'メニューを開く'}
           >
-            <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-              {isOpen
-                ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                : <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              }
-            </svg>
+            <Icon name={isOpen ? 'close' : 'menu'} className="h-[18px] w-[18px]" strokeWidth={1.8} />
           </button>
         </div>
       </div>
@@ -120,28 +104,15 @@ export default function Navbar() {
         }`}
       >
         <div className="glass-nav border-t border-black/[0.06] px-6 py-3 space-y-0.5">
-          {navLinks.map(({ href, label }) => {
-            const isActive = pathname === href
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`flex items-center px-3 py-2.5 rounded-xl text-[14px] font-normal transition-colors ${
-                  isActive
-                    ? 'text-[#1D1D1F] bg-black/[0.04]'
-                    : 'text-[#6E6E73] hover:text-[#1D1D1F] hover:bg-black/[0.03]'
-                }`}
-              >
-                {isActive && (
-                  <span
-                    className="w-1.5 h-1.5 rounded-full mr-2.5 flex-shrink-0"
-                    style={{ background: 'var(--apple-blue)' }}
-                  />
-                )}
-                {label}
-              </Link>
-            )
-          })}
+          {navLinks.map(({ href, label }) => (
+            <NavLink
+              key={href}
+              href={href}
+              label={label}
+              isActive={pathname === href}
+              mobile
+            />
+          ))}
         </div>
       </div>
     </nav>
