@@ -39,7 +39,7 @@ export default function ContactForm() {
     return (
       <div
         className="rounded-2xl border p-8 py-16 text-center"
-        style={{ background: 'white', borderColor: 'var(--separator-opaque)' }}
+        style={{ background: 'var(--surface)', borderColor: 'var(--separator-opaque)' }}
       >
         <div
           className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
@@ -63,7 +63,7 @@ export default function ContactForm() {
   return (
     <div
       className="rounded-2xl border p-8"
-      style={{ background: 'white', borderColor: 'var(--separator-opaque)' }}
+      style={{ background: 'var(--surface)', borderColor: 'var(--separator-opaque)' }}
     >
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

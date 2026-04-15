@@ -8,7 +8,7 @@ interface SkillGroupProps {
 
 export default function SkillGroup({ name, accent, skills }: SkillGroupProps) {
   return (
-    <div className="rounded-2xl p-6" style={{ background: '#1D1D1F' }}>
+    <div className="rounded-2xl p-6" style={{ background: 'var(--dark-surface)' }}>
       <p
         className="text-[11px] font-bold uppercase tracking-[0.1em] mb-4"
         style={{ color: accent }}

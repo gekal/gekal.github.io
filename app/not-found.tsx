@@ -3,7 +3,7 @@ import Icon from '@/components/atoms/Icon'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: '#000000' }}>
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--dark-bg)' }}>
       <div className="text-center">
         <p
           className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-4"

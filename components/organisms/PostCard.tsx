@@ -20,7 +20,7 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
     return (
       <article
         className="group relative overflow-hidden rounded-2xl"
-        style={{ background: '#1D1D1F' }}
+        style={{ background: 'var(--dark-surface)' }}
       >
         {post.background && (
           <div className="absolute inset-0">
@@ -70,7 +70,7 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
   return (
     <article className="group card overflow-hidden">
       {post.background && (
-        <div className="h-44 overflow-hidden" style={{ background: '#F5F5F7' }}>
+        <div className="h-44 overflow-hidden" style={{ background: 'var(--surface-secondary)' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={post.background}

@@ -4,41 +4,41 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Apple-inspired Design Tokens ──────────────────── */
+/* ── Design Tokens — Warm Neutral Palette ──────────── */
 :root {
-  /* Apple Blue */
-  --apple-blue: #0071E3;
-  --apple-blue-hover: #0077ED;
-  --apple-blue-light: #E8F1FB;
+  /* Accent */
+  --apple-blue:        #0071E3;
+  --apple-blue-hover:  #0077ED;
+  --apple-blue-light:  #E5EFFC;   /* slightly warmer than pure cold blue tint */
 
-  /* Surfaces */
-  --surface: #FFFFFF;
-  --surface-secondary: #F5F5F7;
-  --surface-tertiary: #FBFBFD;
+  /* Light surfaces — warm off-white */
+  --surface:           #FAFAF8;   /* was #FFFFFF — barely-warm off-white */
+  --surface-secondary: #F2F0EB;   /* was #F5F5F7 — warm sand */
+  --surface-tertiary:  #F7F5F0;   /* was #FBFBFD — warm paper */
 
-  /* Text */
-  --text-primary: #1D1D1F;
-  --text-secondary: #6E6E73;
-  --text-tertiary: #AEAEB2;
+  /* Text — warm charcoal series */
+  --text-primary:      #1A1916;   /* was #1D1D1F — warm near-black */
+  --text-secondary:    #6E6B63;   /* was #6E6E73 — warm medium gray */
+  --text-tertiary:     #ADAAA4;   /* was #AEAEB2 — warm light gray */
 
-  /* Separators */
-  --separator: #D2D2D7;
-  --separator-opaque: rgba(0, 0, 0, 0.08);
+  /* Separators — warm gray */
+  --separator:         #D4D1CA;   /* was #D2D2D7 */
+  --separator-opaque:  rgba(26, 25, 22, 0.08);  /* was rgba(0,0,0,0.08) */
 
-  /* Dark sections */
-  --dark-bg: #000000;
-  --dark-surface: #1D1D1F;
-  --dark-surface-2: #2D2D2F;
+  /* Dark sections — warm charcoal / near-black */
+  --dark-bg:           #141210;   /* was #000000 — warm near-black */
+  --dark-surface:      #1E1C19;   /* was #1D1D1F — warm dark surface */
+  --dark-surface-2:    #2C2A26;   /* was #2D2D2F — slightly lighter */
 
   /* Legacy compat */
-  --primary: #0071E3;
-  --primary-light: #0077ED;
-  --ink: #1D1D1F;
-  --ink-soft: #2D2D2F;
-  --ink-muted: #6E6E73;
-  --border: #D2D2D7;
-  --radius: 14px;
-  --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --primary:           #0071E3;
+  --primary-light:     #0077ED;
+  --ink:               #1A1916;
+  --ink-soft:          #2C2A26;
+  --ink-muted:         #6E6B63;
+  --border:            #D4D1CA;
+  --radius:            14px;
+  --transition:        200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ── Base ───────────────────────────────────────────── */
@@ -57,14 +57,14 @@
   }
 
   ::selection {
-    background: rgba(0, 113, 227, 0.15);
+    background: rgba(0, 113, 227, 0.14);
     color: var(--text-primary);
   }
 
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: #C7C7CC;
+    background: var(--separator);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover { background: var(--apple-blue); }
@@ -73,7 +73,7 @@
 /* ── Components ─────────────────────────────────────── */
 @layer components {
 
-  /* Apple pill button — primary */
+  /* Primary pill button */
   .btn-primary {
     @apply inline-flex items-center gap-2
            text-white font-normal text-[15px] tracking-[-0.01em]
@@ -83,7 +83,7 @@
   }
   .btn-primary:hover { background: var(--apple-blue-hover); }
 
-  /* Apple pill button — outline */
+  /* Outline pill button */
   .btn-outline {
     @apply inline-flex items-center gap-2
            font-normal text-[15px] tracking-[-0.01em]
@@ -116,32 +116,33 @@
     font-family: 'Inter', -apple-system, sans-serif;
   }
 
-  /* Apple-style card */
+  /* Card */
   .card {
     @apply rounded-2xl overflow-hidden;
     background: var(--surface);
     border: 1px solid var(--separator-opaque);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 12px rgba(26,25,22,0.07), 0 1px 3px rgba(26,25,22,0.05);
     transition: box-shadow 280ms ease, transform 280ms ease;
   }
   .card:hover {
-    box-shadow: 0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 30px rgba(26,25,22,0.10), 0 2px 8px rgba(26,25,22,0.07);
     transform: translateY(-2px);
   }
 
-  /* Frosted glass nav */
+  /* Frosted glass nav — light */
   .glass-nav {
-    background: rgba(255, 255, 255, 0.72);
+    background: rgba(250, 250, 248, 0.82);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(26, 25, 22, 0.08);
   }
 
+  /* Frosted glass nav — dark */
   .glass-nav-dark {
-    background: rgba(29, 29, 31, 0.72);
+    background: rgba(20, 18, 16, 0.80);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   }
 }
 
@@ -194,14 +195,14 @@ pre code.hljs {
 /* ── Prose overrides ────────────────────────────────── */
 .prose pre {
   padding: 0 !important;
-  background: #1D1D1F !important;
+  background: var(--dark-surface) !important;
   border-radius: 14px;
 }
 .prose pre code.hljs {
   padding: 1.5rem !important;
 }
 .prose img {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(26, 25, 22, 0.08);
   border-radius: 14px;
 }
 .prose table {

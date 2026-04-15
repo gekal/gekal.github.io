@@ -15,7 +15,7 @@ export default function ContactCard({ icon, label, value, href }: ContactCardPro
       rel="noopener noreferrer"
       className="flex items-center gap-3.5 p-4 rounded-xl border transition-all group"
       style={{
-        background: 'white',
+        background: 'var(--surface)',
         borderColor: 'var(--separator-opaque)',
       }}
     >

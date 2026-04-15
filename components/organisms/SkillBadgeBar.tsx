@@ -28,7 +28,7 @@ export default function SkillBadgeBar() {
               key={label}
               className="flex items-center gap-2 rounded-full px-4 py-2 cursor-default transition-opacity hover:opacity-75"
               style={{
-                background: 'white',
+                background: 'var(--surface)',
                 border: '1px solid var(--separator-opaque)',
                 boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
               }}

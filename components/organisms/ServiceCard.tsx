@@ -30,7 +30,7 @@ export default function ServiceCard({ icon, title, desc, tags }: ServiceCardProp
             key={t}
             className="text-[11px] rounded-md px-2 py-0.5 border"
             style={{
-              background: 'white',
+              background: 'var(--surface)',
               borderColor: 'var(--separator)',
               color: 'var(--text-secondary)',
             }}
