@@ -11,12 +11,21 @@ export default function HomeHero() {
         backgroundPosition: 'center',
       }}
     >
-      {/* Apple-style dark gradient */}
+      {/* Bottom-to-top gradient — content readability */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.15) 100%)',
+            'linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.40) 45%, rgba(0,0,0,0.10) 100%)',
+        }}
+      />
+
+      {/* Top-to-bottom gradient — navbar readability (always visible) */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.20) 15%, transparent 35%)',
         }}
       />
 

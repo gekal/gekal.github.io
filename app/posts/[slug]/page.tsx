@@ -44,11 +44,20 @@ export default async function PostPage({ params }: Props) {
           backgroundPosition: 'center',
         }}
       >
+        {/* Bottom-to-top gradient */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.18) 100%)',
+              'linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.15) 100%)',
+          }}
+        />
+        {/* Top-to-bottom gradient — navbar readability */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.15) 20%, transparent 40%)',
           }}
         />
         <div className="relative z-10 max-w-3xl mx-auto px-6 sm:px-10 pb-10 w-full">

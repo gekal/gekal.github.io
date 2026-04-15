@@ -24,11 +24,20 @@ export default function HeroSection({
         backgroundPosition: 'center',
       }}
     >
+      {/* Bottom-to-top gradient */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.18) 100%)',
+            'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.40) 50%, rgba(0,0,0,0.15) 100%)',
+        }}
+      />
+      {/* Top-to-bottom gradient — navbar readability */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(to bottom, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.15) 20%, transparent 40%)',
         }}
       />
       <div className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-10 pb-12">
