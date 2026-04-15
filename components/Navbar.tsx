@@ -14,64 +14,82 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isHero, setIsHero] = useState(true)
   const pathname = usePathname()
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 1)
+      setIsHero(window.scrollY < 60)
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => { setIsOpen(false) }, [pathname])
+
+  /* On the home page the hero is dark, so nav text starts white */
+  const isHome = pathname === '/'
+  const useDark = isHome && isHero
 
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-ink/95 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-white/5'
+          ? useDark
+            ? 'glass-nav-dark'
+            : 'glass-nav'
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-5xl mx-auto px-5 sm:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-5xl mx-auto px-6 sm:px-10">
+        <div className="flex items-center justify-between h-[52px]">
 
           {/* Logo */}
-          <Link href="/" className="group flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-serif font-bold text-sm shadow-glow/30 group-hover:bg-primary-light transition-colors">
+          <Link href="/" className="group flex items-center gap-2">
+            <span
+              className="w-7 h-7 rounded-[8px] flex items-center justify-center text-white font-bold text-sm transition-opacity group-hover:opacity-80"
+              style={{ background: 'var(--apple-blue)' }}
+            >
               鷹
             </span>
-            <span className="text-white font-serif font-bold text-lg tracking-wide group-hover:text-gray-200 transition-colors">
+            <span
+              className={`font-semibold text-[15px] tracking-[-0.01em] transition-colors ${
+                useDark ? 'text-white' : 'text-[#1D1D1F]'
+              } group-hover:opacity-70`}
+            >
               鴻鷹
             </span>
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-0.5">
             {navLinks.map(({ href, label }) => {
               const isActive = pathname === href
               return (
                 <Link
                   key={href}
                   href={href}
-                  className={`relative px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 ${
-                    isActive
-                      ? 'text-white bg-white/10'
-                      : 'text-gray-400 hover:text-white hover:bg-white/8'
+                  className={`relative px-3.5 py-1.5 rounded-lg text-[13px] font-normal tracking-[-0.01em] transition-all duration-200 ${
+                    useDark
+                      ? isActive
+                        ? 'text-white'
+                        : 'text-white/70 hover:text-white'
+                      : isActive
+                      ? 'text-[#1D1D1F]'
+                      : 'text-[#6E6E73] hover:text-[#1D1D1F]'
                   }`}
                 >
                   {label}
-                  {isActive && (
-                    <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary-light" />
-                  )}
                 </Link>
               )
             })}
 
             <Link
               href="/contact"
-              className="ml-3 px-4 py-2 bg-primary hover:bg-primary-light text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
+              className="ml-3 px-4 py-1.5 rounded-full text-white text-[13px] font-normal tracking-[-0.01em] transition-opacity hover:opacity-80 active:scale-95"
+              style={{ background: 'var(--apple-blue)' }}
             >
               お問い合わせ
             </Link>
@@ -80,10 +98,12 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+            className={`md:hidden w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
+              useDark ? 'text-white/70 hover:text-white' : 'text-[#6E6E73] hover:text-[#1D1D1F]'
+            }`}
             aria-label={isOpen ? 'メニューを閉じる' : 'メニューを開く'}
           >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               {isOpen
                 ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 : <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -99,20 +119,25 @@ export default function Navbar() {
           isOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="bg-ink/98 backdrop-blur-xl border-t border-white/8 px-5 py-4 space-y-1">
+        <div className="glass-nav border-t border-black/[0.06] px-6 py-3 space-y-0.5">
           {navLinks.map(({ href, label }) => {
             const isActive = pathname === href
             return (
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center px-3 py-2.5 rounded-xl text-[14px] font-normal transition-colors ${
                   isActive
-                    ? 'text-white bg-white/10'
-                    : 'text-gray-400 hover:text-white hover:bg-white/8'
+                    ? 'text-[#1D1D1F] bg-black/[0.04]'
+                    : 'text-[#6E6E73] hover:text-[#1D1D1F] hover:bg-black/[0.03]'
                 }`}
               >
-                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-primary-light" />}
+                {isActive && (
+                  <span
+                    className="w-1.5 h-1.5 rounded-full mr-2.5 flex-shrink-0"
+                    style={{ background: 'var(--apple-blue)' }}
+                  />
+                )}
                 {label}
               </Link>
             )

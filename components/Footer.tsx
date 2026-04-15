@@ -34,19 +34,27 @@ function SocialIcon({ name }: { name: string }) {
 
 export default function Footer() {
   return (
-    <footer className="bg-ink text-slate-400 mt-20">
-      <div className="max-w-5xl mx-auto px-5 sm:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+    <footer style={{ background: 'var(--surface-secondary)', borderTop: '1px solid var(--separator-opaque)' }}>
+      <div className="max-w-5xl mx-auto px-6 sm:px-10 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
 
           {/* Brand */}
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <span className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-serif font-bold text-sm">
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <span
+                className="w-7 h-7 rounded-[8px] flex items-center justify-center text-white font-bold text-sm"
+                style={{ background: 'var(--apple-blue)' }}
+              >
                 鷹
               </span>
-              <span className="text-white font-serif font-bold text-lg">鴻鷹</span>
+              <span
+                className="font-semibold text-[15px] tracking-[-0.01em]"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                鴻鷹
+              </span>
             </Link>
-            <p className="text-sm leading-relaxed text-slate-500 max-w-xs">
+            <p className="text-[13px] leading-relaxed max-w-xs" style={{ color: 'var(--text-secondary)' }}>
               フリーランスエンジニア。<br />
               Cloud · DevOps · Backend を中心に発信。
             </p>
@@ -58,7 +66,11 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-8 h-8 rounded-lg bg-white/5 hover:bg-primary/20 hover:text-primary-light flex items-center justify-center transition-colors"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:opacity-70"
+                  style={{
+                    background: 'rgba(0,0,0,0.05)',
+                    color: 'var(--text-secondary)',
+                  }}
                 >
                   <SocialIcon name={icon} />
                 </a>
@@ -68,13 +80,20 @@ export default function Footer() {
 
           {/* Nav */}
           <div>
-            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">
+            <h3
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-4"
+              style={{ color: 'var(--text-tertiary)' }}
+            >
               ページ
             </h3>
             <ul className="space-y-2.5">
               {links.pages.map(({ href, label }) => (
                 <li key={href}>
-                  <Link href={href} className="text-sm hover:text-white transition-colors">
+                  <Link
+                    href={href}
+                    className="text-[13px] transition-colors hover:opacity-70"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
                     {label}
                   </Link>
                 </li>
@@ -84,29 +103,47 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">
+            <h3
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-4"
+              style={{ color: 'var(--text-tertiary)' }}
+            >
               Contact
             </h3>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-[13px]">
               <li>
-                <a href="mailto:liu.hongying@hotmail.com" className="hover:text-white transition-colors break-all">
+                <a
+                  href="mailto:liu.hongying@hotmail.com"
+                  className="transition-colors break-all hover:opacity-70"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
                   liu.hongying@hotmail.com
                 </a>
               </li>
               <li>
-                <a href="https://www.gekal.cn" className="hover:text-white transition-colors">
+                <a
+                  href="https://www.gekal.cn"
+                  className="transition-colors hover:opacity-70"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
                   www.gekal.cn
                 </a>
               </li>
             </ul>
-            <Link href="/contact" className="mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-primary-light hover:text-white border border-primary/30 hover:border-primary px-3 py-1.5 rounded-lg transition-all">
+            <Link
+              href="/contact"
+              className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium rounded-full px-3.5 py-1.5 transition-opacity hover:opacity-75 border"
+              style={{ color: 'var(--apple-blue)', borderColor: 'var(--apple-blue)' }}
+            >
               お問い合わせ →
             </Link>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+        <div
+          className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px]"
+          style={{ borderTop: '1px solid var(--separator-opaque)', color: 'var(--text-tertiary)' }}
+        >
           <p>© {new Date().getFullYear()} 鴻鷹 (gekal). All rights reserved.</p>
           <p>Built with Next.js & Tailwind CSS</p>
         </div>

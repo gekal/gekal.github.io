@@ -37,22 +37,22 @@ const services = [
 const skillGroups = [
   {
     name: 'Cloud',
-    color: 'text-orange-400',
+    accent: '#FF9500',
     skills: ['AWS (Professional)', 'Google Cloud (Professional)', 'Azure (Expert)', 'Terraform / IaC'],
   },
   {
     name: 'Container',
-    color: 'text-blue-400',
+    accent: '#0071E3',
     skills: ['Docker', 'Kubernetes', 'Helm', 'CKAD 認定'],
   },
   {
     name: 'Backend',
-    color: 'text-green-400',
+    accent: '#34C759',
     skills: ['Java / Spring Boot', 'JavaScript / Node.js', '.NET / C#', 'Shell / Groovy'],
   },
   {
     name: 'DevOps',
-    color: 'text-purple-400',
+    accent: '#BF5AF2',
     skills: ['GitHub Actions', 'Jenkins', 'CI/CD Pipeline', 'SRE プラクティス'],
   },
 ]
@@ -60,8 +60,7 @@ const skillGroups = [
 const certs = [
   {
     vendor: 'AWS',
-    color: 'border-orange-200 bg-orange-50',
-    dot: 'bg-orange-400',
+    accent: '#FF9500',
     items: [
       'Cloud Practitioner',
       'Developer Associate',
@@ -72,8 +71,7 @@ const certs = [
   },
   {
     vendor: 'Google Cloud',
-    color: 'border-blue-200 bg-blue-50',
-    dot: 'bg-blue-400',
+    accent: '#34A853',
     items: [
       'Associate Cloud Engineer',
       'Professional Cloud Architect',
@@ -84,8 +82,7 @@ const certs = [
   },
   {
     vendor: 'Azure',
-    color: 'border-sky-200 bg-sky-50',
-    dot: 'bg-sky-400',
+    accent: '#0078D4',
     items: [
       'Fundamentals (AZ-900)',
       'Developer Associate (AZ-204)',
@@ -97,8 +94,7 @@ const certs = [
   },
   {
     vendor: 'Cloud Native',
-    color: 'border-purple-200 bg-purple-50',
-    dot: 'bg-purple-400',
+    accent: '#326CE5',
     items: ['CKAD — Certified Kubernetes Application Developer'],
   },
 ]
@@ -113,14 +109,19 @@ export default function AboutPage() {
         size="sm"
       />
 
-      <div className="max-w-4xl mx-auto px-5 sm:px-8 py-16 space-y-24">
+      <div className="max-w-4xl mx-auto px-6 sm:px-10 py-16 space-y-24">
 
         {/* ── Profile ──────────────────────────────── */}
         <section className="flex flex-col md:flex-row gap-12 items-start">
-          {/* Avatar card */}
+          {/* Avatar */}
           <div className="flex-shrink-0">
-            <div className="relative w-40">
-              <div className="w-40 h-40 rounded-2xl overflow-hidden ring-4 ring-primary/20 shadow-xl">
+            <div className="relative w-36">
+              <div
+                className="w-36 h-36 rounded-2xl overflow-hidden"
+                style={{
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08)',
+                }}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://github.com/gekal.png"
@@ -128,13 +129,22 @@ export default function AboutPage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              {/* Online indicator */}
-              <span className="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full bg-green-400 border-2 border-white shadow" />
+              <span
+                className="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full border-2 border-white"
+                style={{ background: '#34C759' }}
+              />
             </div>
 
             <div className="mt-4 text-center">
-              <p className="font-serif font-bold text-ink text-lg">鴻 鷹</p>
-              <p className="text-slate-500 text-xs mt-0.5">gekal · @GekalCn</p>
+              <p
+                className="font-semibold text-[17px] tracking-[-0.02em]"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                鴻 鷹
+              </p>
+              <p className="text-[12px] mt-0.5" style={{ color: 'var(--text-tertiary)' }}>
+                gekal · @GekalCn
+              </p>
             </div>
 
             <div className="flex justify-center gap-2 mt-3">
@@ -147,7 +157,11 @@ export default function AboutPage() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-slate-500 hover:text-primary border border-slate-200 hover:border-primary/40 px-3 py-1 rounded-lg transition-all"
+                  className="text-[12px] rounded-full px-3 py-1 border transition-opacity hover:opacity-70"
+                  style={{
+                    color: 'var(--text-secondary)',
+                    borderColor: 'var(--separator)',
+                  }}
                 >
                   {label}
                 </a>
@@ -158,26 +172,46 @@ export default function AboutPage() {
           {/* Bio */}
           <div className="flex-1 pt-1">
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-5 h-px bg-primary" />
-              <span className="text-xs font-semibold text-primary uppercase tracking-widest">
+              <span
+                className="w-4 h-px"
+                style={{ background: 'var(--apple-blue)' }}
+              />
+              <span
+                className="text-[11px] font-semibold uppercase tracking-[0.1em]"
+                style={{ color: 'var(--apple-blue)' }}
+              >
                 Freelance Engineer
               </span>
             </div>
-            <h2 className="font-serif text-3xl font-bold text-ink mb-4 leading-tight">
+            <h2
+              className="font-bold mb-4 leading-tight"
+              style={{
+                color: 'var(--text-primary)',
+                fontSize: 'clamp(24px, 4vw, 30px)',
+                letterSpacing: '-0.03em',
+              }}
+            >
               クラウドとコンテナの<br />専門エンジニア
             </h2>
-            <div className="space-y-3 text-slate-600 text-sm leading-relaxed">
+            <div className="space-y-3 text-[15px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               <p>
                 2011 年よりソフトウェアエンジニアとして活動。Java・JavaScript・.NET など多様な言語で開発経験を積んだ後、クラウドとコンテナ技術に特化。
               </p>
               <p>
-                現在は<strong className="text-ink">フリーランス</strong>として、AWS・GCP・Azure の<strong className="text-ink">マルチクラウド</strong>を軸にインフラ設計・DevOps 環境構築・バックエンド開発まで一貫してサポートしています。
+                現在は<strong style={{ color: 'var(--text-primary)' }}>フリーランス</strong>として、AWS・GCP・Azure の<strong style={{ color: 'var(--text-primary)' }}>マルチクラウド</strong>を軸にインフラ設計・DevOps 環境構築・バックエンド開発まで一貫してサポートしています。
               </p>
             </div>
 
             <div className="flex flex-wrap gap-2 mt-5">
               {['13 年以上の経験', 'マルチクラウド対応', '16 資格取得', 'リモート作業可', '日本語・中国語'].map((b) => (
-                <span key={b} className="text-xs font-medium text-primary bg-primary/8 border border-primary/15 px-3 py-1 rounded-full">
+                <span
+                  key={b}
+                  className="text-[12px] font-medium rounded-full px-3 py-1"
+                  style={{
+                    color: 'var(--apple-blue)',
+                    background: 'var(--apple-blue-light)',
+                  }}
+                >
                   {b}
                 </span>
               ))}
@@ -188,18 +222,45 @@ export default function AboutPage() {
         {/* ── Services ─────────────────────────────── */}
         <section>
           <div className="text-center mb-10">
-            <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">Services</p>
+            <p
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-2"
+              style={{ color: 'var(--apple-blue)' }}
+            >
+              Services
+            </p>
             <h2 className="section-heading">提供サービス</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {services.map((s) => (
-              <div key={s.title} className="card p-6 group">
+              <div
+                key={s.title}
+                className="rounded-2xl p-6 transition-shadow duration-200"
+                style={{
+                  background: 'var(--surface-secondary)',
+                  border: '1px solid var(--separator-opaque)',
+                }}
+              >
                 <div className="text-3xl mb-4">{s.icon}</div>
-                <h3 className="font-bold text-ink text-base mb-2">{s.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed mb-4">{s.desc}</p>
+                <h3
+                  className="font-semibold text-[15px] mb-2 tracking-[-0.01em]"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  {s.title}
+                </h3>
+                <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
+                  {s.desc}
+                </p>
                 <div className="flex flex-wrap gap-1.5">
                   {s.tags.map((t) => (
-                    <span key={t} className="text-xs bg-slate-50 border border-slate-100 text-slate-500 px-2 py-0.5 rounded-md">
+                    <span
+                      key={t}
+                      className="text-[11px] rounded-md px-2 py-0.5 border"
+                      style={{
+                        background: 'white',
+                        borderColor: 'var(--separator)',
+                        color: 'var(--text-secondary)',
+                      }}
+                    >
                       {t}
                     </span>
                   ))}
@@ -212,17 +273,38 @@ export default function AboutPage() {
         {/* ── Skills ───────────────────────────────── */}
         <section>
           <div className="text-center mb-10">
-            <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">Skills</p>
+            <p
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-2"
+              style={{ color: 'var(--apple-blue)' }}
+            >
+              Skills
+            </p>
             <h2 className="section-heading">スキルセット</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {skillGroups.map((g) => (
-              <div key={g.name} className="bg-ink rounded-2xl p-6">
-                <p className={`text-xs font-bold uppercase tracking-widest mb-4 ${g.color}`}>{g.name}</p>
+              <div
+                key={g.name}
+                className="rounded-2xl p-6"
+                style={{ background: '#1D1D1F' }}
+              >
+                <p
+                  className="text-[11px] font-bold uppercase tracking-[0.1em] mb-4"
+                  style={{ color: g.accent }}
+                >
+                  {g.name}
+                </p>
                 <ul className="space-y-2.5">
                   {g.skills.map((skill) => (
-                    <li key={skill} className="flex items-center gap-2.5 text-sm text-slate-300">
-                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${g.color.replace('text-', 'bg-')}`} />
+                    <li
+                      key={skill}
+                      className="flex items-center gap-2.5 text-[13px]"
+                      style={{ color: 'rgba(255,255,255,0.7)' }}
+                    >
+                      <span
+                        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                        style={{ background: g.accent }}
+                      />
                       {skill}
                     </li>
                   ))}
@@ -235,21 +317,60 @@ export default function AboutPage() {
         {/* ── Certifications ───────────────────────── */}
         <section>
           <div className="text-center mb-10">
-            <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">Certifications</p>
-            <h2 className="section-heading">取得資格 <span className="gradient-text">16</span></h2>
+            <p
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-2"
+              style={{ color: 'var(--apple-blue)' }}
+            >
+              Certifications
+            </p>
+            <h2 className="section-heading">
+              取得資格{' '}
+              <span className="gradient-text">16</span>
+            </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {certs.map((c) => (
-              <div key={c.vendor} className={`rounded-2xl border ${c.color} p-5`}>
+              <div
+                key={c.vendor}
+                className="rounded-2xl p-5"
+                style={{
+                  background: 'var(--surface-secondary)',
+                  border: '1px solid var(--separator-opaque)',
+                }}
+              >
                 <div className="flex items-center gap-2 mb-4">
-                  <span className={`w-2 h-2 rounded-full ${c.dot}`} />
-                  <h3 className="font-bold text-ink text-sm">{c.vendor}</h3>
-                  <span className="ml-auto text-xs text-slate-400">{c.items.length} certs</span>
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ background: c.accent }}
+                  />
+                  <h3
+                    className="font-semibold text-[13px] tracking-[-0.01em]"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
+                    {c.vendor}
+                  </h3>
+                  <span
+                    className="ml-auto text-[11px]"
+                    style={{ color: 'var(--text-tertiary)' }}
+                  >
+                    {c.items.length} certs
+                  </span>
                 </div>
                 <ul className="space-y-1.5">
                   {c.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-slate-600">
-                      <svg className="h-3.5 w-3.5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 text-[12px]"
+                      style={{ color: 'var(--text-secondary)' }}
+                    >
+                      <svg
+                        className="h-3.5 w-3.5 mt-0.5 flex-shrink-0"
+                        style={{ color: '#34C759' }}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2.5}
+                      >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                       {item}
@@ -262,21 +383,30 @@ export default function AboutPage() {
         </section>
 
         {/* ── CTA ──────────────────────────────────── */}
-        <section className="bg-ink rounded-3xl p-10 md:p-14 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none" />
+        <section
+          className="rounded-3xl p-10 md:p-14 text-center relative overflow-hidden"
+          style={{ background: '#000000' }}
+        >
+          <div
+            className="absolute inset-0 opacity-20 pointer-events-none"
+            style={{ background: 'radial-gradient(ellipse at 30% 50%, #0071E3 0%, transparent 60%)' }}
+          />
           <div className="relative z-10">
-            <p className="text-xs font-semibold text-primary-light uppercase tracking-widest mb-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-3 text-white/50">
               Currently Available
             </p>
-            <h2 className="font-serif text-2xl md:text-3xl text-white font-bold mb-3">
+            <h2
+              className="font-bold text-white mb-3"
+              style={{ fontSize: 'clamp(24px, 4vw, 34px)', letterSpacing: '-0.03em' }}
+            >
               お仕事のご依頼・ご相談
             </h2>
-            <p className="text-slate-400 text-sm mb-8 max-w-sm mx-auto leading-relaxed">
+            <p className="text-white/50 text-[15px] mb-8 max-w-sm mx-auto leading-relaxed">
               クラウド移行・インフラ構築・システム開発など、<br />初回相談は無料です。
             </p>
-            <Link href="/contact" className="btn-primary">
+            <Link href="/contact" className="btn-primary text-[15px]">
               お問い合わせ
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </Link>

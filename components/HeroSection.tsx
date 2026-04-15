@@ -11,29 +11,41 @@ export default function HeroSection({
   backgroundImage = '/img/bg-index.jpg',
   size = 'md',
 }: HeroSectionProps) {
-  const heights = { sm: 'min-h-[280px]', md: 'min-h-[380px]', lg: 'min-h-[500px]' }
+  const heights = { sm: 'min-h-[260px]', md: 'min-h-[360px]', lg: 'min-h-[480px]' }
 
   return (
     <header
-      className={`relative flex items-end pt-16 ${heights[size]}`}
+      className={`relative flex items-end pt-[52px] ${heights[size]}`}
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
-      {/* Multi-layer overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30" />
-      <div className="absolute inset-0 bg-gradient-to-r from-ink/40 to-transparent" />
+      {/* Apple-style dark gradient overlay */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.18) 100%)',
+        }}
+      />
 
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-5 sm:px-8 pb-12">
-        {/* Accent line */}
-        <div className="w-10 h-0.5 bg-primary-light mb-4 animate-fade-up" />
-        <h1 className="font-serif text-4xl md:text-5xl text-white font-bold leading-tight animate-fade-up delay-100">
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-10 pb-12">
+        <div
+          className="w-8 h-0.5 mb-4 rounded-full animate-fade-up"
+          style={{ background: 'var(--apple-blue)' }}
+        />
+        <h1
+          className="font-bold text-white leading-tight animate-fade-up delay-100"
+          style={{ fontSize: 'clamp(32px, 6vw, 48px)', letterSpacing: '-0.03em' }}
+        >
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-3 text-base text-slate-300 max-w-xl animate-fade-up delay-200">
+          <p
+            className="mt-3 text-[15px] text-white/60 max-w-xl animate-fade-up delay-200"
+            style={{ letterSpacing: '-0.01em' }}
+          >
             {subtitle}
           </p>
         )}

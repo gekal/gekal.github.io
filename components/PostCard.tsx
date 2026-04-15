@@ -15,35 +15,52 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
 
   if (featured) {
     return (
-      <article className="group relative bg-ink rounded-2xl overflow-hidden border border-white/5 shadow-xl">
+      <article
+        className="group relative overflow-hidden rounded-2xl"
+        style={{ background: '#1D1D1F' }}
+      >
         {post.background && (
           <div className="absolute inset-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={post.background}
               alt=""
-              className="w-full h-full object-cover opacity-30 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700"
+              className="w-full h-full object-cover opacity-25 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-transparent" />
+            <div className="absolute inset-0" style={{
+              background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)',
+            }} />
           </div>
         )}
-        <div className="relative z-10 p-8 md:p-10 flex flex-col justify-end min-h-[360px]">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-xs font-medium text-primary-light uppercase tracking-widest">Featured</span>
-            <span className="text-slate-600">·</span>
-            <time className="text-xs text-slate-400">{formatDate(post.date)}</time>
+        <div className="relative z-10 p-8 md:p-10 flex flex-col justify-end min-h-[340px]">
+          <div className="flex items-center gap-2 mb-3">
+            <span
+              className="text-[11px] font-semibold uppercase tracking-[0.1em]"
+              style={{ color: 'var(--apple-blue)' }}
+            >
+              Featured
+            </span>
+            <span className="text-white/20">·</span>
+            <time className="text-[12px] text-white/40">{formatDate(post.date)}</time>
           </div>
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-white leading-snug mb-3 group-hover:text-primary-light transition-colors">
+          <h2
+            className="font-bold text-white leading-snug mb-3 group-hover:text-white/85 transition-colors"
+            style={{ fontSize: 'clamp(20px, 3vw, 28px)', letterSpacing: '-0.02em' }}
+          >
             <Link href={`/posts/${post.slug}`} className="after:absolute after:inset-0">
               {post.title}
             </Link>
           </h2>
-          <p className="text-slate-400 text-sm leading-relaxed line-clamp-2 mb-5 max-w-2xl">
+          <p className="text-[14px] text-white/50 leading-relaxed line-clamp-2 mb-5 max-w-2xl">
             {post.excerpt}
           </p>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="text-xs text-slate-400 bg-white/8 px-2.5 py-1 rounded-full">
+              <span
+                key={tag}
+                className="text-[12px] text-white/40 rounded-full px-2.5 py-1"
+                style={{ background: 'rgba(255,255,255,0.08)' }}
+              >
                 #{tag}
               </span>
             ))}
@@ -56,7 +73,7 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
   return (
     <article className="group card overflow-hidden">
       {post.background && (
-        <div className="h-44 overflow-hidden bg-slate-100">
+        <div className="h-44 overflow-hidden" style={{ background: '#F5F5F7' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={post.background}
@@ -66,26 +83,30 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
         </div>
       )}
 
-      <div className={`p-6 ${!post.background ? 'pt-7' : ''}`}>
-        {/* Left accent on hover */}
-        <div className="absolute left-0 top-0 w-0.5 h-0 bg-primary rounded-full group-hover:h-full transition-all duration-300" />
-
+      <div className={`p-5 ${!post.background ? 'pt-6' : ''}`}>
         <div className="flex items-center gap-2 mb-3">
-          <time className="text-xs text-slate-400 font-medium" dateTime={post.date}>
+          <time
+            className="text-[12px] font-medium"
+            style={{ color: 'var(--text-tertiary)' }}
+            dateTime={post.date}
+          >
             {formatDate(post.date)}
           </time>
           {tags.slice(0, 2).map((tag) => (
-            <span key={tag} className="tag">{tag}</span>
+            <span key={tag} className="tag text-[11px]">{tag}</span>
           ))}
         </div>
 
-        <h2 className="font-serif text-base font-bold text-ink leading-snug mb-2.5 group-hover:text-primary transition-colors duration-200">
+        <h2
+          className="font-semibold leading-snug mb-2 group-hover:opacity-70 transition-opacity duration-200"
+          style={{ color: 'var(--text-primary)', fontSize: '15px', letterSpacing: '-0.01em' }}
+        >
           <Link href={`/posts/${post.slug}`} className="after:absolute after:inset-0">
             {post.title}
           </Link>
         </h2>
 
-        <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">
+        <p className="text-[13px] leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
           {post.excerpt}
         </p>
       </div>

@@ -3,12 +3,12 @@ import { getSortedPostsData } from '@/lib/posts'
 import PostCard from '@/components/PostCard'
 
 const badges = [
-  { label: 'AWS', sub: '5 certs' },
-  { label: 'GCP', sub: '5 certs' },
-  { label: 'Azure', sub: '6 certs' },
-  { label: 'CKAD', sub: 'Kubernetes' },
-  { label: 'Java', sub: 'Spring Boot' },
-  { label: 'DevOps', sub: 'CI/CD' },
+  { label: 'AWS', sub: '5 certs', color: '#FF9500' },
+  { label: 'GCP', sub: '5 certs', color: '#34A853' },
+  { label: 'Azure', sub: '6 certs', color: '#0078D4' },
+  { label: 'CKAD', sub: 'Kubernetes', color: '#326CE5' },
+  { label: 'Java', sub: 'Spring Boot', color: '#F89820' },
+  { label: 'DevOps', sub: 'CI/CD', color: '#6E6E73' },
 ]
 
 export default function HomePage() {
@@ -20,46 +20,48 @@ export default function HomePage() {
     <>
       {/* ── Hero ─────────────────────────────────── */}
       <section
-        className="relative min-h-screen flex flex-col justify-end pt-16"
+        className="relative min-h-screen flex flex-col justify-end pt-[52px]"
         style={{
           backgroundImage: 'url(/img/bg-index.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/50 to-transparent" />
+        {/* Dark overlay — Apple-style gradient */}
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.15) 100%)',
+        }} />
 
         {/* Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 pb-20 w-full">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-2 mb-6 animate-fade-up">
-              <span className="w-6 h-px bg-primary-light" />
-              <span className="text-xs font-medium text-primary-light uppercase tracking-widest">
-                フリーランスエンジニア
-              </span>
-            </div>
+        <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-10 pb-24 w-full">
+          <div className="max-w-xl">
+            <p className="text-xs font-medium text-white/60 uppercase tracking-[0.12em] mb-5 animate-fade-up">
+              フリーランスエンジニア
+            </p>
 
-            <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl text-white font-bold leading-none tracking-tight animate-fade-up delay-100">
+            <h1
+              className="text-white font-bold leading-none tracking-tight animate-fade-up delay-100"
+              style={{ fontSize: 'clamp(64px, 10vw, 96px)', letterSpacing: '-0.03em' }}
+            >
               鴻鷹
             </h1>
 
-            <p className="mt-5 text-lg md:text-xl text-slate-300 font-light leading-relaxed animate-fade-up delay-200">
+            <p className="mt-5 text-[19px] text-white/80 font-light leading-relaxed animate-fade-up delay-200"
+               style={{ letterSpacing: '-0.01em' }}>
               良い未来のため、頑張っています。
             </p>
-            <p className="mt-2 text-sm text-slate-400 animate-fade-up delay-300">
+            <p className="mt-1.5 text-[13px] text-white/50 tracking-wide animate-fade-up delay-300">
               Cloud Architecture · DevOps · Backend Engineering
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3 animate-fade-up delay-400">
-              <Link href="/about" className="btn-primary">
+            <div className="mt-9 flex flex-wrap gap-3 animate-fade-up delay-400">
+              <Link href="/about" className="btn-primary text-[15px]">
                 プロフィールを見る
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
-              <Link href="/posts" className="btn-outline">
+              <Link href="/posts" className="btn-outline text-[15px] border-white/50 text-white hover:bg-white/10 hover:border-white">
                 技術ブログ
               </Link>
             </div>
@@ -67,24 +69,33 @@ export default function HomePage() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-          <svg className="h-5 w-5 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+          <svg className="h-4 w-4 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
       </section>
 
       {/* ── Skill badges ─────────────────────────── */}
-      <section className="bg-ink-soft border-b border-white/5">
-        <div className="max-w-5xl mx-auto px-5 sm:px-8 py-5">
-          <div className="flex flex-wrap justify-center gap-3">
-            {badges.map(({ label, sub }) => (
+      <section style={{ background: 'var(--surface-secondary)', borderBottom: '1px solid var(--separator-opaque)' }}>
+        <div className="max-w-5xl mx-auto px-6 sm:px-10 py-6">
+          <div className="flex flex-wrap justify-center gap-2.5">
+            {badges.map(({ label, sub, color }) => (
               <div
                 key={label}
-                className="flex items-center gap-2 bg-white/5 hover:bg-primary/15 border border-white/8 hover:border-primary/30 rounded-full px-4 py-2 transition-all duration-200 cursor-default"
+                className="flex items-center gap-2 rounded-full px-4 py-2 transition-all duration-200 cursor-default"
+                style={{
+                  background: 'white',
+                  border: '1px solid var(--separator-opaque)',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+                }}
               >
-                <span className="text-sm font-semibold text-white">{label}</span>
-                <span className="text-xs text-slate-500">{sub}</span>
+                <span
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: color }}
+                />
+                <span className="text-[13px] font-semibold" style={{ color: 'var(--text-primary)' }}>{label}</span>
+                <span className="text-[12px]" style={{ color: 'var(--text-tertiary)' }}>{sub}</span>
               </div>
             ))}
           </div>
@@ -92,15 +103,20 @@ export default function HomePage() {
       </section>
 
       {/* ── Posts ────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 py-20">
+      <section className="max-w-5xl mx-auto px-6 sm:px-10 py-20">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-1">Latest</p>
+            <p
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-1.5"
+              style={{ color: 'var(--apple-blue)' }}
+            >
+              Latest
+            </p>
             <h2 className="section-heading">最新記事</h2>
           </div>
-          <Link href="/posts" className="btn-ghost text-slate-500 hover:text-primary hidden sm:flex">
+          <Link href="/posts" className="btn-ghost hidden sm:flex text-[13px]">
             すべての記事
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -108,7 +124,7 @@ export default function HomePage() {
 
         {/* Featured */}
         {featured && (
-          <div className="mb-6">
+          <div className="mb-5">
             <PostCard post={featured} featured />
           </div>
         )}
@@ -123,9 +139,9 @@ export default function HomePage() {
         </div>
 
         <div className="mt-8 text-center sm:hidden">
-          <Link href="/posts" className="btn-ghost text-slate-500 hover:text-primary">
+          <Link href="/posts" className="btn-ghost text-[13px]">
             すべての記事を見る
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -133,34 +149,46 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-ink mx-4 sm:mx-8 mb-8 rounded-3xl">
+      <section className="px-5 sm:px-8 mb-10">
         <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: 'url(/img/bg-contact.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-ink" />
+          className="relative overflow-hidden rounded-3xl"
+          style={{ background: 'var(--apple-dark-bg, #000000)' }}
+        >
+          <div
+            className="absolute inset-0 opacity-15"
+            style={{
+              backgroundImage: 'url(/img/bg-contact.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          {/* Subtle blue glow */}
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{ background: 'radial-gradient(ellipse at 30% 50%, #0071E3 0%, transparent 60%)' }}
+          />
 
-        <div className="relative z-10 px-8 py-16 md:py-20 text-center">
-          <p className="text-xs font-semibold text-primary-light uppercase tracking-widest mb-3">
-            Freelance Available
-          </p>
-          <h2 className="font-serif text-3xl md:text-4xl text-white font-bold mb-4">
-            お仕事のご相談
-          </h2>
-          <p className="text-slate-400 max-w-md mx-auto mb-8 leading-relaxed">
-            クラウド構築・システム開発・DevOps 環境整備など、<br />
-            お気軽にご相談ください。初回相談は無料です。
-          </p>
-          <Link href="/contact" className="btn-primary text-sm px-8 py-3">
-            お問い合わせ
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
+          <div className="relative z-10 px-8 py-16 md:py-20 text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-3 text-white/50">
+              Freelance Available
+            </p>
+            <h2
+              className="font-bold text-white mb-4"
+              style={{ fontSize: 'clamp(28px, 5vw, 44px)', letterSpacing: '-0.03em' }}
+            >
+              お仕事のご相談
+            </h2>
+            <p className="text-white/60 max-w-md mx-auto mb-9 leading-relaxed text-[15px]">
+              クラウド構築・システム開発・DevOps 環境整備など、<br />
+              お気軽にご相談ください。初回相談は無料です。
+            </p>
+            <Link href="/contact" className="btn-primary text-[15px] px-8 py-3">
+              お問い合わせ
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
     </>
