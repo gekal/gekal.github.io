@@ -1,151 +1,133 @@
 ---
-title: 素早く Spring Cloud Dataflow @ Minikuber を構築しましょう
+title: minikube に Spring Cloud Data Flow を素早く構築する
+subtitle: Helm を使ってローカルの Kubernetes 上にデータパイプライン基盤を立てる
 layout: post
 date:   2019-04-13T16:00:00+0900
 update: 2020-04-13T23:00:00+0900
 categories: blogs
-tags: Spring Cloud Dataflow Minikube
+tags: spring-cloud-dataflow kubernetes minikube helm
 ---
 
-## [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/)とは
+## Spring Cloud Data Flow とは
 
-Spring Cloud Data Flow is a toolkit for building data integration and real-time data processing pipelines.
+[Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/) は、データ連携やリアルタイムデータ処理のパイプラインを構築するためのツールキットです。ストリーム処理やバッチ処理を、GUI やコマンドから宣言的に組み立てられます。
 
-## 環境
+ここでは、ローカルの minikube 上に Helm を使って Spring Cloud Data Flow（SCDF）を構築します。
 
-1. macOS Mojve
-2. [minikube(v1.0.0)]({% post_url 2019-04-12-minikube-over-virtualbox %})
-   1. Kubernetes(v1.14.0)
-3. [helm](https://helm.sh/)(v2.13.1)
+## 前提環境
+
+1. macOS
+2. [minikube](/posts/2019-04-12-minikube-over-virtualbox/)（Kubernetes v1.14.0）
+3. [Helm](https://helm.sh/)（v2.13.1）
 
     ```bash
-    # macOS
-    brew install kubernetes-helm
+    brew install helm
     ```
 
-### 環境起動
+## クラスタの起動
+
+SCDF は複数のコンポーネント（サーバー、MySQL、RabbitMQ など）を同時に動かすため、デフォルトの 2GB では足りません。**4GB 以上** を割り当てて minikube を起動します。
 
 ```bash
-# デフォルトの２Gが不足ので、⭐️4G以上⭐️をご指定ください。
 minikube start --memory 4096
 ```
 
-> ver2
+## Helm でのインストール
+
+Helm のバージョンによって手順が異なります。LoadBalancer は minikube では使えないため、サービスタイプを `NodePort` に変更する点が共通のポイントです。
+
+**Helm 2 系の場合**
 
 ```bash
-# minikube(namespace:kube-system)にhelmsサーバー（tiller）のサービスをインストール
+# minikube に Helm のサーバー（tiller）を初期化
 helm init
 
-# LoadBalanceが使えないため、NodePortへ変更ください。
-helm install --name my-release --set server.service.type=NodePort stable/spring-cloud-data-flow
+helm install --name my-release \
+  --set server.service.type=NodePort \
+  stable/spring-cloud-data-flow
 ```
 
-> ver3
+**Helm 3 系の場合**
 
 ```bash
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 
-# LoadBalanceが使えないため、NodePortへ変更ください。
-helm install my-release --set server.service.type=NodePort stable/spring-cloud-data-flow
+helm install my-release \
+  --set server.service.type=NodePort \
+  stable/spring-cloud-data-flow
 ```
 
-### 環境確認
+## 起動の確認
 
-1. mysql
+以下のコンポーネントが立ち上がります。
 
-    ```text
-    An RDBMS service for the application registry, stream and task repositories, and task management.
-    ```
+- **mysql** — アプリケーションレジストリやストリーム／タスクのリポジトリを保持する RDBMS
+- **rabbitmq** — メッセージングミドルウェア
+- **server** — SCDF 本体のサーバー
+- **skipper** — アプリのライフサイクル管理を担うコンポーネント
 
-2. rabbitmq
-
-    ```text
-    A messaging middleware
-    ```
-
-3. server
-4. skipper
-
-    ```text
-    Skipper is a tool that allows you to discover applications and manage their lifecycle on multiple Cloud Platforms.
-    ```
-
-    > Podsステータスが全部Runningになっている。
-
-    ```bash
-    $ kubectl get pods
-    NAME                                           READY   STATUS    RESTARTS   AGE
-    my-release-data-flow-server-96fccf48c-992mn    1/1     Running   0          105m
-    my-release-data-flow-skipper-6c584bb9d-s5pxv   1/1     Running   0          105m
-    my-release-mysql-85bfd59986-jgsqg              1/1     Running   0          105m
-    my-release-rabbitmq-5657497d7c-ljwms           1/1     Running   0          105m
-    ```
-
-## GUIへのアクセス
-
-## kubectlで調べ
-
-> アクセスURL（http://<minikubeのIP>:<scdfのServerのNodePort>/dashboard）
-
-1. HTTP
-2. MinikuberのIP
-
-   ```bash
-    $ minikube ip
-    192.168.99.102
-    ```
-
-3. Data Flow Serverのkubernetes serverのNodePort
-
-    ```bash
-    $ kubectl get services -o wide -l app=spring-cloud-data-flow,component=server
-    NAME                          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE   SELECTOR
-    my-release-data-flow-server   NodePort   10.101.21.115   <none>        80:30553/TCP   29m   app=spring-cloud-data-flow,component=server,release=my-release
-    ```
-
-### minikubeで調べ
+すべての Pod が `Running` になれば準備完了です。
 
 ```bash
+$ kubectl get pods
+NAME                                           READY   STATUS    RESTARTS   AGE
+my-release-data-flow-server-96fccf48c-992mn    1/1     Running   0          105m
+my-release-data-flow-skipper-6c584bb9d-s5pxv   1/1     Running   0          105m
+my-release-mysql-85bfd59986-jgsqg              1/1     Running   0          105m
+my-release-rabbitmq-5657497d7c-ljwms           1/1     Running   0          105m
+```
+
+## GUI へのアクセス
+
+アクセス URL は `http://<minikube の IP>:<サーバーの NodePort>/dashboard` の形になります。IP とポートを個別に調べてもよいのですが、minikube には URL を組み立ててくれる便利なコマンドがあります。
+
+```bash
+# サービスの URL を取得
 $ minikube service --url my-release-data-flow-server
 http://192.168.99.102:30553
 
-# Macで下記のコマンドを使って、デフォルトのブラウザを開く
+# デフォルトブラウザでダッシュボードを開く
 $ open $(minikube service --url my-release-data-flow-server)/dashboard
 ```
 
-### GUI画面
+![Spring Cloud Data Flow の GUI](/assets/imgs/blogs/2019-04-13/spring-cloud-data-flow-gui.png)
 
-![Spring Cloud Data Flow GUI](/assets/imgs/blogs/2019-04-13/spring-cloud-data-flow-gui.png)
+## デモ：ストリームを作る
 
-## デモ
+**1. アプリの登録**
 
-1. App登録
+まず、利用するストリーム／タスク用アプリをまとめて登録します。
 
-    ```bash
-    wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=https://dataflow.spring.io/rabbitmq-docker-latest&force=true";
-    echo "Stream apps imported"
-    wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" --post-data="uri=https://dataflow.spring.io/task-docker-latest&force=true";
-    echo "Task apps imported"
-    ```
+```bash
+wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" \
+  --post-data="uri=https://dataflow.spring.io/rabbitmq-docker-latest&force=true"
+echo "Stream apps imported"
 
-2. Stream作成
+wget -qO- "$(minikube service --url my-release-data-flow-server)/apps" \
+  --post-data="uri=https://dataflow.spring.io/task-docker-latest&force=true"
+echo "Task apps imported"
+```
 
-    [official's demo](https://cloud.spring.io/spring-cloud-dataflow/)をご参考ください。
+**2. ストリームの作成**
 
-    ![create ticktock stream](/assets/imgs/blogs/2019-04-13/create-ticktock-stream.png)
+公式デモにならって、`time | log`（時刻を生成してログに流す）という定番のストリームを作成します。
 
-    ```bash
-    $ kubectl get deployment
-    NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
-    my-release-data-flow-server    1/1     1            1           19h
-    my-release-data-flow-skipper   1/1     1            1           19h
-    my-release-mysql               1/1     1            1           19h
-    my-release-rabbitmq            1/1     1            1           19h
-    ticktock-log-v1                1/1     1            1           2m17s
-    ticktock-time-v1               1/1     1            1           2m17s
-    ```
+![ticktock ストリームの作成](/assets/imgs/blogs/2019-04-13/create-ticktock-stream.png)
 
-## 参照URL
+デプロイすると、ストリームを構成するアプリが Deployment として増えていることを確認できます。
+
+```bash
+$ kubectl get deployment
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+my-release-data-flow-server    1/1     1            1           19h
+my-release-data-flow-skipper   1/1     1            1           19h
+my-release-mysql               1/1     1            1           19h
+my-release-rabbitmq            1/1     1            1           19h
+ticktock-log-v1                1/1     1            1           2m17s
+ticktock-time-v1               1/1     1            1           2m17s
+```
+
+## 参照
 
 1. [Getting Started - Kubernetes](http://docs.spring.io/spring-cloud-dataflow/docs/2.0.2.RELEASE/reference/htmlsingle/#getting-started-kubernetes)
-2. [helm charts](https://github.com/helm/charts/tree/master/incubator/spring-cloud-data-flow)
+2. [Helm charts（spring-cloud-data-flow）](https://github.com/helm/charts/tree/master/incubator/spring-cloud-data-flow)

@@ -1,25 +1,34 @@
 ---
-title: Amazon Virtual Private Cloud (VPC)
+title: Amazon VPC の学習リソース（AWS Black Belt）
+subtitle: VPC の基礎と応用を学べる公式ウェビナー資料まとめ
 layout: post
 date:   2019-08-01T23:00:00+0900
 categories: blogs
-tags: aws vpc
+tags: aws vpc network
 ---
 
-## Webinar 資料
+## Amazon VPC とは
 
-1. Amazon Virtual Private Cloud (VPC) Basic(2019/03/13)
+Amazon VPC（Virtual Private Cloud）は、AWS クラウド内に **論理的に隔離された自分専用の仮想ネットワーク** を構築できるサービスです。IP アドレス範囲（CIDR）の設定、サブネットの分割、ルートテーブルやゲートウェイの構成などを自分でコントロールでき、EC2 をはじめとする多くのリソースの土台になります。
 
-    > [Slide(PDF)](https://d1.awsstatic.com/webinars/jp/pdf/services/20190313_AWS-BlackBelt-VPC.pdf)
+VPC はネットワークの基礎知識が絡むため、独学だと全体像をつかみにくい分野です。AWS 公式の **Black Belt Online Seminar** が基礎から応用まで体系的にまとまっているので、学習リソースとして残しておきます。
 
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/aHEVvsk6pkI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## 基礎編（2019/03/13）
 
-2. Amazon Virtual Private Cloud (VPC) Advanced(2019/04/17)
+VPC の全体像、サブネット、ルーティング、セキュリティグループと NACL といった基本を押さえられます。
 
-    > [Slide(PDF)](https://d1.awsstatic.com/webinars/jp/pdf/services/20190417_AWS-BlackBelt-VPC-Advanced.pdf)
+> [スライド（PDF）](https://d1.awsstatic.com/webinars/jp/pdf/services/20190313_AWS-BlackBelt-VPC.pdf)
 
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/WCq_2-zkV44" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aHEVvsk6pkI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## 応用編（2019/04/17）
+
+VPC ピアリング、エンドポイント、Transit Gateway など、複数 VPC やオンプレミス連携を含む発展的なトピックを扱います。
+
+> [スライド（PDF）](https://d1.awsstatic.com/webinars/jp/pdf/services/20190417_AWS-BlackBelt-VPC-Advanced.pdf)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/WCq_2-zkV44" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## 参照
 
-1. [AWS サービス別資料](https://aws.amazon.com/jp/aws-jp-introduction/aws-jp-webinar-service-cut/)
+1. [AWS サービス別資料（AWS Black Belt Online Seminar）](https://aws.amazon.com/jp/aws-jp-introduction/aws-jp-webinar-service-cut/)

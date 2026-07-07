@@ -1,51 +1,63 @@
 ---
 layout: post
-title:  "楽々ローカルDocker環境構築"
+title:  "Vagrant で楽々ローカル Docker 環境を構築する"
+subtitle: Windows / macOS 上に VirtualBox の Linux VM を立てて Docker を動かす
 date:   2018-09-19T00:47:00+0900
 categories: blogs
-tags: choco package
+tags: vagrant virtualbox docker
 ---
 
-## 楽々ローカルDocker環境構築
+## なぜ Vagrant で構築するのか
 
-### 前提条件
+当時の Docker はネイティブでは Linux 上でしか動かず、Windows や macOS で使うには次の 2 つの方法が一般的でした。
 
-* Window/Macos
-* Vagrant
-* virtual box
-  * [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest)
-  * [vagrant-proxyconf](https://github.com/tmatilai/vagrant-proxyconf)
-  * [vagrant-teraterm](https://github.com/tiibun/vagrant-teraterm)
-* Tera Term
+1. [Docker for Windows](https://docs.docker.com/desktop/) / Docker for Mac を使う
+2. VirtualBox などの仮想マシン上に Linux を立て、その中で Docker を動かす
 
-### なぜ必要
+1 の方法は手軽ですが、専用ソフトのインストールが必要で、なおかつ本番でよく使う Linux 上の操作とは細かい部分で差異があります。実運用と同じ Linux 環境で検証したい場合は、2 の「Linux VM を立てる」方法のほうが素直です。
 
-DockerがWindows/Macosをサポートしませんのため、WindowsのユーザがDockerを利用する場合、
+そこで、VM の作成から Docker のインストールまでを **Vagrant** でコード化し、`vagrant up` 一発で再現できるようにします。
 
-1. [Docker for Windows](https://docs.docker.com/docker-for-windows/)
-2. LinuxのVM上で構築
+## 前提条件
 
-が一般だと思います。
+以下をインストールしておきます。
 
-１の場合、ローカルにDocker for Windowsソフトをインストールしないといけないと加えて、Linuxでの操作と若干違うともあります。
+- Windows または macOS
+- [Vagrant](https://www.vagrantup.com/)
+- [VirtualBox](https://www.virtualbox.org/)
+- 便利な Vagrant プラグイン
+  - [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) — Guest Additions の自動更新
+  - [vagrant-proxyconf](https://github.com/tmatilai/vagrant-proxyconf) — プロキシ設定の自動反映
+  - [vagrant-teraterm](https://github.com/tiibun/vagrant-teraterm) — Tera Term 連携
+- Tera Term（Windows で SSH 接続する場合）
 
-### 環境構築
+## 環境構築
 
-> 前提条件がクリスされること
+前提条件が整ったら、以下のリポジトリをクローンし、`centos7-docker-ce` フォルダへ移動します。
 
-下記のリポジトリをローカルにクローンして、centos7-docker-ceフォルダーに移動する。
+```bash
+git clone https://github.com/gekal/vagrant-local-env-dev.git
+cd vagrant-local-env-dev/centos7-docker-ce
+```
 
-    https://github.com/gekal/vagrant-local-env-dev.git
+あとは起動コマンドを実行するだけです。初回は Box のダウンロードと Docker のインストールが走るため、少し時間がかかります。
 
-    ```powershell
-    # 開始コマンド
-    vagrant up
-    ```
+```bash
+# VM の作成・起動・プロビジョニングを一括実行
+vagrant up
+```
 
-### その他
+完了したら `vagrant ssh` で VM に入り、`docker version` で Docker が動いていることを確認できます。
 
-社内で利用する場合、プロキシを通すのは一般です。下記の環境変数を設定すれば、ネット周りを意識せず使えます。
+## プロキシ環境での利用
 
-    ```conf
-    http_proxy="http://username:passwd@proxyserver:8080"
-    ```
+社内ネットワークなどプロキシ経由でインターネットに出る環境では、以下の環境変数を設定しておくと、VM 内からもネットワークを意識せずにパッケージ取得や `docker pull` ができます（前述の `vagrant-proxyconf` を併用するとさらに楽になります）。
+
+```conf
+http_proxy="http://username:passwd@proxyserver:8080"
+https_proxy="http://username:passwd@proxyserver:8080"
+```
+
+## まとめ
+
+VM の構築を Vagrant でコード化しておけば、マシンを変えても `vagrant up` だけで同じ Docker 環境が手に入ります。使い終わったら `vagrant destroy` できれいに片付けられるのも、ローカル環境を汚さずに済んで気持ちが良いポイントです。

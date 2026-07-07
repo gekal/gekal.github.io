@@ -1,13 +1,19 @@
 ---
-title: SSHの公開鍵認証を有効(For Raspberry PI)
+title: SSH 公開鍵認証を有効にする（Raspberry Pi）
+subtitle: パスワードなしで安全に SSH ログインできるようにする
 layout: post
-auther: gekal
 date:   2020-04-07T20:14:00+0900
 categories: blogs
-tags: ssh "public key" raspebrrypi
+tags: ssh public-key raspberry-pi
 ---
 
-## SSH認証用キーを作成
+## はじめに
+
+パスワード認証での SSH は手軽ですが、総当たり攻撃に弱く、毎回パスワードを入力する手間もあります。公開鍵認証に切り替えれば、より安全に、かつパスワード入力なしでログインできます。ここでは Raspberry Pi を例に、公開鍵認証を有効にする手順をまとめます。
+
+## 1. 鍵ペアを作成する
+
+クライアント側で SSH の鍵ペア（秘密鍵と公開鍵）を作成します。
 
 ```bash
 $ ssh-keygen
@@ -17,93 +23,64 @@ Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
 Your identification has been saved in /home/gekal/.ssh/id_rsa.
 Your public key has been saved in /home/gekal/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:tlRjt9k73ouJgHxXZOHP+RU1WNvjQWxeitRG+k/YHhI gekal@home
-The key's randomart image is:
-+---[RSA 2048]----+
-|             +=+.|
-|            oo=o*|
-|          +.oEo*o|
-|         o o+=*+=|
-|        S   oo+*+|
-|      .o..  . .=+|
-|       o.o .  o +|
-|        . o ..oo |
-|           . o..o|
-+----[SHA256]-----+
 ```
 
-## Publicキーをホストに登録
+> 秘密鍵（`id_rsa`）は絶対に外部へ渡さないでください。相手に登録するのは公開鍵（`id_rsa.pub`）だけです。
+
+## 2. 公開鍵をサーバーに登録する
+
+`ssh-copy-id` を使うと一発で登録できます（この操作だけはパスワード入力が必要です）。
 
 ```bash
-# ローカルの鍵をリモートサーバーにコピー（パスワードの入力が必要）
 ssh-copy-id -i ~/.ssh/id_rsa.pub pi@raspberrypi.local
 ```
 
-又は
+`ssh-copy-id` が使えない環境では、サーバーにログインして手動で登録します。
 
 ```bash
-# リモートサーバーにログインしてから、公開鍵を書き込む
-$ mkdir ~/.ssh
-$ echo "ssh-rsa public key contents" > ~/.ssh/authorized_keys
-$ chmod 700 ~/.ssh/
-$ chmod 600 ~/.ssh/authorized_keys
-$ cat ~/.ssh/authorized_keys
-ssh-rsa public key contents
+mkdir -p ~/.ssh
+echo "ssh-rsa AAAA... (公開鍵の内容)" >> ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
 ```
 
-## 鍵を使ってログイン
+## 3. 鍵でログインできることを確認する
+
+パスワードを求められずにログインできれば成功です。
 
 ```bash
 $ ssh pi@raspberrypi.local
-Linux raspberrypi 4.19.97-v7l+ #1294 SMP Thu Jan 30 13:21:14 GMT 2020 armv7l
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Tue Apr  7 09:36:16 2020 from 192.168.0.XXX
+Linux raspberrypi 4.19.97-v7l+ ... armv7l
+...
+Last login: Tue Apr  7 09:36:16 2020
 ```
 
-## SSHコンフィグの設定
+## 4. config で接続を簡略化する
 
-> ~/.ssh/config
+`~/.ssh/config` に設定を書いておくと、`ssh raspberrypi.local` だけで接続できます。
 
 ```conf
 Host raspberrypi.local
   HostName raspberrypi.local
   User pi
   Port 22
+  IdentityFile ~/.ssh/id_rsa
+  IdentitiesOnly yes
   UserKnownHostsFile /dev/null
   StrictHostKeyChecking no
   PasswordAuthentication no
-  IdentityFile ~/.ssh/id_rsa
-  IdentitiesOnly yes
   LogLevel FATAL
 ```
 
-```bash
-$ ssh raspberrypi.local
-Linux raspberrypi 4.19.97-v7l+ #1294 SMP Thu Jan 30 13:21:14 GMT 2020 armv7l
+config の各項目の意味は [SSH の config ファイルを使いこなす](/posts/2020-01-01-ssh-config-file/) にまとめています。
 
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
+## VS Code からのリモート接続
 
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Tue Apr  7 09:39:00 2020 from fe80::d80b:e725:e2b5:fa5b%wlan0
-```
+VS Code の Remote-SSH 拡張を使えば、この config をそのまま利用してリモート接続できます。コマンドパレットから「Remote-SSH: Connect to Host...」を実行し、`raspberrypi.local` を選ぶだけです。
 
-## VSCodeからのリモート接続
-
-「`Remote-SSH: Connect to Host...`」のコマンドを実施してから、`raspberrypi.local`をリモート接続ください。
-
-> 初回起動時に、VSCodeサーバーをダウンロードする必要があるので、時間をかかる場合あります。
+> 初回接続時は、リモート側に VS Code Server をダウンロードするため、少し時間がかかります。
 
 ## 参照
 
-1. [CentOS7.3でSSH接続(公開鍵認証)する方法](https://qiita.com/uhooi/items/137de4578534c8e7e7f2)
-2. [SSHコンフィグファイル]({% post_url 2020-01-01-ssh-config-file %})
+1. [CentOS7.3 で SSH 接続（公開鍵認証）する方法](https://qiita.com/uhooi/items/137de4578534c8e7e7f2)
+2. [SSH の config ファイルを使いこなす](/posts/2020-01-01-ssh-config-file/)

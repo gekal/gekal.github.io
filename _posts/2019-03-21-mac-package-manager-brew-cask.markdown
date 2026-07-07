@@ -1,115 +1,89 @@
 ---
-title: Macのパッケージ管理ツール - brewのcask
+title: Homebrew Cask で GUI アプリを管理する
+subtitle: VirtualBox や VS Code などの GUI アプリもコマンドで導入・更新する
 layout: post
 date:   2019-03-21T11:00:00+0900
 categories: blogs
-tags: mac brew cask
+tags: mac homebrew cask
 ---
 
-## 初めに
+## はじめに
 
-HomeBrewの使い方に関して、前に関連の記事を書きました。  
-※ [Macのパッケージ管理ツール - brew]({% post_url 2018-11-09-mac-package-manager-brew %})
+Homebrew の基本的な使い方については、以前に別の記事で紹介しました。
 
-でも、ソフトウェア（VirtualBoxなど）をインストールする時、**Download->Install**の手順でした。ちょっと面倒だと思います。特に、更新する時、手間が掛かり過ぎます。
+- [macOS のパッケージ管理ツール Homebrew](/posts/2018-11-09-mac-package-manager-brew/)
 
-brewのcask機能を使って便利だと感じました。徐々にCaskへ移行しようと思います。備考として、整理します。
+通常の `brew install` はコマンドラインツール向けですが、VirtualBox や VS Code のような **GUI アプリ** をこれまで手動で「サイトからダウンロード → インストーラを実行」していると、更新のたびに手間がかかります。
 
-## Caskのインストール
+そこで登場するのが **Cask** です。GUI アプリも `brew` で一元管理できるようになるので、徐々に Cask へ移行していくことにしました。
 
-## 前提条件
+> 当時は `brew cask install <app>` という書き方でしたが、現在は Cask が本体に統合され、`brew install --cask <app>` に変わっています。以下のコマンドは適宜読み替えてください。
 
-Homebrewのversionが0.9.5以上である。
+## Cask のインストール
+
+### 前提条件
+
+Homebrew が入っていれば、Cask は追加インストールなしでそのまま使えます。バージョンを確認しておきます。
 
 ```bash
 $ brew --version
 Homebrew 2.0.5
-Homebrew/homebrew-core (git revision 9ae4f; last commit 2019-03-20)
-Homebrew/homebrew-cask (git revision 2bc7a; last commit 2019-03-21)
 ```
 
-### caskのインストール
+### 補完機能（任意）
 
-前提条件が満たす場合、すでに使えるはずです。
-
-### 補完機能のインストール
-
-> 検証しなかったが。。。
+コマンド補完を効かせたい場合は、補完用のフォーミュラを入れておきます。
 
 ```bash
-$ brew install brew-cask-completion
-==> Downloading https://github.com/xyb/homebrew-cask-completion/archive/v2.1.tar.gz
-==> Downloading from https://codeload.github.com/xyb/homebrew-cask-completion/tar.gz/v2.1
-######################################################################## 100.0%
-🍺  /usr/local/Cellar/brew-cask-completion/2.1_1: 5 files, 11.0KB, built in 5 seconds
+brew install brew-cask-completion
 ```
 
-## Caskのサブコマンド一覧
+## よく使う Cask のサブコマンド
 
-|  No.  | コマンド | 説明                                   |
-| :---: | :------- | :------------------------------------- |
-|   1   | info     | Caskの情報を取得                       |
-|   2   | list     | インストールしたCask一覧を取得         |
-|   3   | fetch    | Caskをダウンロード                     |
-|   4   | doctor   | 配置のイシューをチェック               |
-|   5   | cleanup  | ダウンロードのキャッシュをクリンアップ |
-|   6   | home     | Caskのホームページを取得               |
-|   7   | zap      | Caskの関連ファイルを削除してみる       |
-|   8   | outdated | アウトデータしたCaskの一覧を取得       |
-|   9   | upgrade  | 全部Caskを更新                         |
+| コマンド | 説明 |
+| --- | --- |
+| `info` | Cask の情報を取得する |
+| `list` | インストール済みの Cask 一覧を表示する |
+| `fetch` | Cask をダウンロードする |
+| `doctor` | 設定の問題をチェックする |
+| `cleanup` | ダウンロードキャッシュを削除する |
+| `home` | Cask のホームページを開く |
+| `zap` | Cask に関連するファイルまで含めて削除する |
+| `outdated` | 更新可能な Cask を一覧する |
+| `upgrade` | すべての Cask を更新する |
 
-## 公式以外のリポジトリ（tap）
+## サードパーティのリポジトリ（tap）
 
-brew tapは、追跡、更新、およびインストールに使用する式のリストにリポジトリを追加します。 
-
-サードパーティ製のアプリをインストールする時、非常に有用だと思う。
-
-### Tabコマンドの説明
-
-1. パラメーターなし
-
-    ```bash
-    # List all installed taps
-    $ brew tap
-    caskroom/versions
-    homebrew/cask
-    homebrew/core
-   ```
-
-2. tap名付き
-
-    ```bash
-    # taps a formula repository
-    $ brew tap <tap_name>
-   ```
-
-## 俺の使用
+`brew tap` は、フォーミュラの取得元となるリポジトリを追加するコマンドです。公式に含まれていないアプリを入れたいときに役立ちます。
 
 ```bash
-# sublime
-brew tap caskroom/homebrew-versions
-brew cask install sublime-text3
+# インストール済みの tap を一覧
+$ brew tap
 
-# Visual Studio Code
-brew cask install visual-studio-code
-
-# Oracle VM VirtualBox
-brew cask install virtualbox
-
-# Vagrant by HashiCorp
-brew cask install vagrant
-
-# iTerm2
-brew cask install iterm2
-
-# Docker
-brew cask install docker
-
-# openjdk
-brew cask install java
+# 任意のリポジトリを追加
+$ brew tap <tap_name>
 ```
+
+## 私がよく入れているアプリ
+
+開発環境のセットアップでは、だいたい以下を一括で入れています。
+
+```bash
+# エディタ
+brew install --cask visual-studio-code
+
+# 仮想化・コンテナ
+brew install --cask virtualbox
+brew install --cask vagrant
+brew install --cask docker
+
+# ターミナル
+brew install --cask iterm2
+```
+
+新しい Mac をセットアップするときも、このコマンドを流すだけで一気に環境が整います。
 
 ## 参照
 
-1. [How to Use Homebrew Cask](https://github.com/Homebrew/homebrew-cask/blob/master/USAGE.md)
+1. [Homebrew Cask の使い方](https://github.com/Homebrew/homebrew-cask)
 2. [Taps (third-party repositories)](https://github.com/Homebrew/brew/blob/master/docs/Taps.md)

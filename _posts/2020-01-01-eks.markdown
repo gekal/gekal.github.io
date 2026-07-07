@@ -1,15 +1,36 @@
 ---
-title: EKSまとめ
+title: Amazon EKS の概要
+subtitle: AWS のフルマネージド Kubernetes サービスをざっくり把握する
 layout: post
 date:   2020-01-01T11:05:00+0900
 categories: blogs
-tags: Amazon Elastic Kubernetes Service
+tags: aws eks kubernetes
 ---
 
-## EKS(Amazon Elastic Kubernetes Service)
+## Amazon EKS とは
 
-Amazon Elastic Kubernetes Service (Amazon EKS) 是一项完全托管的 Kubernetes 服务。
+Amazon EKS（Elastic Kubernetes Service）は、AWS が提供するフルマネージドの Kubernetes サービスです。
+
+Kubernetes を自前で運用しようとすると、コントロールプレーン（API サーバーや etcd など）の構築・冗長化・アップグレードといった重い作業が発生します。EKS はこのコントロールプレーンを AWS が管理してくれるため、利用者はアプリケーションと、それを動かすワーカーノードに集中できます。
+
+### 主な特徴
+
+- **コントロールプレーンのマネージド化** — マスターの可用性やパッチ適用を AWS が担う
+- **AWS サービスとの統合** — IAM による認証認可、VPC ネットワーキング、ELB との連携などがネイティブに使える
+- **標準の Kubernetes** — 独自フォークではなくアップストリームの Kubernetes なので、既存のマニフェストやツールがそのまま使える
+- **ノードの選択肢** — 自前管理のノードグループのほか、サーバーレスの [AWS Fargate](https://aws.amazon.com/jp/fargate/) でノード管理自体をなくすこともできる
+
+### 学習の始め方
+
+まずは [eksctl](https://eksctl.io/) を使うのが手軽です。1 コマンドでクラスタ一式（VPC・ノードグループを含む）を作成でき、Kubernetes の学習に集中できます。
+
+```bash
+eksctl create cluster --name my-cluster --region ap-northeast-1
+```
+
+ハンズオンで体系的に学びたい場合は、下記の EKS Workshop がおすすめです。
 
 ## 参照
 
-1. [Amazon EKS Workshop](https://eksworkshop.com/)
+1. [Amazon EKS 公式ドキュメント](https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/what-is-eks.html)
+2. [Amazon EKS Workshop](https://www.eksworkshop.com/)
