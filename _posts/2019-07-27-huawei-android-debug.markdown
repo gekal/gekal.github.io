@@ -1,58 +1,55 @@
 ---
-title: HUAWEI端末のUSBデバッグ
+title: HUAWEI 端末で USB デバッグを有効にする
+subtitle: HiSuite の導入から開発者オプション・HDB 許可までの手順
 layout: post
 date:   2019-07-27T11:00:00+0900
 categories: blogs
-tags: huawei andorid usb debug
+tags: huawei android usb-debug
 ---
 
-## Huawei HiSuiteのインストール
+## はじめに
 
-1. [Huawei HiSuite](http://consumer.huawei.com/minisite/hi-suite/)をダウンロード
-2. zipファイルを解凍して、インストールを実行
-   > デフォル設定でも問題がありません。
-3. 初回起動時、更新が尋ねる場合、更新ください。
+Android アプリを実機でデバッグするには USB デバッグを有効にする必要があります。HUAWEI 端末は独自の **HDB（Huawei Debug Bridge）** 許可が絡むため、一般的な Android とは少し手順が異なります。ここでは HUAWEI 端末で実機デバッグを有効にするまでの流れをまとめます。
 
-## 開発者向けオプション
+## HiSuite のインストール（PC 側）
 
-1. 「設定」をタップ
-2. 「システム」をタップ
-3. 「端末情報」をタップ
-4. 「ビルド番号」を連打
-5. 「デベロッパーになりました」的なトーストが表示される
+1. [Huawei HiSuite](http://consumer.huawei.com/minisite/hi-suite/) をダウンロードする
+2. zip を解凍してインストーラを実行する（デフォルト設定で問題ありません）
+3. 初回起動時に更新を求められたら、更新しておく
 
-## HiSuiteのHDB許可を取り消し
+## 開発者オプションを有効にする
 
-1. 「設定」をタップ
-2. 「セキュリティとプライバシー」をタップ
-3. 「端末情報」をタップ
-4. 「その他の設定」をタップ
-5. 「HiSuiteのHDB許可を取り消し」をオンに設定
+1. 「設定」を開く
+2. 「システム」→「端末情報」を開く
+3. 「ビルド番号」を連打する
+4. 「デベロッパーになりました」というトーストが表示されれば有効
 
-## USBデバッグモード
+## HiSuite の HDB 許可を設定する
 
-1. 「設定」をタップ
-2. 「システム」をタップ
-3. 「開発者オプション」をタップ
-4. デバッグカテゴリーの下記のオプションをオンにする
-    1. USBデバッグ
-    2. 充電専用モードADBデバッグを許可する
+1. 「設定」→「セキュリティとプライバシー」を開く
+2. 「その他の設定」を開く
+3. 「HiSuite の HDB 許可」をオンにする
 
-## PCからHiSuiteの許可
+## USB デバッグを有効にする
 
-![HUAWEI-HDB有効オプション](/assets/imgs/blogs/2019-07-27/huawei-android-HDB-option.jpg)
+1. 「設定」→「システム」→「開発者オプション」を開く
+2. デバッグ項目の以下をオンにする
+    - USB デバッグ
+    - 「充電のみ」モードでの ADB デバッグを許可する
 
-> 特別な理由がない限り、「このPCからのHiSuite接続を常に許可する」をオンにするでしょう。
+## PC からの接続を許可する
 
----
+端末を USB で接続すると、PC からの接続を許可するかどうかの確認が表示されます。
 
-これで、アンドロイド実機のデバッグが有効にしました。
+![HUAWEI HDB 有効化オプション](/assets/imgs/blogs/2019-07-27/huawei-android-HDB-option.jpg)
 
----
+> 特別な理由がなければ「この PC からの接続を常に許可する」をオンにしておくと、以降は毎回確認されずに済みます。
+
+これで、Android 実機でのデバッグが有効になりました。
 
 ## 動作確認
 
-> [Flutter環境構築（Windows）]({% post_url 2019-07-25-flutter-isntall-windows %})の動作確認サンプルで確認
+[Flutter の環境構築（Windows）](/posts/2019-07-25-flutter-isntall-windows/)で作ったサンプルアプリを、今度は実機で動かして確認します。
 
 ```powershell
 flutter create myapp
@@ -60,8 +57,8 @@ cd myapp
 flutter run
 ```
 
-![Flutterサンプル結果](/assets/imgs/blogs/2019-07-25/flutter-sample-starter-app.png)
+![Flutter サンプルアプリの実行結果](/assets/imgs/blogs/2019-07-25/flutter-sample-starter-app.png)
 
 ## 参照
 
-1. [Huawei P20 Proで実機デバッグ](https://dalomo.net/blog/2018/09/24/81/)
+1. [Huawei P20 Pro で実機デバッグ](https://dalomo.net/blog/2018/09/24/81/)

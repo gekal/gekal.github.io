@@ -1,83 +1,71 @@
 ---
-title: Finder <=> Terminalの切り替え @ Mac
+title: Finder ⇄ ターミナルを素早く行き来する（Mac）
+subtitle: フォルダからターミナルを開く操作をホットキーに割り当てる
 layout: post
-auther: gekal
 date:   2020-04-08T21:30:00+0900
 categories: blogs
-tags: terminal finder mac
+tags: mac terminal finder
 ---
 
-## 面倒なGUI操作が課題
+## 課題：GUI 操作が地味に面倒
 
-FilderにあるフォルダからTerminalの開き、または、その逆はよくある作業でしょうね。
+Finder で開いているフォルダをターミナルで開く（またはその逆）という操作は、日常的によく発生します。
 
-FilderからTerminalを開くには、数クリックでTerminalを開ますが、マウスの移動など、意外的に精神的な負荷がかかります。
+Finder からターミナルを開くこと自体は数クリックでできますが、マウスに手を伸ばして右クリックメニューをたどる動作は、地味に集中を切らします。これをキーボードだけで完結できるように改善します。
 
-それを改善したいから、どうしようかね。
+## 環境
 
-## MacOS環境の環境
+- OS：macOS Catalina (10.15.4)
+- ターミナル：[iTerm2](https://www.iterm2.com/)（画面分割やタブ表示ができて便利）
 
-1. OS
+## GUI での操作
 
-    macOS Catalina (10.15.4)
+まずは標準の操作方法です。
 
-2. Terminal
-
-    [iTerm2](https://www.iterm2.com/)
-
-    > 画面分割やTab表示ができるので、超便利だよ。
-
-## GUIで操作
-
-### Finder から Terminal を開く
-
-1. フォルダーを右クリック
-2. サービスを選択
-3. 下記のいずれかをクリック
-
-    - New iTerm2 Windows Here
+1. Finder でフォルダを右クリック
+2. 「サービス」を選択
+3. 以下のいずれかをクリック
+    - New iTerm2 Window Here
     - New iTerm2 Tab Here
 
-4. 楽々コマンドを打ち
+![Finder からターミナルを開く](/assets/imgs/blogs/2020-04-08/open-terminal-from-finder.png)
 
-    ![FilderからTerminalを開く](/assets/imgs/blogs/2020-04-08/open-terminal-from-finder.png)
+## ホットキーに割り当てる
 
-## 便利な設定
+この「サービス」はショートカットキーに割り当てられます。私は以下のように設定しました。
 
-### GUIの操作 => ホットキーに変身
+| サービス | ホットキー |
+| --- | --- |
+| New iTerm2 Tab Here | ⌘ + @ |
+| New iTerm2 Window Here | ⌘ + ⇧ + @ |
 
-#### Hot Keys って下記にしろう
+### 設定手順
 
-| サービス                | Hot Key |
-| ----------------------- | ------- |
-| New iTerm2 Tab Here     | ⌘ @     |
-| New iTerm2 Windows Here | ⌘ ⬆︎ @  |
-
-#### 設定手順
-
-1. 左上のアプルマックを食え
+1. 画面左上のアップルメニューを開く
 2. 「システム環境設定...」をクリック
-3. 「キーボード」のマックをクリック
-4. 「ショートカット」タブを選択
-5. 左箱にあるサービスを選択して、右の箱にあるiTerm2のサービスのホットキーを設定
+3. 「キーボード」を開く
+4. 「ショートカット」タブ →「サービス」を選択
+5. 左のリストから対象のサービスを選び、右側でホットキーを設定する
 
-![iTermのホットキー設定キャプチャ](/assets/imgs/blogs/2020-04-08/hotkey-setting-capture-for-iTerm2.png)
+![iTerm2 のホットキー設定](/assets/imgs/blogs/2020-04-08/hotkey-setting-capture-for-iTerm2.png)
 
-#### GUIの手順からどう変わったのか
+これで操作は次のように短くなります。
 
-1. Finderで対象フォルダーを選択
-2. 頭中のホットキーを打てから、Go..
+1. Finder で対象フォルダを選択
+2. ホットキーを押す → すぐにターミナルが開く
 
-### Terminal から Finder は、変わらないのか
+## ターミナルから Finder を開く場合
 
-> 便利のコマンドがあるので、変わる必要はない
+こちらは便利なコマンドがあるので、特別な設定は不要です。`open` にパスを渡すだけです。
 
 ```bash
-# openコマンド後に、ターゲットパスを記載ください。
-# 例：ユーザーのホームディレクトリーを開く
+# カレントディレクトリを Finder で開く
+open .
+
+# ホームディレクトリを開く
 open ~
 ```
 
 ## 参照
 
-1. [finder から terminal を開く](https://qiita.com/yamagh/items/02608e97be22c85cefaa)
+1. [Finder から terminal を開く](https://qiita.com/yamagh/items/02608e97be22c85cefaa)

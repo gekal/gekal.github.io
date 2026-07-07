@@ -1,124 +1,101 @@
 ---
-title: Mac中のPHPの実行環境
+title: Mac 標準の Apache と PHP で実行環境を作る
+subtitle: プリインストールされた Apache・PHP を使って手早く PHP を動かす
 layout: post
 date:   2019-04-30T16:00:00+0900
 categories: blogs
 tags: mac apache php
 ---
 
-## 前書き
+## はじめに
 
-PHPの動作環境には、LAMPが有名ですが、Macには、ApacheとPHPがプレインストールされたので、超楽だと思います。
+PHP の実行環境というと LAMP（Linux + Apache + MySQL + PHP）が有名ですが、macOS には **Apache と PHP が最初から入っている** ため、追加インストールなしで手軽に PHP を動かせます。
 
-> インストールされたバージョン
+まずは標準で入っているバージョンを確認します。
 
 ```bash
-# OSバージョン
+# OS バージョン
 $ sw_vers
 ProductName:    Mac OS X
 ProductVersion: 10.14.4
-BuildVersion:   18E226
 
 # Apache
 $ httpd -v
 Server version: Apache/2.4.34 (Unix)
-Server built:   Feb 22 2019 19:30:04
 
 # PHP
 $ php -v
-PHP 7.1.23 (cli) (built: Feb 22 2019 22:08:13) ( NTS )
-Copyright (c) 1997-2018 The PHP Group
-Zend Engine v3.1.0, Copyright (c) 1998-2018 Zend Technologies
+PHP 7.1.23 (cli)
 ```
 
-## Apacheの使い方
+> 補足：macOS Monterey（12）以降では PHP が同梱されなくなりました。新しい macOS では `brew install php` などで別途導入してください。この記事は PHP が同梱されていた頃の内容です。
 
-### よく利用するコマンド
+## Apache の基本操作
+
+Apache は `apachectl` コマンドで制御します。
 
 ```bash
-# 開始
+# 起動
 sudo apachectl start
 # 再起動
 sudo apachectl restart
 # 停止
 sudo apachectl stop
 
-# 優雅な起動
+# 設定を反映しつつ無停止で再起動（graceful）
 sudo apachectl graceful
-# 優雅な停止
-sudo apachectl graceful-stop
-
-# そのほかのオプションいは、下記のコマンドでご確認ください。
-apachectl -h
 ```
 
-### コンフィグ
+## 設定ファイルとドキュメントルート
 
-#### コンフィグファイル
-
-> コンフィグファイルの配置先: /private/etc/apache2/
+設定ファイルは `/private/etc/apache2/` 以下にあり、本体は `httpd.conf` です。
 
 ```bash
-$ ll /private/etc/apache2/
-total 168
-drwxr-xr-x  25 root  wheel    800 11 23 11:21 extra
--rw-r--r--   1 root  wheel  21150 11 23 11:13 httpd.conf
--rw-r--r--   1 root  wheel  20905  2  7  2017 httpd.conf.pre-update
--rw-r--r--   1 root  wheel  21084 12 16  2017 httpd.conf~previous
--rw-r--r--   1 root  wheel  13077  8 18  2018 magic
--rw-r--r--   1 root  wheel  61118  8 18  2018 mime.types
-drwxr-xr-x   4 root  wheel    128  8 18  2018 original
-drwxr-xr-x   3 root  wheel     96  8 18  2018 other
-drwxr-xr-x   3 root  wheel     96 11 23 11:20 users
+$ ls /private/etc/apache2/
+extra   httpd.conf   magic   mime.types   original   other   users
 ```
 
-#### DocumentRoot
-
-> DocumentRoot: /Library/WebServer/Documents
+公開ディレクトリ（DocumentRoot）は `httpd.conf` で確認できます。
 
 ```bash
-$ cat /private/etc/apache2/httpd.conf | grep "^DocumentRoot"
+$ grep "^DocumentRoot" /private/etc/apache2/httpd.conf
 DocumentRoot "/Library/WebServer/Documents"
 ```
 
-> テスト用ファイル： /Library/WebServer/Documents/index.php
+動作確認用に、ドキュメントルートへ PHP ファイルを置きます。
 
 ```php
+// /Library/WebServer/Documents/index.php
 <?php
 phpinfo();
-?>
 ```
 
-> 結果確認
+この時点でブラウザから <http://localhost/index.php> を開くと、PHP がまだ有効になっていないため、コードがそのまま表示されてしまいます。
 
-<http://localhost/index.php>
+![PHP モジュール読み込み前](/assets/imgs/blogs/2019-04-30/apahce-result-confim-nosupport-php.png)
 
-![PHP導入なし](/assets/imgs/blogs/2019-04-30/apahce-result-confim-nosupport-php.png)
+## PHP モジュールを有効にする
 
-## PHP導入
+`httpd.conf` で PHP モジュールのロード行のコメントを外します。
 
-### PHPモジュールのロードをアンコメント
+```apache
+# 変更前
+#LoadModule php7_module libexec/apache2/libphp7.so
+
+# 変更後（先頭の # を削除）
+LoadModule php7_module libexec/apache2/libphp7.so
+```
+
+Apache を再起動して反映します。
 
 ```bash
-# ファイル編集
-$ sudo vi /private/etc/apache2/httpd.conf
-
-# start ------------------------------------------------------
-177 #LoadModule php7_module libexec/apache2/libphp7.so
-⬇️⬇️⬇️⬇️⬇️⬇️⬇️
-177 LoadModule php7_module libexec/apache2/libphp7.so
-# end --------------------------------------------------------
-
-Apacheの再起動
 sudo apachectl restart
 ```
 
-### 環境の再確認
+再度ブラウザで開くと、今度は `phpinfo()` が正しく実行され、PHP の情報ページが表示されます。
 
-![PHP導入済み](/assets/imgs/blogs/2019-04-30/apahce-result-confim-with-php.png)
+![PHP モジュール読み込み後](/assets/imgs/blogs/2019-04-30/apahce-result-confim-with-php.png)
 
-## 最後に
+## おわりに
 
-愛用のOSがCentosですが、手元の端末がMacなので、PHPの動作環境をちょっと整理しました。
-
-Mysqlには、Dockerを利用しようと思います。ここには、割愛させて頂きます。
+普段は CentOS を使っていますが、手元の端末が Mac なので、標準の Apache・PHP でさっと環境を整えました。データベースが必要な場合は、MySQL を Docker で立てるのが手軽でおすすめです（本記事では割愛します）。

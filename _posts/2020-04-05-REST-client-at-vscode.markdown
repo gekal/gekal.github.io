@@ -1,71 +1,68 @@
 ---
-title: VSCodeでREST Clientを使いましょう
+title: VS Code の REST Client で API を叩く
+subtitle: テキストファイルに書いた HTTP リクエストをそのまま送信する拡張機能
 layout: post
-auther: gekal
 date:   2020-04-05T16:33:00+0900
 categories: blogs
-tags: VSCode Rest Client
+tags: vscode rest-client api
 ---
 
-## RESTful APIとは
+## RESTful API とは
 
-RESTful APIとは、Webシステムを外部から利用するためのプログラムの呼び出し規約（API）の種類の一つで、RESTと呼ばれる設計原則に従って策定されたもの。RESTそのものは適用範囲の広い抽象的なモデルだが、一般的にはRESTの考え方をWeb APIに適用したものをRESTful APIと呼んでいる。
+RESTful API とは、Web システムを外部から利用するための呼び出し規約（API）の一種で、**REST（Representational State Transfer）** と呼ばれる設計原則に従って策定されたものです。REST そのものは適用範囲の広い抽象的なモデルですが、一般的には REST の考え方を Web API に適用したものを RESTful API と呼びます。
 
-REST: Representational State Transfer
+こうした API を手軽にテストするツールといえば Postman や curl が定番ですが、VS Code で作業しているなら **REST Client 拡張** が非常に便利です。リクエストをテキストファイルに書いて、その場で送信できます。
 
-## VSCodeにREST Clientの拡張を追加
+## REST Client 拡張のインストール
 
-ExtensionsタグでREST Clientを検索して、インストールください。
+VS Code の Extensions タブで「REST Client」を検索してインストールします。
 
-![VSCodeにREST Clientをインストールする](/assets/imgs/blogs/2020-04-05/rest-client-extension-for-vscode.png)
+![VS Code に REST Client をインストールする](/assets/imgs/blogs/2020-04-05/rest-client-extension-for-vscode.png)
 
-## プロキシ
+## プロキシについて
 
-エントプライズの方々は、プロキシの問題を直面しなければなりません。
-REST ClientはVSCodeをプロキシを使ってるので、すでにセットした方は追加の設定は不要です。
+社内ネットワークなどでプロキシが必要な場合でも、REST Client は **VS Code のプロキシ設定を利用する** ため、VS Code 側でプロキシを設定済みなら追加設定は不要です。
 
-> プロキシの一般のフォーマット
->> <http://username:passwd@proxyserver:8080>
+> プロキシの一般的な指定形式：`http://username:passwd@proxyserver:8080`
 
 ## 使い方
 
 ### ファイルの拡張子
 
-> 下記のいずれかの拡張子です。
+リクエストは、以下のいずれかの拡張子のファイルに記述します。
 
-- .rest
-- .http
+- `.rest`
+- `.http`
 
-### [Hello world](/assets/rest-client/2020-04-05/hello-world.rest)
+### Hello World
 
-```rest
+まずはシンプルな GET リクエストを書いてみます（[サンプルファイル](/assets/rest-client/2020-04-05/hello-world.rest)）。
+
+```http
 ### hello world
 GET https://www.gekal.cn/ HTTP/1.1
 ```
 
-#### リクエストの送信
+### リクエストの送信
 
-RESTリクエスト定義の前に「send request」を押せば、レクエストを送信できる。
+リクエスト定義の直前に表示される「Send Request」をクリックすると、その場で送信され、レスポンスが別ペインに表示されます。
 
-![VSCodeにREST Clientをインストールする](/assets/imgs/blogs/2020-04-05/rest-client-to-send-request.png)
+![REST Client でリクエストを送信する](/assets/imgs/blogs/2020-04-05/rest-client-to-send-request.png)
 
-#### CRULコマンド生成
+### curl コマンドの生成
 
-VSCodeを使えない環境の場合、CURLコマンドを生成すれば、実行すれば、楽だようね。
-REST Clientの拡張は、CURLコマンドを生成できるよ。
+VS Code を使えない環境向けに、リクエストを **curl コマンドに変換** することもできます。
 
 ```bash
 curl --request GET \
   --url https://www.gekal.cn/
 ```
 
-#### ソースコード生成
+### コードスニペットの生成
 
-Java, C#, Nodejs, Pythonなどを対応しています。
+Java、C#、Node.js、Python など、各言語のリクエストコードも生成できます。以下は Node.js の例です。
 
-> 例：Nodejsのソースコードを生成しました。
-
-```nodejs
+```javascript
 var http = require("https");
 
 var options = {
@@ -78,11 +75,7 @@ var options = {
 
 var req = http.request(options, function (res) {
   var chunks = [];
-
-  res.on("data", function (chunk) {
-    chunks.push(chunk);
-  });
-
+  res.on("data", function (chunk) { chunks.push(chunk); });
   res.on("end", function () {
     var body = Buffer.concat(chunks);
     console.log(body.toString());
@@ -92,7 +85,11 @@ var req = http.request(options, function (res) {
 req.end();
 ```
 
+## まとめ
+
+リクエストをファイルとして残せるので、API 仕様の共有やリポジトリ管理にも向いています。VS Code で開発しているなら、Postman を開かずに完結できるのが大きな利点です。
+
 ## 参照
 
-1. [RESTful API【 REST API 】＠IT用語字典](http://e-words.jp/w/RESTful_API.html)
-2. [REST Client for VSCode Extensions](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+1. [RESTful API【 REST API 】＠IT 用語辞典](http://e-words.jp/w/RESTful_API.html)
+2. [REST Client（VS Code 拡張）](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)

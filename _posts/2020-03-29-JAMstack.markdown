@@ -1,30 +1,38 @@
 ---
-title: JAMstack紹介
+title: JAMstack の紹介
+subtitle: JavaScript・API・Markup で構成するモダンな Web アーキテクチャ
 layout: post
-auther: gekal
 date:   2020-03-29T16:31:00+0900
 categories: blogs
-tags: JAMstack
+tags: jamstack web architecture
 ---
 
-## JAMstackとは
+## JAMstack とは
 
-JAMstackはJavaScript、API、Markupの頭文字を取ったもので、それぞれ以下のような役割を担っています。
+JAMstack は **JavaScript・API・Markup** の頭文字を取ったアーキテクチャの考え方です。従来のようにリクエストのたびにサーバーが HTML を生成するのではなく、あらかじめビルドした静的ファイルを配信し、動的な部分だけを JavaScript と API で補う構成を指します。
 
-- JavaScript＋API：動的データコンテンツの取り扱い
-  - リクエスト／レスポンスサイクル中の動的プログラムの制御（JavaScript）
-  - すべてのサーバーサイドの処理やデータベースへのリクエスト（API）
-- Markup：静的データコンテンツの取り扱い
-  - デプロイ時にビルドされるテンプレート化されたマークアップ
+それぞれの役割は次のとおりです。
 
-## JAMstackのメリット
+- **JavaScript ＋ API** — 動的なコンテンツを扱う
+  - リクエスト／レスポンスのサイクル中の動的な制御は JavaScript が担う
+  - サーバーサイドの処理やデータベースへのアクセスは、再利用可能な API 経由で行う
+- **Markup** — 静的なコンテンツを扱う
+  - デプロイ時にビルドされる、テンプレート化されたマークアップ（HTML）
 
-- 高パフォーマンス
-- 高いセキュリティ
-- 低コストなスケーラビリティ
-- よりよい開発者体験
+サーバーサイドのレンダリングをなくし、CDN から静的ファイルを配信するのが基本形です。
+
+## JAMstack のメリット
+
+- **高いパフォーマンス** — 事前ビルド済みのファイルを CDN から配信するため高速
+- **高いセキュリティ** — 攻撃対象になりやすいサーバーやデータベースが常時稼働していない
+- **低コストなスケーラビリティ** — 静的ファイル配信なので、アクセス増にも CDN でスケールしやすい
+- **優れた開発者体験** — フロントエンドとバックエンド（API）を疎結合に開発できる
+
+## 補足
+
+このサイト自体も、Next.js の静的エクスポートを GitHub Pages で配信するという、JAMstack 的な構成で運用しています。静的サイトジェネレータ（Next.js、Gatsby、Hugo、Jekyll など）や、ヘッドレス CMS との組み合わせが JAMstack の典型的な構成です。
 
 ## 参照
 
 1. [jamstack.org](https://jamstack.org/)
-2. [AWSでJAMstackことはじめ（基礎知識編）](https://www.mitsue.co.jp/knowledge/blog/frontend/201912/10_0000.html)
+2. [AWS で JAMstack ことはじめ（基礎知識編）](https://www.mitsue.co.jp/knowledge/blog/frontend/201912/10_0000.html)

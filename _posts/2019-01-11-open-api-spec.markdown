@@ -1,49 +1,53 @@
 ---
-title: OpenAPI仕様（OAS）概要
+title: OpenAPI 仕様（OAS）の概要
+subtitle: REST API を言語非依存で記述する標準仕様と Swagger ツール群
 layout: post
 date:   2019-01-11T23:05:00+0900
 categories: blogs
-tags: swagger api OAS OpenAPI
+tags: swagger api openapi oas
 ---
 
-## OpenAPI仕様（OAS）とは
+## OpenAPI 仕様（OAS）とは
 
-OpenAPI仕様（OAS）は、REST APIの標準のプログラミング言語にとらわれないインターフェース記述を定義しています。これにより、人間とコンピューターの両方が、ソースコードへのアクセス、追加資料、ネットワークトラフィックの検査を必要とせずにサービスの機能を発見および理解できます。 。 OpenAPIを介して適切に定義されている場合、コンシューマは最小限の実装ロジックでリモートサービスを理解し対話することができます。 低レベルのプログラミングのためにインターフェース記述が行ったことと同様に、OpenAPI仕様はサービスを呼び出す際の当て推量を取り除きます。
+OpenAPI 仕様（OpenAPI Specification, OAS）は、REST API のインターフェースを **プログラミング言語に依存しない形** で記述するための標準仕様です。
 
-旧来の名前がSwaggerですした、３.0へバージョンアップしたとき、OAS(OpenAPI Specification)に名前が変更されました。しかし、現在のツールの名前がSwaggerの名前をつけるのはほとんどです。
+API の入出力やエンドポイントを OAS で定義しておくと、人間もコンピュータも、ソースコードや追加ドキュメント、ネットワークトラフィックの解析なしにその API の機能を理解できます。適切に定義されていれば、利用側は最小限の実装で API を呼び出せるようになり、「このパラメータは何だろう？」といった当て推量が不要になります。
 
-## Swaggerのツール群
+もともとは **Swagger** という名前でしたが、3.0 へのバージョンアップ時に OpenAPI Specification（OAS）へと改称されました。ただし、周辺ツールの多くは今も "Swagger" の名前を冠しています。
 
-- Open Source Tools
+## Swagger のツール群
 
-    1. [Swagger Editor](https://swagger.io/tools/swagger-editor/)
+OAS を扱うためのツールは充実しており、設計・可視化・コード生成まで一通り揃っています。
 
-        OpenAPI仕様でAPIを設計するためのAPIエディタ
+### オープンソースツール
 
-    2. [Swagger UI](https://swagger.io/tools/swagger-ui/)
+1. [Swagger Editor](https://swagger.io/tools/swagger-editor/)
 
-        対話型UIでOpenAPI仕様定義を視覚化する
+    OpenAPI 仕様で API を設計するためのエディタ。左に定義、右にプレビューが出る。
 
-    3. [Swagger Codegen](https://swagger.io/tools/swagger-codegen/)
+2. [Swagger UI](https://swagger.io/tools/swagger-ui/)
 
-        OpenAPI仕様の定義からサーバースタブとクライアントSDKを生成する
+    OAS 定義を、実際に叩ける対話的な UI として可視化する。
 
-- Pro Tools
+3. [Swagger Codegen](https://swagger.io/tools/swagger-codegen/)
 
-    1. [SwaggerHub](https://app.swaggerhub.com)
+    OAS 定義からサーバースタブやクライアント SDK を自動生成する。
 
-        OpenAPI仕様を扱うチームや個人のための設計およびドキュメンテーションプラットフォーム。
+### 有償ツール
 
-        ※ 個人なら、無料で使えますので、ぜひ使ってみてください。
-        https://swagger.io/tools/swaggerhub/pricing/
+1. [SwaggerHub](https://app.swaggerhub.com)
 
-    2. [Swagger Inspector](https://inspector.swagger.io)
+    チームや個人向けの API 設計・ドキュメント管理プラットフォーム。
 
-        ブラウザからAPIを簡単にテストして試し、すぐにOpenAPI仕様の定義を生成します。
+    > 個人利用なら無料プランがあります。価格は[こちら](https://swagger.io/tools/swaggerhub/pricing/)。
 
-## 参照資料
+2. [Swagger Inspector](https://inspector.swagger.io)
 
-### spec資料
+    ブラウザから API を手軽にテストし、その結果から OAS 定義を生成できる。
 
-- [v3.0.1](http://spec.openapis.org/oas/v3.0.1.html)
-- [v2.0](http://spec.openapis.org/oas/v2.0.html)
+## 参照
+
+### 仕様書
+
+- [OpenAPI Specification v3.0.1](http://spec.openapis.org/oas/v3.0.1.html)
+- [OpenAPI Specification v2.0](http://spec.openapis.org/oas/v2.0.html)

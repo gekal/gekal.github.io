@@ -1,45 +1,38 @@
 ---
-title: DockerのLayer確認ツール(dive)
+title: dive で Docker イメージのレイヤーを解析する
+subtitle: イメージの各レイヤーと無駄なファイルを可視化するツール
 layout: post
 date:   2019-03-22T02:00:00+0900
 categories: blogs
-tags: docker layer viewer dive
+tags: docker dive image
 ---
 
-## 初めに
+## はじめに
 
-Dockerのイメージを確認しようと思う時、各レイヤーを解析する必要があります。
+Docker イメージを軽量化したり、意図しないファイルが含まれていないか確認したりするには、イメージを構成する各レイヤーを調べる必要があります。
 
-Diveの公式に、下記のDemoがあります。すごいでしょう。
-![dive demo](/assets/imgs/blogs/2019-03-22/dive-demo.gif)
+`docker history` でもレイヤーの概要は分かりますが、**dive** を使うと、レイヤーごとに追加・変更されたファイルをツリー表示で確認でき、無駄になっている領域まで教えてくれます。公式のデモを見ると、その便利さが一目で分かります。
 
-## diveをインストール
+![dive のデモ](/assets/imgs/blogs/2019-03-22/dive-demo.gif)
 
-## インストール(MacOS)
+## インストール（macOS）
+
+Homebrew でインストールできます。
 
 ```bash
-# Mac
-$ brew tap wagoodman/dive
-$ brew install dive
-Updating Homebrew...
-==> Auto-updated Homebrew!
-Updated 2 taps (homebrew/cask and caskroom/cask).
-No changes to formulae.
-
-==> Installing dive from wagoodman/dive
-==> Downloading https://github.com/wagoodman/dive/releases/download/v0.7.0/dive_0.7.0_darwin_amd64.tar.gz
-Already downloaded: /Users/gekal/Library/Caches/Homebrew/downloads/c352a41fa19d4fbbd2fc43b13848d758f047efc7c63d1314cb86654555cbb9ac--dive_0.7.0_darwin_amd64.tar.gz
-🍺  /usr/local/Cellar/dive/0.7.0: 5 files, 11.8MB, built in 4 seconds
+brew install dive
 ```
 
-### バージョン確認
+バージョンを確認しておきます。
 
 ```bash
 $ dive --version
 dive 0.7.0
 ```
 
-## 動作確認
+## 使い方
+
+引数に解析したいイメージ名を渡すだけです。
 
 ```bash
 $ dive ruby:2.5-slim
@@ -47,35 +40,23 @@ Fetching image... (this can take a while with large images)
 Parsing image...
 Analyzing image...
 Building cache...
-# 詳細を確認・・・
 ```
 
-## 使い方
+解析が終わると TUI（対話的なターミナル UI）が起動します。左ペインでレイヤーを選び、右ペインでそのレイヤーのファイルツリーを確認できます。画面下部には、レイヤー間で重複・無駄になっている容量の推定値（efficiency score）も表示されます。
+
+CI に組み込みたい場合は、`--ci` オプションと `--json` での結果出力を使うと、イメージの効率を自動チェックできます。
 
 ```bash
 $ dive --help
-This tool provides a way to discover and explore the contents of a docker image. Additionally the tool estimates
-the amount of wasted space and identifies the offending files from the image.
-
-Usage:
-  dive [IMAGE] [flags]
-  dive [command]
-
-Available Commands:
-  build       Builds and analyzes a docker image from a Dockerfile (this is a thin wrapper for the `docker build` command).
-  help        Help about any command
-  version     print the version number and exit (also --version)
-
-Flags:
-      --ci-config string   If CI=true in the environment, use the given yaml to drive validation rules. (default ".dive-ci")
-      --config string      config file (default is $HOME/.dive.yaml, ~/.config/dive/*.yaml, or $XDG_CONFIG_HOME/dive.yaml)
-  -h, --help               help for dive
-  -j, --json string        Skip the interactive TUI and write the layer analysis statistics to a given file.
-  -v, --version            display version number
-
-Use "dive [command] --help" for more information about a command.
+This tool provides a way to discover and explore the contents of a docker image.
+Additionally the tool estimates the amount of wasted space and identifies the
+offending files from the image.
 ```
+
+## まとめ
+
+イメージが肥大化する原因の多くは、「中間レイヤーで作ったファイルを後のレイヤーで消しているが、レイヤーとしては残っている」といったパターンです。dive を使えばそれを目で確認できるので、Dockerfile の改善に直結します。
 
 ## 参照
 
-1. [dive](https://github.com/wagoodman/dive)
+1. [wagoodman/dive](https://github.com/wagoodman/dive)

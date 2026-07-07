@@ -1,226 +1,127 @@
 ---
-title: Macでminikubeをインストールしてみる。
+title: Mac に minikube をインストールして Kubernetes を動かす
+subtitle: ローカルに 1 ノードの Kubernetes クラスタを構築する
 layout: post
 date:   2019-04-12T23:00:00+0900
 update:   2020-02-02T16:00:00+0900
 categories: blogs
-tags: minikube virtualbox
+tags: minikube kubernetes virtualbox
 ---
 
-## Minikubeとは
+## minikube とは
 
-Minikubeでは仮想化ソフトウェアを使ってLinuxがインストールされた仮想マシンを作成し、そこでKubernetesクラスタを動作させることができるツールです。
+minikube は、仮想化ソフトウェア上に Linux VM を作成し、その中で **1 ノードの Kubernetes クラスタ** を動かすためのツールです。本番さながらの Kubernetes を、手元のマシンだけで気軽に立ち上げられます。学習や、マニフェストの動作確認に最適です。
 
 ## 環境構築
 
 ### 事前準備
 
-CPUの仮想化機能を有効する。
+VM を動かすため、BIOS/UEFI で **CPU の仮想化機能（Intel VT-x / AMD-V）** を有効にしておきます。
 
-### Minikubeをインストール
+### minikube と kubectl のインストール
 
-```shell
-# Minikubeをインストール
-$ brew cask install minikube
-Updating Homebrew...
-==> Auto-updated Homebrew!
-Updated 4 taps (homebrew/core, homebrew/cask, caskroom/versions and caskroom/cask).
-==> New Formulae
-frps                                                                                                   ospray
-==> Updated Formulae
-node ✔         coffeescript   flow           gnu-getopt     hyperscan      jid            libdazzle      open-mpi       postgis        simple-scan    typescript     util-linux     xcodegen
-apache-flink   ethereum       glm            gomplate       imagemagick    jmeter         lumo           pgcli          riff           svgo           ungit          vim
-cmark          faas-cli       glooctl        gtk+3          ipv6calc       kubecfg        mesa           pixman         rust           tbb            unrar          wtf
+Homebrew でまとめて導入します。
 
-==> Satisfying dependencies
-All Formula dependencies satisfied.
-==> Downloading https://storage.googleapis.com/minikube/releases/v1.0.0/minikube-darwin-amd64
-######################################################################## 100.0%
-==> Verifying SHA-256 checksum for Cask 'minikube'.
-==> Installing Cask minikube
-==> Linking Binary 'minikube-darwin-amd64' to '/usr/local/bin/minikube'.
-🍺  minikube was successfully installed!
+```bash
+# minikube 本体
+brew install minikube
 
-# バージョンを確認
-$ minikube version
-minikube version: v1.0.0
-
-# Kubectlをインストール
-$ brew instal kubernetes-cli
-==> Downloading https://homebrew.bintray.com/bottles/kubernetes-cli-1.14.0.mojave.bottle.tar.gz
-Already downloaded: /Users/gekal/Library/Caches/Homebrew/downloads/878e8c574c331ba1da58211aee9706d791978fc28007672d7c46118f33271bdc--kubernetes-cli-1.14.0.mojave.bottle.tar.gz
-==> Pouring kubernetes-cli-1.14.0.mojave.bottle.tar.gz
-==> Caveats
-Bash completion has been installed to:
-  /usr/local/etc/bash_completion.d
-
-zsh completions have been installed to:
-  /usr/local/share/zsh/site-functions
-==> Summary
+# Kubernetes を操作する CLI
+brew install kubernetes-cli
 ```
 
-### Minikubeを開始
+バージョンを確認しておきます。
+
+```bash
+$ minikube version
+minikube version: v1.0.0
+```
+
+### クラスタの起動
+
+`minikube start` でクラスタを作成・起動します。初回は Kubernetes 用のイメージや ISO のダウンロードが走るため、数分かかります。
 
 ```bash
 $ minikube start
 😄  minikube v1.0.0 on darwin (amd64)
-🤹  Downloading Kubernetes v1.14.0 images in the background ...
 🔥  Creating virtualbox VM (CPUs=2, Memory=2048MB, Disk=20000MB) ...
-💿  Downloading Minikube ISO ...
- 142.88 MB / 142.88 MB [============================================] 100.00% 0s
-📶  "minikube" IP address is 192.168.99.100
 🐳  Configuring Docker as the container runtime ...
-🐳  Version of container runtime is 18.06.2-ce
-⌛  Waiting for image downloads to complete ...
-✨  Preparing Kubernetes environment ...
-💾  Downloading kubelet v1.14.0
-💾  Downloading kubeadm v1.14.0
-🚜  Pulling images required by Kubernetes v1.14.0 ...
-🚀  Launching Kubernetes v1.14.0 using kubeadm ...
-⌛  Waiting for pods: apiserver proxy etcd scheduler controller dns
-🔑  Configuring cluster permissions ...
-🤔  Verifying component health .....
+🚀  Launching Kubernetes using kubeadm ...
 💗  kubectl is now configured to use "minikube"
 🏄  Done! Thank you for using minikube!
 ```
 
-`2020/02/02追記`
+> **2020/02/02 追記**：新しい minikube では macOS のデフォルトドライバが `hyperkit` に変わりました。環境によっては hyperkit で起動に失敗する（`HYPERKIT_CRASHED`）ことがあります。その場合は、明示的に VirtualBox ドライバを指定すると回避できます。
+>
+> ```bash
+> minikube start --vm-driver=virtualbox
+> ```
 
-> 最近のデフォルトドライバは「hyperkit」に変更された様です。
-> 起動できない場合があります様での、その時、VirtualBoxを使って見てください。
+## クラスタの状態を確認する
 
-`[hyperkit]`
+起動後は、いくつかの方法で状態を確認できます。
 
-```bash
-$ minikube start
-😄  minikube v1.6.2 on Darwin 10.15.2
-✨  Automatically selected the 'hyperkit' driver (alternates: [virtualbox])
-🔥  Creating hyperkit VM (CPUs=2, Memory=2000MB, Disk=20000MB) ...
-
-💣  Unable to start VM. Please investigate and run 'minikube delete' if possible
-❌  Error: [HYPERKIT_CRASHED] create: Error creating machine: Error in driver during machine creation: hyperkit crashed! command line:
-  hyperkit loglevel=3 console=ttyS0 console=tty0 noembed nomodeset norestore waitusb=10 systemd.legacy_systemd_cgroup_controller=yes random.trust_cpu=on hw_rng_model=virtio base host=minikube
-💡  Suggestion: Hyperkit is broken. Upgrade to the latest hyperkit version and/or Docker for Desktop. Alternatively, you may choose an alternate --vm-driver
-⁉️   Related issues:
-    ▪ https://github.com/kubernetes/minikube/issues/6079
-    ▪ https://github.com/kubernetes/minikube/issues/5780
-
-😿  If the above advice does not help, please let us know:
-👉  https://github.com/kubernetes/minikube/issues/new/choose
-```
-
-`[virtualbox]`
+**1. minikube status**
 
 ```bash
-$ minikube start --vm-driver=virtualbox
-😄  minikube v1.6.2 on Darwin 10.15.2
-✨  Selecting 'virtualbox' driver from user configuration (alternates: [hyperkit])
-🔥  Creating virtualbox VM (CPUs=2, Memory=2000MB, Disk=20000MB) ...
-🐳  Preparing Kubernetes v1.17.0 on Docker '19.03.5' ...
-🚜  Pulling images ...
-🚀  Launching Kubernetes ...
-⌛  Waiting for cluster to come online ...
-🏄  Done! kubectl is now configured to use "minikube"
+$ minikube status
+host: Running
+kubelet: Running
+apiserver: Running
+kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 ```
 
-### Minikubeのステータスを確認
+**2. kubectl get nodes**
 
-1. Minikubeコマンド
+```bash
+$ kubectl get nodes
+NAME       STATUS   ROLES    AGE   VERSION
+minikube   Ready    master   50m   v1.14.0
+```
 
-    ```shell
-    $ minikube status
-    host: Running
-    kubelet: Running
-    apiserver: Running
-    kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
-    ```
+**3. VirtualBox の管理画面**
 
-2. kubectlコマンド
+VirtualBox 側からも、minikube VM が起動していることを確認できます。ネットワークは NAT とホストオンリーの 2 つが構成されます。
 
-    ```shell
-    $ kubectl get nodes
-    NAME       STATUS   ROLES    AGE   VERSION
-    minikube   Ready    master   50m   v1.14.0
-    ```
+![minikube の VirtualBox 画面](/assets/imgs/blogs/2019-04-12/minikube-virtualbox.png)
 
-3. VirtualBox
+**4. ダッシュボード**
 
-    ![minikube virtualbox](/assets/imgs/blogs/2019-04-12/minikube-virtualbox.png)
+`minikube dashboard` を実行すると、Kubernetes の Web ダッシュボードがブラウザで開きます。
 
-    > ネットワーク
+```bash
+$ minikube dashboard
+🎉  Opening ... in your default browser...
+```
 
-    1. NAT
-    2. ホストオンリー
+![minikube のダッシュボード](/assets/imgs/blogs/2019-04-12/minikube-dashboard.png)
 
-4. minikube dashboard
+## よく使うコマンド
 
-    ```shell
-    $ minikube dashboard
-    🔌  Enabling dashboard ...
-    🤔  Verifying dashboard health ...
-    🚀  Launching proxy ...
-    🤔  Verifying proxy health ...
-    🎉  Opening http://127.0.0.1:59308/api/v1/namespaces/kube-system/services/http:kubernetes-dashboard:/proxy/ in your default browser...
-    ```
+| コマンド | 説明 |
+| --- | --- |
+| `minikube start` | クラスタを起動する |
+| `minikube status` | クラスタの状態を確認する |
+| `minikube stop` | クラスタを停止する |
+| `minikube delete` | クラスタを削除する |
+| `minikube dashboard` | Web ダッシュボードを開く |
+| `minikube ssh` | VM に SSH ログインする |
+| `minikube ip` | クラスタの IP アドレスを取得する |
+| `minikube service <name>` | 指定サービスの URL を取得する |
 
-    ![minikube dashboard](/assets/imgs/blogs/2019-04-12/minikube-dashboard.png)
+`start` でよく使うオプションは以下のとおりです。メモリやドライバはここで調整します。
 
-### Minikubeコマンド
-
-| command        | detail                                                                            |
-| -------------- | --------------------------------------------------------------------------------- |
-| addons         | Modify minikube's kubernetes addons                                               |
-| cache          | Add or delete an image from the local cache.                                      |
-| completion     | Outputs minikube shell completion for the given shell (bash or zsh)               |
-| config         | Modify minikube config                                                            |
-| **dashboard**  | Access the kubernetes dashboard running within the minikube cluster               |
-| delete         | Deletes a local kubernetes cluster                                                |
-| docker-env     | Sets up docker env variables; similar to '$(docker-machine env)'                  |
-| help           | Help about any command                                                            |
-| ip             | Retrieves the IP address of the running cluster                                   |
-| logs           | Gets the logs of the running instance, used for debugging minikube, not user code |
-| mount          | Mounts the specified directory into minikube                                      |
-| profile        | Profile sets the current minikube profile                                         |
-| service        | Gets the kubernetes URL(s) for the specified service in your local cluster        |
-| **ssh**        | Log into or run a command on a machine with SSH; similar to 'docker-machine ssh'  |
-| ssh-key        | Retrieve the ssh identity key path of the specified cluster                       |
-| **start**      | Starts a local kubernetes cluster                                                 |
-| **status**     | Gets the status of a local kubernetes cluster                                     |
-| **stop**       | Stops a running local kubernetes cluster                                          |
-| tunnel         | tunnel makes services of type LoadBalancer accessible on localhost                |
-| update-check   | Print current and latest version number                                           |
-| update-context | Verify the IP address of the running cluster in kubeconfig.                       |
-| **version**    | Print the version of minikube                                                     |
-
-#### よく利用するコマンド
-
-1. start
-
-    minikubeを起動する。
-
-    | option             | detail                                                                                                                     |
-    | ------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-    | --cpus int         | Number of CPUs allocated to the minikube VM (default 2)                                                                    |
-    | --memory int       | Amount of RAM allocated to the minikube VM in MB (default 2048)                                                            |
-    | --vm-driver string | VM driver is one of: [virtualbox parallels vmwarefusion kvm xhyve hyperv hyperkit kvm2 vmware none] (default "virtualbox") |
-
-2. status
-
-    minikubeのステータスを確認する。
-
-3. stop
-
-    minikubeを停止する。
-
-4. delete
-
-    nimikubeのクラスタを削除する。
+| オプション | 説明 |
+| --- | --- |
+| `--cpus <n>` | 割り当てる CPU 数（既定 2） |
+| `--memory <MB>` | 割り当てるメモリ量（既定 2048） |
+| `--vm-driver <driver>` | 使用する VM ドライバ（virtualbox, hyperkit など） |
 
 ## まとめ
 
-v1.0.0にバージョンアップしたため、前より使えやすくになりました。
+v1.0.0 で安定性が増し、以前よりずっと扱いやすくなりました。ローカルで Kubernetes を試すなら、まず minikube から始めるのがおすすめです。
 
 ## 参照
 
-1. [minikube](https://github.com/kubernetes/minikube)
+1. [kubernetes/minikube](https://github.com/kubernetes/minikube)
 2. [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)

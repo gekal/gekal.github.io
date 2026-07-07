@@ -1,29 +1,28 @@
 ---
-title: Gradle入門
+title: Gradle 入門
+subtitle: インストールから基本タスクまで、Gradle の使い始めを整理する
 layout: post
 date:   2019-07-24T11:00:00+0900
 categories: blogs
-tags: gradle
+tags: gradle build java
 ---
 
-## Gradleとは
+## Gradle とは
 
-GradleはGroovyのDSLを利用してビルドスクリプトを記述することのできるビルドシステムである。
+Gradle は、Groovy（または Kotlin）の DSL でビルドスクリプトを記述できるビルドシステムです。Java の世界では Maven の後継的に広く使われており、依存関係の解決からコンパイル・テスト・パッケージングまでを自動化できます。Android アプリの標準ビルドツールでもあります。
 
-## 環境準備
+## 環境構築（Windows）
 
-1. [Gradle](https://gradle.org/releases/)をダウンロードして、解凍する
+1. [Gradle](https://gradle.org/releases/) をダウンロードして解凍する（例：`gradle-5.5.1-bin.zip`）
 
-    gradle-5.5.1-bin.zip
+2. 環境変数を設定する
 
-2. 環境変数を設定
+    | 変数 | 値 | 種別 |
+    | --- | --- | --- |
+    | `GRADLE_HOME` | 解凍先のパス | 新規 |
+    | `Path` | `%GRADLE_HOME%\bin` | 追記 |
 
-    | 変数        | 値                | 説明 |
-    | ----------- | ----------------- | ---- |
-    | GRADLE_HOME | <解凍先>          | 新規 |
-    | Path        | %GRADLE_HOME%\bin | 追記 |
-
-3. 環境確認
+3. インストールを確認する
 
     ```powershell
     $ gradle -v
@@ -31,74 +30,56 @@ GradleはGroovyのDSLを利用してビルドスクリプトを記述するこ�
     ------------------------------------------------------------
     Gradle 5.5.1
     ------------------------------------------------------------
-
-    Build time:   2019-07-10 20:38:12 UTC
-    Revision:     3245f748c7061472da4dc184991919810f7935a5
-
     Kotlin:       1.3.31
     Groovy:       2.5.4
-    Ant:          Apache Ant(TM) version 1.9.14 compiled on March 12 2019
-    JVM:          11.0.2 (Oracle Corporation 11.0.2+9-LTS)
-    OS:           Windows 10 10.0 amd64
+    JVM:          11.0.2 (Oracle Corporation)
+    OS:           Windows 10 amd64
     ```
 
-## コマンド一覧
+> 実際のプロジェクトでは、Gradle 本体をインストールせずに **Gradle Wrapper**（`gradlew` / `gradlew.bat`）を使うのが一般的です。プロジェクトごとに指定されたバージョンの Gradle が自動でダウンロードされ、環境差異を避けられます。
 
-> `gradle tasks`で確認
+## タスクの確認
 
-### **Application tasks**
+Gradle の操作単位は「タスク」です。プロジェクトで利用できるタスクは以下で一覧できます。
 
-| task | detail                                 |
-| ---- | -------------------------------------- |
-| run  | Runs this project as a JVM application |
+```bash
+gradle tasks
+```
 
-### **Build tasks**
+## よく使うタスク
 
-| task            | detail                                                                                  |
-| --------------- | --------------------------------------------------------------------------------------- |
-| run             | Runs this project as a JVM application                                                  |
-| assemble        | Assembles the outputs of this project.                                                  |
-| bootJar         | Assembles an executable jar archive containing the main classes and their dependencies. |
-| build           | Assembles and tests this project.                                                       |
-| buildDependents | Assembles and tests this project and all projects that depend on it.                    |
-| buildNeeded     | Assembles and tests this project and all projects it depends on.                        |
-| classes         | Assembles main classes.                                                                 |
-| clean           | Deletes the build directory.                                                            |
-| jar             | Assembles a jar archive containing the main classes.                                    |
-| testClasses     | Assembles test classes.                                                                 |
+日常的に使うのは、ごく一部です。まずは次のあたりを押さえておけば十分です。
 
-### **Build Setup tasks**
+| タスク | 説明 |
+| --- | --- |
+| `build` | ビルドとテストをまとめて実行する |
+| `assemble` | 成果物（jar など）を生成する（テストは行わない） |
+| `test` | ユニットテストを実行する |
+| `check` | test を含む各種検証を実行する |
+| `clean` | `build` ディレクトリを削除する |
+| `run` | アプリケーションとして実行する（application プラグイン） |
+| `jar` | main クラスを含む jar を生成する |
+| `javadoc` | Javadoc を生成する |
+| `dependencies` | 依存関係をツリー表示する |
+| `init` | 新しい Gradle ビルドを初期化する |
+| `wrapper` | Gradle Wrapper のファイル群を生成する |
 
-| task    | detail                          |
-| ------- | ------------------------------- |
-| init    | Initializes a new Gradle build. |
-| wrapper | Generates Gradle wrapper files. |
+## 典型的なワークフロー
 
-### **Documentation tasks**
+新規プロジェクトを作って動かすまでの流れは、おおむね次のようになります。
 
-| task    | detail                                                       |
-| ------- | ------------------------------------------------------------ |
-| javadoc | Generates Javadoc API documentation for the main source code |
+```bash
+# プロジェクトの雛形を作成
+gradle init
 
-### **Help tasks**
+# 依存関係を確認したいとき
+gradle dependencies
 
-| task                 | detail                                                                               |
-| -------------------- | ------------------------------------------------------------------------------------ |
-| buildEnvironment     | Displays all buildscript dependencies declared in root project 'demo'.               |
-| components           | Displays the components produced by root project 'demo'. [incubating]                |
-| dependencies         | Displays all dependencies declared in root project 'demo'.                           |
-| dependencyInsight    | Displays the insight into a specific dependency in root project 'demo'.              |
-| dependencyManagement | Displays the dependency management declared in root project 'demo'.                  |
-| dependentComponents  | Displays the dependent components of components in root project 'demo'. [incubating] |
-| help                 | Displays a help message.                                                             |
-| model                | Displays the configuration model of root project 'demo'. [incubating]                |
-| projects             | Displays the sub-projects of root project 'demo'.                                    |
-| properties           | Displays the properties of root project 'demo'.                                      |
-| tasks                | Displays the tasks runnable from root project 'demo'.                                |
+# ビルド＋テスト
+gradle build
 
-### **Verification tasks**
+# アプリを実行
+gradle run
+```
 
-| task  | detail               |
-| ----- | -------------------- |
-| check | Runs all checks.     |
-| test  | Runs the unit tests. |
+依存関係の解決やタスクの依存グラフは Gradle が面倒を見てくれるので、`gradle build` を実行すれば、必要なコンパイルやテストが自動的に順序立てて実行されます。
