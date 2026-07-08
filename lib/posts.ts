@@ -3,7 +3,19 @@ import path from 'path'
 import matter from 'gray-matter'
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
-import remarkHtml from 'remark-html'
+import remarkRehype from 'remark-rehype'
+import rehypeRaw from 'rehype-raw'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeStringify from 'rehype-stringify'
+import powershell from 'highlight.js/lib/languages/powershell'
+import dos from 'highlight.js/lib/languages/dos'
+import properties from 'highlight.js/lib/languages/properties'
+import apache from 'highlight.js/lib/languages/apache'
+import http from 'highlight.js/lib/languages/http'
+
+// Languages beyond highlight.js' "common" bundle that appear in posts
+// (PowerShell / bat・cmd / .properties / Apache conf / HTTP).
+const extraLanguages = { powershell, dos, properties, apache, http }
 
 const postsDirectory = path.join(process.cwd(), '_posts')
 
@@ -78,7 +90,14 @@ export async function getPostData(slug: string): Promise<Post> {
 
   const processedContent = await remark()
     .use(remarkGfm)
-    .use(remarkHtml, { sanitize: false })
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeHighlight, {
+      detect: false,
+      ignoreMissing: true,
+      languages: extraLanguages,
+    })
+    .use(rehypeStringify, { allowDangerousHtml: true })
     .process(content)
 
   const contentHtml = processedContent.toString()

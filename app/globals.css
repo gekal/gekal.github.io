@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -184,23 +184,69 @@
   .text-balance { text-wrap: balance; }
 }
 
-/* ── Highlight.js ───────────────────────────────────── */
-pre code.hljs {
-  border-radius: 14px;
-  font-size: 0.85rem;
-  line-height: 1.7;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-}
-
-/* ── Prose overrides ────────────────────────────────── */
+/* ── Code blocks (build-time highlight.js · GitHub Dark Dimmed) ── */
 .prose pre {
+  margin: 1.7em 0;
   padding: 0 !important;
   background: var(--dark-surface) !important;
-  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(26, 25, 22, 0.12);
 }
+.prose pre code,
 .prose pre code.hljs {
-  padding: 1.5rem !important;
+  display: block;
+  overflow-x: auto;
+  padding: 1.3rem 1.45rem !important;
+  background: transparent;
+  color: #adbac7;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono',
+               Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.75;
+  font-weight: 400;
+  font-variant-ligatures: none;
+  -webkit-font-smoothing: auto;
+  tab-size: 2;
 }
+.prose pre code::before,
+.prose pre code::after { content: none !important; }
+.prose pre code::-webkit-scrollbar { height: 8px; }
+.prose pre code::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+/* ── Inline code — warm light chip ─────────────────── */
+.prose :not(pre) > code {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--surface-secondary);
+  border: 1px solid var(--separator-opaque);
+  padding: 0.12em 0.4em;
+  border-radius: 6px;
+}
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after { content: none !important; }
+
+/* ── Syntax tokens — GitHub Dark Dimmed ────────────── */
+.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#f47067}
+.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#dcbdfb}
+.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#6cb6ff}
+.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#96d0ff}
+.hljs-built_in,.hljs-symbol{color:#f69d50}
+.hljs-code,.hljs-comment,.hljs-formula{color:#768390}
+.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#8ddb8c}
+.hljs-subst{color:#adbac7}
+.hljs-section{color:#316dca;font-weight:700}
+.hljs-bullet{color:#eac55f}
+.hljs-emphasis{color:#adbac7;font-style:italic}
+.hljs-strong{color:#adbac7;font-weight:700}
+.hljs-addition{color:#b4f1b4;background-color:#1b4721}
+.hljs-deletion{color:#ffd8d3;background-color:#78191b}
 .prose img {
   box-shadow: 0 4px 20px rgba(26, 25, 22, 0.08);
   border-radius: 14px;

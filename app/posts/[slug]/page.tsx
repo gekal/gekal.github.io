@@ -93,9 +93,7 @@ export default async function PostPage({ params }: Props) {
             prose-headings:text-[#1D1D1F] prose-headings:tracking-tight
             prose-a:text-[#0071E3] prose-a:no-underline hover:prose-a:underline
             prose-img:rounded-2xl prose-img:shadow-lg
-            prose-code:text-[#0071E3] prose-code:text-sm
-            prose-blockquote:border-[#0071E3] prose-blockquote:text-[#6E6E73]
-            prose-pre:p-0 prose-pre:bg-transparent"
+            prose-blockquote:border-[#0071E3] prose-blockquote:text-[#6E6E73]"
           dangerouslySetInnerHTML={{ __html: post.content ?? '' }}
         />
 

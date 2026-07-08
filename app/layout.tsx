@@ -40,21 +40,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
-        />
-        <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
-          defer
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.addEventListener('DOMContentLoaded', () => { if (window.hljs) window.hljs.highlightAll(); });`,
-          }}
-        />
-      </head>
       <body className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>
