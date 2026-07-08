@@ -7,15 +7,11 @@ import remarkRehype from 'remark-rehype'
 import rehypeRaw from 'rehype-raw'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeStringify from 'rehype-stringify'
-import powershell from 'highlight.js/lib/languages/powershell'
-import dos from 'highlight.js/lib/languages/dos'
-import properties from 'highlight.js/lib/languages/properties'
-import apache from 'highlight.js/lib/languages/apache'
-import http from 'highlight.js/lib/languages/http'
+import { all } from 'lowlight'
 
-// Languages beyond highlight.js' "common" bundle that appear in posts
-// (PowerShell / bat・cmd / .properties / Apache conf / HTTP).
-const extraLanguages = { powershell, dos, properties, apache, http }
+// rehype-highlight's `languages` option REPLACES the default set, so we register
+// lowlight's full grammar set (`all`) to cover every language used across posts
+// (bash / ts / python / powershell / bat・cmd / yaml / apache / …).
 
 const postsDirectory = path.join(process.cwd(), '_posts')
 
@@ -95,7 +91,7 @@ export async function getPostData(slug: string): Promise<Post> {
     .use(rehypeHighlight, {
       detect: false,
       ignoreMissing: true,
-      languages: extraLanguages,
+      languages: all,
     })
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(content)
