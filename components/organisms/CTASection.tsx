@@ -19,7 +19,7 @@ export default function CTASection({
 }: CTASectionProps) {
   return (
     <section
-      className="rounded-3xl p-10 md:p-14 text-center relative overflow-hidden"
+      className="sel-on-dark rounded-3xl p-10 md:p-14 text-center relative overflow-hidden"
       style={{ background: 'var(--dark-bg)' }}
     >
       {/* Subtle blue glow */}

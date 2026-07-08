@@ -37,7 +37,7 @@ export default async function PostPage({ params }: Props) {
     <>
       {/* ── Hero ──────────────────────────────────── */}
       <header
-        className="relative flex items-end pt-[52px] min-h-[320px]"
+        className="sel-on-dark relative flex items-end pt-[52px] min-h-[320px]"
         style={{
           backgroundImage: post.background ? `url(${post.background})` : 'url(/img/bg-post.jpg)',
           backgroundSize: 'cover',

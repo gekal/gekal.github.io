@@ -217,10 +217,14 @@
   background: rgba(255, 255, 255, 0.16);
   border-radius: 4px;
 }
-/* Selection inside dark code blocks — keep text readable
-   (overrides the global light-page ::selection which uses dark text). */
+/* Selection on dark backgrounds — keep text readable
+   (overrides the global light-page ::selection which uses dark text).
+   Applies to code blocks and any element tagged `.sel-on-dark`
+   (e.g. the CTA section and post hero). */
 .prose pre::selection,
-.prose pre ::selection {
+.prose pre ::selection,
+.sel-on-dark::selection,
+.sel-on-dark ::selection {
   background: rgba(88, 166, 255, 0.40);
   color: #ffffff;
 }
