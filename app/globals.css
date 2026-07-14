@@ -4,8 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
-.prose .mermaid {
+.prose .mermaid-figure {
   margin: 2rem 0;
+}
+
+.prose .mermaid {
+  margin: 0;
   overflow-x: auto;
   text-align: center;
 }
@@ -15,6 +19,42 @@
   max-width: 100%;
   height: auto;
   margin: 0 auto;
+}
+
+.prose .mermaid-figure[data-animation-paused='true'] .mermaid svg * {
+  animation-play-state: paused !important;
+}
+
+.prose .mermaid-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.prose .mermaid-animation-toggle {
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--separator);
+  border-radius: 9999px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.prose .mermaid-animation-toggle:hover {
+  border-color: var(--apple-blue);
+  color: var(--apple-blue);
+}
+
+.prose .mermaid-animation-toggle:focus-visible {
+  outline: 3px solid rgba(0, 113, 227, 0.3);
+  outline-offset: 2px;
 }
 
 /* ── Design Tokens — Warm Neutral Palette ──────────── */

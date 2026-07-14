@@ -239,10 +239,10 @@ flowchart LR
     CHAIN["CA 証明書チェーン<br/>chain.pem"]
     JWK["JSON Web Key<br/>public.jwk"]
 
-    KEY -->|"2. CSR を作成"| CSR
-    CSR -->|"CA が署名"| CERTPEM
-    KEY -->|"3. 自己署名"| CERTPEM
-    KEY -->|"7. 公開鍵を抽出"| PUB
+    KEY e1@-->|"2. CSR を作成"| CSR
+    CSR e2@-->|"CA が署名"| CERTPEM
+    KEY e3@-->|"3. 自己署名"| CERTPEM
+    KEY e4@-->|"7. 公開鍵を抽出"| PUB
     CERTPEM -->|"7. 公開鍵を抽出"| PUB
     CERTPEM <-->|"6. PEM ⇄ DER"| CERTDER
     KEY -->|"4. 格納"| P12
@@ -252,6 +252,11 @@ flowchart LR
     P12 -->|"5. 取り出す"| CERTPEM
     P12 -->|"5. 取り出す"| CHAIN
     PUB -->|"8. JSON に変換"| JWK
+
+    e1@{ animation: fast }
+    e2@{ animation: fast }
+    e3@{ animation: slow }
+    e4@{ animation: fast }
 ```
 
 この図で重要なのは、次の2点です。

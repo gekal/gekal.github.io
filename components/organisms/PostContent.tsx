@@ -29,21 +29,65 @@ export default function PostContent({ content }: PostContentProps) {
       })
 
       const diagrams: HTMLElement[] = []
+      const diagramFigures = new Map<HTMLElement, HTMLElement>()
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
       codeBlocks.forEach((codeBlock, index) => {
         const pre = codeBlock.parentElement
         if (!pre) return
 
+        const figure = document.createElement('figure')
+        figure.className = 'mermaid-figure'
+        figure.setAttribute('aria-label', `フロー図 ${index + 1}`)
+        figure.dataset.animationPaused = String(reduceMotion)
+
         const diagram = document.createElement('div')
         diagram.className = 'mermaid'
         diagram.id = `mermaid-diagram-${index}`
         diagram.textContent = codeBlock.textContent ?? ''
-        pre.replaceWith(diagram)
+        figure.append(diagram)
+        pre.replaceWith(figure)
         diagrams.push(diagram)
+        diagramFigures.set(diagram, figure)
       })
 
       try {
         await mermaid.run({ nodes: diagrams, suppressErrors: false })
+
+        diagrams.forEach((diagram) => {
+          const figure = diagramFigures.get(diagram)
+          if (!figure) return
+
+          const controls = document.createElement('figcaption')
+          controls.className = 'mermaid-controls'
+
+          const button = document.createElement('button')
+          button.type = 'button'
+          button.className = 'mermaid-animation-toggle'
+
+          const status = document.createElement('span')
+          status.className = 'mermaid-animation-status'
+          status.setAttribute('aria-live', 'polite')
+
+          const setPaused = (paused: boolean) => {
+            figure.dataset.animationPaused = String(paused)
+            button.textContent = paused ? '▶ 再生' : '⏸ 一時停止'
+            button.setAttribute(
+              'aria-label',
+              paused ? 'フロー図のアニメーションを再生' : 'フロー図のアニメーションを一時停止',
+            )
+            button.setAttribute('aria-pressed', String(!paused))
+            status.textContent = paused ? 'アニメーション停止中' : 'アニメーション再生中'
+          }
+
+          setPaused(reduceMotion)
+          button.addEventListener('click', () => {
+            setPaused(figure.dataset.animationPaused !== 'true')
+          })
+
+          controls.append(button, status)
+          figure.append(controls)
+        })
       } catch (error) {
         console.error('Mermaid diagram rendering failed:', error)
       }
