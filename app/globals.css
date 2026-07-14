@@ -4,6 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.prose .mermaid {
+  margin: 2rem 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.prose .mermaid svg {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
 /* ── Design Tokens — Warm Neutral Palette ──────────── */
 :root {
   /* Accent */

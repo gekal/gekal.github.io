@@ -6,6 +6,7 @@ import TagList from '@/components/molecules/TagList'
 import BreadcrumbNav from '@/components/molecules/BreadcrumbNav'
 import AccentLine from '@/components/atoms/AccentLine'
 import Icon from '@/components/atoms/Icon'
+import PostContent from '@/components/organisms/PostContent'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -88,14 +89,7 @@ export default async function PostPage({ params }: Props) {
           ]}
         />
 
-        <article
-          className="prose prose-lg max-w-none
-            prose-headings:text-[#1D1D1F] prose-headings:tracking-tight
-            prose-a:text-[#0071E3] prose-a:no-underline hover:prose-a:underline
-            prose-img:rounded-2xl prose-img:shadow-lg
-            prose-blockquote:border-[#0071E3] prose-blockquote:text-[#6E6E73]"
-          dangerouslySetInnerHTML={{ __html: post.content ?? '' }}
-        />
+        <PostContent content={post.content ?? ''} />
 
         {/* Footer */}
         <div className="mt-16 pt-8" style={{ borderTop: '1px solid var(--separator-opaque)' }}>
