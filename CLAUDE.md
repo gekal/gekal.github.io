@@ -64,4 +64,6 @@ When adding absolute URLs anywhere, import `SITE_URL` rather than hardcoding the
 
 ### Deployment
 
-Pushing to `master` triggers `.github/workflows/deploy.yml`, which runs `npm ci && npm run build` and deploys `out/` to GitHub Pages via `actions/deploy-pages@v4`. GitHub Pages must be configured to use **GitHub Actions** as the source (not the legacy branch method). `public/CNAME` contains `www.gekal.cn` for the custom domain — it also drives the apex→www redirect, so do not delete it.
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which runs `npm ci && npm run build` and deploys `out/` to GitHub Pages via `actions/deploy-pages@v5`. GitHub Pages must be configured to use **GitHub Actions** as the source (not the legacy branch method). `public/CNAME` contains `www.gekal.cn` for the custom domain — it also drives the apex→www redirect, so do not delete it.
+
+Because the workflow runs `npm ci`, `package-lock.json` must always be committed alongside `package.json`. A lockfile missing platform-specific optional dependencies installs fine on macOS but fails `npm ci` on the Linux runner.
