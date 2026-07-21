@@ -5,8 +5,8 @@ import { SITE_URL } from '@/lib/site'
 export const dynamic = 'force-static'
 
 /**
- * apex (gekal.cn) を廃止して www に一本化したため、クローラに正規 URL を
- * 明示的に伝える。URL は trailingSlash: true に合わせて末尾スラッシュ付き。
+ * クローラに正規 URL (www) を明示的に伝える。
+ * URL は trailingSlash: true に合わせて末尾スラッシュ付き。
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [

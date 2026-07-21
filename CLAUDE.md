@@ -14,14 +14,14 @@ There are no automated tests. Verify changes with `npm run build` to catch type 
 
 ## Architecture
 
-This is a **Next.js 15 static export** personal blog/portfolio site served from S3 + CloudFront at `www.gekal.cn`.
+This is a **Next.js 15 static export** personal blog/portfolio site deployed to GitHub Pages at `www.gekal.cn`.
 
 ### Key constraints
 
 - `output: 'export'` in `next.config.ts` — no server-side features (no API routes, no dynamic route handlers). Any route that needs data at build time must use `generateStaticParams`. Any image-generation route must export `dynamic = 'force-static'`.
 - `images.unoptimized: true` — use plain `<img>` tags or suppress `@next/next/no-img-element` lint warnings where needed.
-- `trailingSlash: true` — all links use trailing slashes. The origin is the S3 **REST** endpoint, which does not resolve `/foo/` → `/foo/index.html` on its own; a CloudFront Function does that (see Deployment).
-- **Every emitted file must have a file extension.** The CloudFront Function treats extensionless URIs as directories and 301-redirects them, and S3 cannot infer a `Content-Type` without one. This is why the icons are static `.png` files rather than `ImageResponse` routes.
+- `trailingSlash: true` — all links use trailing slashes.
+- **Prefer emitting files with extensions.** Static hosts infer `Content-Type` from the extension, and extensionless files are ambiguous. This is why the icons are static `.png` files rather than `ImageResponse` routes.
 
 ### Blog post pipeline
 
@@ -46,54 +46,22 @@ Three static files under `app/`, picked up by Next's file convention and referen
 - `app/icon.png` — 32×32
 - `app/apple-icon.png` — 180×180
 
-These were previously `icon.tsx` / `apple-icon.tsx` generating PNGs via `ImageResponse`. That emitted extensionless `out/icon` and `out/apple-icon`, which S3 + CloudFront cannot serve correctly — see Key constraints. If you regenerate them, keep them as static files with extensions.
+These were previously `icon.tsx` / `apple-icon.tsx` generating PNGs via `ImageResponse`, which emitted extensionless `out/icon` and `out/apple-icon`. If you regenerate them, keep them as static files with extensions — see Key constraints.
 
 ### Styling
 
 Tailwind CSS with `@tailwindcss/typography`. Primary color `#0085A1` is defined as `primary` in `tailwind.config.ts`. Post content uses the `prose` class. Code blocks are highlighted **at build time** by `rehype-highlight` in `lib/posts.ts`; the GitHub Dark Dimmed theme is inlined in `app/globals.css` (no CDN, no client-side highlighting).
 
-### Infrastructure (`cdk/`)
+### Canonical URL
 
-A separate npm project — do not add its dependencies to the root `package.json`. The root `tsconfig.json` excludes `cdk/`.
-
-```bash
-cd cdk && npm install
-npx cdk deploy --all
-```
-
-Two stacks, both in **us-east-1** (CloudFront requires its ACM certificate there; the bucket is co-located to avoid cross-region references):
-
-| Stack | Contents |
-|---|---|
-| `GekalBlogCertificate` | ACM certificate for `www.gekal.cn` |
-| `GekalBlogSite` | S3 bucket (private), CloudFront + OAC, URI-rewrite Function, security headers, GitHub OIDC deploy role |
-
-The certificate is a separate stack because `gekal.cn` is served by Aliyun DNS, not Route 53 — validation is manual, so the stack stalls waiting for a CNAME record. Isolating it means a validation timeout cannot roll back the bucket or distribution.
-
-Domain and repo names come from `context` in `cdk/cdk.json`. Set `createGithubOidcProvider` to `false` if the account already has a `token.actions.githubusercontent.com` provider.
-
-See [cdk/README.md](cdk/README.md) for the deployment runbook, including the manual DNS steps.
-
-### Domain: www only
-
-The apex `gekal.cn` is deliberately unused — Aliyun DNS's free tier has no CNAME flattening, and CloudFront has no static IP to point an A record at. `www.gekal.cn` is the single canonical origin, declared in:
+`www.gekal.cn` is the canonical origin. The apex `gekal.cn` also resolves, but GitHub Pages 301-redirects it to the value in `public/CNAME` — so www is what should be advertised everywhere:
 
 - `lib/site.ts` — `SITE_URL`, the single source of truth
 - `app/layout.tsx` — `metadataBase` and `alternates.canonical: './'` (each route emits its own canonical)
-- `app/sitemap.ts` / `app/robots.ts` — statically generated at build time
+- `app/sitemap.ts` / `app/robots.ts` — statically generated at build time to `out/sitemap.xml` and `out/robots.txt`
 
 When adding absolute URLs anywhere, import `SITE_URL` rather than hardcoding the host.
 
 ### Deployment
 
-Pushing to `master` triggers `.github/workflows/deploy.yml`: `npm ci && npm run build`, then assumes the CDK-created role via OIDC and syncs `out/` to S3 in three passes, each setting a different `Cache-Control` (CloudFront honours the origin header):
-
-| Pass | Paths | Cache-Control |
-|---|---|---|
-| 1 | `_next/static/*` (content-hashed) | `max-age=31536000, immutable` |
-| 2 | `assets/*`, `img/*` | `max-age=604800` |
-| 3 | everything else (HTML, `.txt` RSC payloads) | `max-age=0, must-revalidate` |
-
-Then a `/*` CloudFront invalidation. Requires three repo secrets: `AWS_DEPLOY_ROLE_ARN`, `AWS_S3_BUCKET`, `AWS_CLOUDFRONT_DISTRIBUTION_ID` (all available as stack outputs).
-
-Note that pass 3's `--delete` is what prunes removed pages, so its `--exclude` list must stay in sync with the prefixes covered by passes 1 and 2.
+Pushing to `master` triggers `.github/workflows/deploy.yml`, which runs `npm ci && npm run build` and deploys `out/` to GitHub Pages via `actions/deploy-pages@v4`. GitHub Pages must be configured to use **GitHub Actions** as the source (not the legacy branch method). `public/CNAME` contains `www.gekal.cn` for the custom domain — it also drives the apex→www redirect, so do not delete it.

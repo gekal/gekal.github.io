@@ -6,8 +6,8 @@ import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  // 各ルートが自身の URL を canonical として出す。apex を廃止し www に
-  // 一本化しているため、正規 URL を明示しておく
+  // 各ルートが自身の URL を canonical として出す。apex からも到達できるため、
+  // 正規形が www であることを明示しておく
   alternates: {
     canonical: './',
   },
