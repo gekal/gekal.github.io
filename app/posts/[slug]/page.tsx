@@ -1,11 +1,15 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { getAllPostSlugs, getPostData, formatDate } from '@/lib/posts'
 import TagList from '@/components/molecules/TagList'
 import BreadcrumbNav from '@/components/molecules/BreadcrumbNav'
 import AccentLine from '@/components/atoms/AccentLine'
-import Icon from '@/components/atoms/Icon'
 import PostContent from '@/components/organisms/PostContent'
 
 interface Props {
@@ -31,56 +35,63 @@ export default async function PostPage({ params }: Props) {
   const tags = Array.isArray(post.tags)
     ? post.tags
     : post.tags
-    ? String(post.tags).split(/\s+/).filter(Boolean)
-    : []
+      ? String(post.tags).split(/\s+/).filter(Boolean)
+      : []
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────── */}
-      <header
-        className="sel-on-dark relative flex items-end pt-[52px] min-h-[320px]"
-        style={{
-          backgroundImage: post.background ? `url(${post.background})` : 'url(/img/bg-post.jpg)',
+      {/* ── ヒーロー ── */}
+      <Box
+        component="header"
+        sx={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'flex-end',
+          pt: '52px',
+          minHeight: 320,
+          backgroundImage: `url(${post.background ?? '/img/bg-post.jpg'})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        {/* Bottom-to-top gradient */}
-        <div
-          className="absolute inset-0"
-          style={{
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
             background:
               'linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.15) 100%)',
           }}
         />
-        {/* Top-to-bottom gradient — navbar readability */}
-        <div
-          className="absolute inset-0"
-          style={{
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
             background:
               'linear-gradient(to bottom, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.15) 20%, transparent 40%)',
           }}
         />
-        <div className="relative z-10 max-w-3xl mx-auto px-6 sm:px-10 pb-10 w-full">
-          <TagList tags={tags.slice(0, 4)} dark className="mb-5" />
-          <AccentLine className="mb-4" />
-          <h1
-            className="font-bold text-white leading-snug"
-            style={{ fontSize: 'clamp(22px, 4vw, 32px)', letterSpacing: '-0.025em' }}
-          >
+        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1, pb: 5 }}>
+          <TagList tags={tags.slice(0, 4)} dark sx={{ mb: 2.5 }} />
+          <AccentLine sx={{ mb: 2 }} />
+          <Typography variant="h3" component="h1" sx={{ color: '#fff', fontWeight: 700 }}>
             {post.title}
-          </h1>
+          </Typography>
           {post.subtitle && (
-            <p className="mt-2 text-[15px] text-white/60">{post.subtitle}</p>
+            <Typography sx={{ mt: 1, color: 'rgba(255,255,255,0.7)' }}>{post.subtitle}</Typography>
           )}
-          <p className="mt-4 text-[13px] text-white/40">
-            <time dateTime={post.date}>{formatDate(post.date)}</time>
-          </p>
-        </div>
-      </header>
+          <Typography
+            variant="body2"
+            component="time"
+            dateTime={post.date}
+            sx={{ display: 'block', mt: 2, color: 'rgba(255,255,255,0.55)' }}
+          >
+            {formatDate(post.date)}
+          </Typography>
+        </Container>
+      </Box>
 
-      {/* ── Content ───────────────────────────────── */}
-      <div className="max-w-3xl mx-auto px-6 sm:px-10 py-12">
+      {/* ── 本文 ── */}
+      <Container maxWidth="md" sx={{ py: 6 }}>
         <BreadcrumbNav
           items={[
             { label: 'Home', href: '/' },
@@ -91,24 +102,14 @@ export default async function PostPage({ params }: Props) {
 
         <PostContent content={post.content ?? ''} />
 
-        {/* Footer */}
-        <div className="mt-16 pt-8" style={{ borderTop: '1px solid var(--separator-opaque)' }}>
-          <TagList tags={tags} className="mb-8" />
+        <Divider sx={{ mt: 8, mb: 4 }} />
 
-          <Link
-            href="/posts"
-            className="inline-flex items-center gap-2 text-[14px] font-medium transition-opacity hover:opacity-60 group"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            <Icon
-              name="arrow-left"
-              className="h-4 w-4 group-hover:-translate-x-1 transition-transform"
-              strokeWidth={2}
-            />
-            記事一覧へ戻る
-          </Link>
-        </div>
-      </div>
+        <TagList tags={tags} sx={{ mb: 4 }} />
+
+        <Button href="/posts" startIcon={<ArrowBackIcon />} color="inherit">
+          記事一覧へ戻る
+        </Button>
+      </Container>
     </>
   )
 }

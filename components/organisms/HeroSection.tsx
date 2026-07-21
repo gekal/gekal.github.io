@@ -1,3 +1,6 @@
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
 import AccentLine from '@/components/atoms/AccentLine'
 
 interface HeroSectionProps {
@@ -7,7 +10,7 @@ interface HeroSectionProps {
   size?: 'sm' | 'md' | 'lg'
 }
 
-const heights = { sm: 'min-h-[260px]', md: 'min-h-[360px]', lg: 'min-h-[480px]' }
+const heights = { sm: 260, md: 360, lg: 480 }
 
 export default function HeroSection({
   title,
@@ -16,47 +19,48 @@ export default function HeroSection({
   size = 'md',
 }: HeroSectionProps) {
   return (
-    <header
-      className={`relative flex items-end pt-[52px] ${heights[size]}`}
-      style={{
+    <Box
+      component="header"
+      sx={{
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'flex-end',
+        pt: '52px',
+        minHeight: heights[size],
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
-      {/* Bottom-to-top gradient */}
-      <div
-        className="absolute inset-0"
-        style={{
+      {/* 下から上へのグラデーション — 本文の可読性 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
           background:
             'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.40) 50%, rgba(0,0,0,0.15) 100%)',
         }}
       />
-      {/* Top-to-bottom gradient — navbar readability */}
-      <div
-        className="absolute inset-0"
-        style={{
+      {/* 上から下へのグラデーション — ナビゲーションの可読性 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
           background:
             'linear-gradient(to bottom, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.15) 20%, transparent 40%)',
         }}
       />
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-10 pb-12">
-        <AccentLine className="mb-4 animate-fade-up" />
-        <h1
-          className="font-bold text-white leading-tight animate-fade-up delay-100"
-          style={{ fontSize: 'clamp(32px, 6vw, 48px)', letterSpacing: '-0.03em' }}
-        >
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pb: 6 }}>
+        <AccentLine sx={{ mb: 2 }} />
+        <Typography variant="h2" component="h1" sx={{ color: '#fff' }}>
           {title}
-        </h1>
+        </Typography>
         {subtitle && (
-          <p
-            className="mt-3 text-[15px] text-white/60 max-w-xl animate-fade-up delay-200"
-            style={{ letterSpacing: '-0.01em' }}
-          >
+          <Typography sx={{ mt: 1.5, color: 'rgba(255,255,255,0.75)', maxWidth: 560 }}>
             {subtitle}
-          </p>
+          </Typography>
         )}
-      </div>
-    </header>
+      </Container>
+    </Box>
   )
 }

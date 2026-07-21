@@ -1,37 +1,44 @@
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import type { SxProps, Theme } from '@mui/material/styles'
+
 interface TagListProps {
   tags: string[]
   max?: number
-  /** dark variant: white text on semi-transparent dark bg */
+  /** 暗い背景の上に置く場合 */
   dark?: boolean
-  className?: string
+  sx?: SxProps<Theme>
 }
 
-export default function TagList({ tags, max, dark = false, className = '' }: TagListProps) {
+export default function TagList({ tags, max, dark = false, sx }: TagListProps) {
   const visible = max ? tags.slice(0, max) : tags
-
-  if (dark) {
-    return (
-      <div className={`flex flex-wrap items-center gap-2 ${className}`}>
-        {visible.map((tag) => (
-          <span
-            key={tag}
-            className="text-[12px] rounded-full px-2.5 py-1"
-            style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }}
-          >
-            #{tag}
-          </span>
-        ))}
-      </div>
-    )
-  }
+  if (visible.length === 0) return null
 
   return (
-    <div className={`flex flex-wrap items-center gap-1.5 ${className}`}>
+    <Stack
+      direction="row"
+      useFlexGap
+      spacing={0.75}
+      sx={[
+        { alignItems: 'center', flexWrap: 'wrap' },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+    >
       {visible.map((tag) => (
-        <span key={tag} className="tag text-[11px]">
-          {tag}
-        </span>
+        <Chip
+          key={tag}
+          label={dark ? `#${tag}` : tag}
+          size="small"
+          {...(dark
+            ? {
+                sx: {
+                  bgcolor: 'rgba(255,255,255,0.14)',
+                  color: 'rgba(255,255,255,0.85)',
+                },
+              }
+            : { color: 'primary', variant: 'outlined' })}
+        />
       ))}
-    </div>
+    </Stack>
   )
 }

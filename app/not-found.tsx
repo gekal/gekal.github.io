@@ -1,30 +1,48 @@
-import Button from '@/components/atoms/Button'
-import Icon from '@/components/atoms/Icon'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--dark-bg)' }}>
-      <div className="text-center">
-        <p
-          className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-4"
-          style={{ color: 'var(--apple-blue)' }}
-        >
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bgcolor: 'grey.900',
+      }}
+    >
+      <Container maxWidth="sm" sx={{ textAlign: 'center' }}>
+        <Typography variant="overline" sx={{ color: 'primary.light' }}>
           404 — Not Found
-        </p>
-        <h1
-          className="font-bold select-none mb-2"
-          style={{ fontSize: 'clamp(80px, 15vw, 120px)', color: 'rgba(255,255,255,0.06)', letterSpacing: '-0.04em' }}
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: 'clamp(80px, 15vw, 120px)',
+            fontWeight: 700,
+            lineHeight: 1,
+            color: 'rgba(255,255,255,0.08)',
+            userSelect: 'none',
+          }}
         >
           404
-        </h1>
-        <p className="text-[17px] mb-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        </Typography>
+        <Typography sx={{ color: 'rgba(255,255,255,0.6)', mt: 1, mb: 4 }}>
           ページが見つかりません
-        </p>
-        <Button href="/" variant="primary" className="text-[15px]">
+        </Typography>
+        <Button
+
+          href="/"
+          variant="contained"
+          size="large"
+          endIcon={<ArrowForwardIcon />}
+        >
           ホームへ戻る
-          <Icon name="arrow-right" className="h-3.5 w-3.5" strokeWidth={2.5} />
         </Button>
-      </div>
-    </div>
+      </Container>
+    </Box>
   )
 }

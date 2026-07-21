@@ -1,5 +1,11 @@
 import type { Metadata } from 'next'
-import './globals.css'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter'
+import { ThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
+import Box from '@mui/material/Box'
+import theme from './theme'
+import MarkdownStyles from './MarkdownStyles'
 import Navbar from '@/components/organisms/Navbar'
 import Footer from '@/components/organisms/Footer'
 import { SITE_URL } from '@/lib/site'
@@ -46,11 +52,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
-      <body className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+    <html lang="ja" suppressHydrationWarning>
+      <body>
+        {/* ハイドレーション前に配色を確定させ、初回描画のちらつきを防ぐ */}
+        <InitColorSchemeScript attribute="data-mui-color-scheme" defaultMode="system" />
+        <AppRouterCacheProvider options={{ key: 'mui' }}>
+          <ThemeProvider theme={theme} defaultMode="system">
+            <CssBaseline />
+            <MarkdownStyles />
+            <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+              <Navbar />
+              <Box component="main" sx={{ flex: 1 }}>
+                {children}
+              </Box>
+              <Footer />
+            </Box>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   )

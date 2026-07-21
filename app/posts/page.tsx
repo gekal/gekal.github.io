@@ -1,4 +1,9 @@
 import type { Metadata } from 'next'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import { getSortedPostsData } from '@/lib/posts'
 import PostCard from '@/components/organisms/PostCard'
 import HeroSection from '@/components/organisms/HeroSection'
@@ -28,31 +33,31 @@ export default function PostsPage() {
         size="sm"
       />
 
-      <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16">
+      <Container maxWidth="lg" sx={{ py: 8 }}>
         {years.map((year) => (
-          <div key={year} className="mb-16">
-            <div className="flex items-center gap-4 mb-8">
-              <span
-                className="text-5xl font-bold select-none"
-                style={{ color: 'var(--separator)', letterSpacing: '-0.04em' }}
+          <Box key={year} sx={{ mb: 8 }}>
+            <Stack direction="row" spacing={2} sx={{ alignItems: 'baseline', mb: 4 }}>
+              <Typography
+                component="p"
+                sx={{ color: 'text.disabled', userSelect: 'none', fontSize: 48, fontWeight: 700 }}
               >
                 {year}
-              </span>
-              <span className="text-[12px] font-medium" style={{ color: 'var(--text-tertiary)' }}>
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
                 {byYear[year].length} 記事
-              </span>
-            </div>
+              </Typography>
+            </Stack>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Grid container spacing={3}>
               {byYear[year].map((post) => (
-                <div key={post.slug} className="relative">
+                <Grid key={post.slug} size={{ xs: 12, sm: 6, lg: 4 }}>
                   <PostCard post={post} />
-                </div>
+                </Grid>
               ))}
-            </div>
-          </div>
+            </Grid>
+          </Box>
         ))}
-      </div>
+      </Container>
     </>
   )
 }

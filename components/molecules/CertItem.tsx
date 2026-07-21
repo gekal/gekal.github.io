@@ -1,4 +1,7 @@
-import Icon from '@/components/atoms/Icon'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import CheckIcon from '@mui/icons-material/Check'
 
 interface CertItemProps {
   name: string
@@ -6,12 +9,14 @@ interface CertItemProps {
 
 export default function CertItem({ name }: CertItemProps) {
   return (
-    <li className="flex items-start gap-2 text-[12px]" style={{ color: 'var(--text-secondary)' }}>
-      <Icon name="check" className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" strokeWidth={2.5} />
-      {name}
-    </li>
+    <ListItem disableGutters disablePadding sx={{ alignItems: 'flex-start', mb: 0.5 }}>
+      <ListItemIcon sx={{ minWidth: 26, mt: '2px' }}>
+        <CheckIcon sx={{ fontSize: 16 }} color="success" />
+      </ListItemIcon>
+      <ListItemText
+        primary={name}
+        slotProps={{ primary: { variant: 'body2', color: 'text.secondary' } }}
+      />
+    </ListItem>
   )
 }
-
-// Workaround: CertItem icon needs a color override
-// The green check uses a custom style via parent's CSS

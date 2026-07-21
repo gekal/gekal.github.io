@@ -1,27 +1,42 @@
-import Icon, { IconName } from '@/components/atoms/Icon'
+import IconButton from '@mui/material/IconButton'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import XIcon from '@/components/atoms/XIcon'
+
+export type SocialIconName = 'github' | 'twitter' | 'linkedin'
+
+const icons = {
+  github: GitHubIcon,
+  twitter: XIcon,
+  linkedin: LinkedInIcon,
+} as const
 
 interface SocialLinkProps {
   href: string
   label: string
-  icon: IconName
-  /** 'light' = dark icon on light bg, 'dark' = light icon on dark bg */
+  icon: SocialIconName
+  /** 'dark' = 暗い背景の上 */
   variant?: 'light' | 'dark'
 }
 
 export default function SocialLink({ href, label, icon, variant = 'light' }: SocialLinkProps) {
+  const IconComponent = icons[icon]
+  const dark = variant === 'dark'
+
   return (
-    <a
+    <IconButton
+      component="a"
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="w-8 h-8 rounded-lg flex items-center justify-center transition-opacity hover:opacity-60"
-      style={{
-        background: variant === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-        color: variant === 'dark' ? 'rgba(255,255,255,0.6)' : 'var(--text-secondary)',
+      size="small"
+      sx={{
+        color: dark ? 'rgba(255,255,255,0.7)' : 'text.secondary',
+        '&:hover': { color: dark ? '#fff' : 'primary.main' },
       }}
     >
-      <Icon name={icon} className="h-4 w-4" />
-    </a>
+      <IconComponent fontSize="small" />
+    </IconButton>
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Box from '@mui/material/Box'
 
 interface PostContentProps {
   content: string
@@ -100,14 +101,12 @@ export default function PostContent({ content }: PostContentProps) {
     }
   }, [content])
 
+  // スタイルは app/MarkdownStyles.tsx の .markdown-body が当てている
   return (
-    <article
+    <Box
+      component="article"
       ref={articleRef}
-      className="prose prose-lg max-w-none
-        prose-headings:text-[#1D1D1F] prose-headings:tracking-tight
-        prose-a:text-[#0071E3] prose-a:no-underline hover:prose-a:underline
-        prose-img:rounded-2xl prose-img:shadow-lg
-        prose-blockquote:border-[#0071E3] prose-blockquote:text-[#6E6E73]"
+      className="markdown-body"
       dangerouslySetInnerHTML={{ __html: content }}
     />
   )

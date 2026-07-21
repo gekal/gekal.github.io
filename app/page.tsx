@@ -1,11 +1,16 @@
-import Link from 'next/link'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { getSortedPostsData } from '@/lib/posts'
 import PostCard from '@/components/organisms/PostCard'
 import HomeHero from '@/components/organisms/HomeHero'
 import SkillBadgeBar from '@/components/organisms/SkillBadgeBar'
 import CTASection from '@/components/organisms/CTASection'
 import SectionLabel from '@/components/atoms/SectionLabel'
-import Icon from '@/components/atoms/Icon'
 
 export default function HomePage() {
   const posts = getSortedPostsData()
@@ -17,56 +22,60 @@ export default function HomePage() {
       <HomeHero />
       <SkillBadgeBar />
 
-      {/* ── Posts ────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 sm:px-10 py-20">
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <SectionLabel className="mb-1.5">Latest</SectionLabel>
-            <h2 className="section-heading">最新記事</h2>
-          </div>
-          <Link href="/posts" className="btn-ghost hidden sm:flex text-[13px]">
+      <Container maxWidth="lg" sx={{ py: 10 }}>
+        <Stack direction="row" sx={{ alignItems: 'flex-end', justifyContent: 'space-between', mb: 5 }}>
+          <Box>
+            <SectionLabel>Latest</SectionLabel>
+            <Typography variant="h2" component="h2">
+              最新記事
+            </Typography>
+          </Box>
+          <Button
+
+            href="/posts"
+            endIcon={<ArrowForwardIcon />}
+            sx={{ display: { xs: 'none', sm: 'inline-flex' }, flexShrink: 0 }}
+          >
             すべての記事
-            <Icon name="arrow-right" className="h-3.5 w-3.5" strokeWidth={2.5} />
-          </Link>
-        </div>
+          </Button>
+        </Stack>
 
         {featured && (
-          <div className="mb-5">
+          <Box sx={{ mb: 3 }}>
             <PostCard post={featured} featured />
-          </div>
+          </Box>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <Grid container spacing={3}>
           {recent.map((post) => (
-            <div key={post.slug} className="relative">
+            <Grid key={post.slug} size={{ xs: 12, sm: 6, lg: 4 }}>
               <PostCard post={post} />
-            </div>
+            </Grid>
           ))}
-        </div>
+        </Grid>
 
-        <div className="mt-8 text-center sm:hidden">
-          <Link href="/posts" className="btn-ghost text-[13px]">
+        <Box sx={{ mt: 4, textAlign: 'center', display: { sm: 'none' } }}>
+          <Button href="/posts" endIcon={<ArrowForwardIcon />}>
             すべての記事を見る
-            <Icon name="arrow-right" className="h-3.5 w-3.5" strokeWidth={2.5} />
-          </Link>
-        </div>
-      </section>
+          </Button>
+        </Box>
+      </Container>
 
-      {/* ── CTA ──────────────────────────────────── */}
-      <div className="px-5 sm:px-8 mb-10">
+      <Container maxWidth="lg" sx={{ pb: 10 }}>
         <CTASection
           badge="Freelance Available"
           title="お仕事のご相談"
           description={
             <>
-              クラウド構築・システム開発・DevOps 環境整備など、<br />
+              クラウド構築・システム開発・DevOps 環境整備など、
+              <br />
               お気軽にご相談ください。初回相談は無料です。
             </>
           }
           ctaText="お問い合わせ"
           ctaHref="/contact"
         />
-      </div>
+      </Container>
     </>
   )
 }

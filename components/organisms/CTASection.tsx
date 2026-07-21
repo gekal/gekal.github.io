@@ -1,6 +1,9 @@
-import { ReactNode } from 'react'
-import Button from '@/components/atoms/Button'
-import Icon from '@/components/atoms/Icon'
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import type { ReactNode } from 'react'
 
 interface CTASectionProps {
   badge?: string
@@ -18,37 +21,52 @@ export default function CTASection({
   ctaHref,
 }: CTASectionProps) {
   return (
-    <section
-      className="sel-on-dark rounded-3xl p-10 md:p-14 text-center relative overflow-hidden"
-      style={{ background: 'var(--dark-bg)' }}
+    <Paper
+      component="section"
+      elevation={0}
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        textAlign: 'center',
+        borderRadius: 4,
+        p: { xs: 5, md: 7 },
+        bgcolor: 'grey.900',
+      }}
     >
-      {/* Subtle blue glow */}
-      <div
-        className="absolute inset-0 opacity-20 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at 30% 50%, #0071E3 0%, transparent 60%)',
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.25,
+          pointerEvents: 'none',
+          // theme のコールバックは Server Component から Client Component へ
+          // 渡せない (関数は RSC 境界を越えられない) ため CSS 変数を使う
+          background:
+            'radial-gradient(ellipse at 30% 50%, var(--mui-palette-primary-main) 0%, transparent 60%)',
         }}
       />
-      <div className="relative z-10">
+      <Box sx={{ position: 'relative' }}>
         {badge && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-3 text-white/50">
+          <Typography variant="overline" sx={{ color: 'rgba(255,255,255,0.6)' }}>
             {badge}
-          </p>
+          </Typography>
         )}
-        <h2
-          className="font-bold text-white mb-4"
-          style={{ fontSize: 'clamp(24px, 4vw, 34px)', letterSpacing: '-0.03em' }}
-        >
+        <Typography variant="h3" component="h2" sx={{ color: '#fff', fontWeight: 700, mt: 1, mb: 2 }}>
           {title}
-        </h2>
-        <p className="text-white/50 text-[15px] mb-9 max-w-sm mx-auto leading-relaxed">
+        </Typography>
+        <Typography sx={{ color: 'rgba(255,255,255,0.65)', mb: 4, maxWidth: 460, mx: 'auto' }}>
           {description}
-        </p>
-        <Button href={ctaHref} variant="primary" className="text-[15px]">
+        </Typography>
+        <Button
+
+          href={ctaHref}
+          variant="contained"
+          size="large"
+          endIcon={<ArrowForwardIcon />}
+        >
           {ctaText}
-          <Icon name="arrow-right" className="h-3.5 w-3.5" strokeWidth={2.5} />
         </Button>
-      </div>
-    </section>
+      </Box>
+    </Paper>
   )
 }

@@ -1,3 +1,9 @@
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Stack from '@mui/material/Stack'
+import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
+
 interface SkillBadge {
   label: string
   sub: string
@@ -15,35 +21,36 @@ const badges: SkillBadge[] = [
 
 export default function SkillBadgeBar() {
   return (
-    <section
-      style={{
-        background: 'var(--surface-secondary)',
-        borderBottom: '1px solid var(--separator-opaque)',
-      }}
+    <Box
+      component="section"
+      sx={{ bgcolor: 'action.hover', borderBottom: 1, borderColor: 'divider' }}
     >
-      <div className="max-w-5xl mx-auto px-6 sm:px-10 py-6">
-        <div className="flex flex-wrap justify-center gap-2.5">
+      <Container maxWidth="lg" sx={{ py: 3 }}>
+        <Stack direction="row" spacing={1.25} useFlexGap sx={{ justifyContent: 'center', flexWrap: 'wrap' }}>
           {badges.map(({ label, sub, color }) => (
-            <div
+            <Chip
               key={label}
-              className="flex items-center gap-2 rounded-full px-4 py-2 cursor-default transition-opacity hover:opacity-75"
-              style={{
-                background: 'var(--surface)',
-                border: '1px solid var(--separator-opaque)',
-                boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-              }}
-            >
-              <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color }} />
-              <span className="text-[13px] font-semibold" style={{ color: 'var(--text-primary)' }}>
-                {label}
-              </span>
-              <span className="text-[12px]" style={{ color: 'var(--text-tertiary)' }}>
-                {sub}
-              </span>
-            </div>
+              variant="outlined"
+              icon={
+                <Box
+                  sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: color, ml: '10px !important' }}
+                />
+              }
+              label={
+                <Stack direction="row" spacing={0.75} sx={{ alignItems: 'baseline' }}>
+                  <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
+                    {label}
+                  </Typography>
+                  <Typography component="span" variant="caption" color="text.secondary">
+                    {sub}
+                  </Typography>
+                </Stack>
+              }
+              sx={{ bgcolor: 'background.paper', py: 2.25 }}
+            />
           ))}
-        </div>
-      </div>
-    </section>
+        </Stack>
+      </Container>
+    </Box>
   )
 }

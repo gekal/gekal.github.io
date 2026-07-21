@@ -1,22 +1,28 @@
+import Stack from '@mui/material/Stack'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import MailOutlineIcon from '@mui/icons-material/MailOutlineOutlined'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import GitHubIcon from '@mui/icons-material/GitHub'
 import ContactCard from '@/components/molecules/ContactCard'
 import AvailabilityBadge from '@/components/molecules/AvailabilityBadge'
-import Icon from '@/components/atoms/Icon'
+import SectionLabel from '@/components/atoms/SectionLabel'
 
 const cards = [
   {
-    icon: <Icon name="mail" className="h-4 w-4" strokeWidth={1.5} />,
+    icon: <MailOutlineIcon fontSize="small" />,
     label: 'Email',
     value: 'liu.hongying@hotmail.com',
     href: 'mailto:liu.hongying@hotmail.com',
   },
   {
-    icon: <Icon name="linkedin" className="h-4 w-4" />,
+    icon: <LinkedInIcon fontSize="small" />,
     label: 'LinkedIn',
     value: 'linkedin.com/in/gekal',
     href: 'https://www.linkedin.com/in/gekal',
   },
   {
-    icon: <Icon name="github" className="h-4 w-4" />,
+    icon: <GitHubIcon fontSize="small" />,
     label: 'GitHub',
     value: 'github.com/gekal',
     href: 'https://github.com/gekal',
@@ -25,33 +31,25 @@ const cards = [
 
 export default function ContactInfo() {
   return (
-    <div className="space-y-8">
-      <div>
-        <p
-          className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-2"
-          style={{ color: 'var(--apple-blue)' }}
-        >
-          Get in touch
-        </p>
-        <h2
-          className="font-bold text-[22px] mb-3"
-          style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}
-        >
+    <Stack spacing={4}>
+      <Box>
+        <SectionLabel>Get in touch</SectionLabel>
+        <Typography variant="h5" sx={{ fontWeight: 700, mb: 1.5 }}>
           お話しましょう
-        </h2>
-        <p className="text-[14px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
           お仕事のご依頼・技術相談・その他お問い合わせはフォームまたは直接ご連絡ください。
           通常 1〜2 営業日以内にご返信します。
-        </p>
-      </div>
+        </Typography>
+      </Box>
 
-      <div className="space-y-3">
+      <Stack spacing={1.5}>
         {cards.map(({ icon, label, value, href }) => (
           <ContactCard key={label} icon={icon} label={label} value={value} href={href} />
         ))}
-      </div>
+      </Stack>
 
       <AvailabilityBadge />
-    </div>
+    </Stack>
   )
 }

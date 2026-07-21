@@ -1,3 +1,6 @@
+import Badge from '@mui/material/Badge'
+import MuiAvatar from '@mui/material/Avatar'
+
 interface AvatarProps {
   src: string
   alt: string
@@ -5,29 +8,39 @@ interface AvatarProps {
   online?: boolean
 }
 
-const sizes = {
-  sm: { outer: 'w-10 h-10', dot: 'w-2.5 h-2.5' },
-  md: { outer: 'w-24 h-24', dot: 'w-3.5 h-3.5' },
-  lg: { outer: 'w-36 h-36', dot: 'w-4 h-4' },
-}
+const sizes = { sm: 40, md: 96, lg: 144 }
 
 export default function Avatar({ src, alt, size = 'md', online = false }: AvatarProps) {
-  const { outer, dot } = sizes[size]
+  const dimension = sizes[size]
+
+  const avatar = (
+    <MuiAvatar
+      src={src}
+      alt={alt}
+      variant="rounded"
+      sx={{ width: dimension, height: dimension, boxShadow: 4 }}
+    />
+  )
+
+  if (!online) return avatar
+
   return (
-    <div className="relative inline-block">
-      <div
-        className={`${outer} rounded-2xl overflow-hidden`}
-        style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08)' }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
-      </div>
-      {online && (
-        <span
-          className={`absolute -bottom-1.5 -right-1.5 ${dot} rounded-full border-2 border-white`}
-          style={{ background: '#34C759' }}
-        />
-      )}
-    </div>
+    <Badge
+      overlap="circular"
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      variant="dot"
+      color="success"
+      sx={{
+        '& .MuiBadge-badge': {
+          width: 14,
+          height: 14,
+          borderRadius: '50%',
+          border: '2px solid',
+          borderColor: 'background.paper',
+        },
+      }}
+    >
+      {avatar}
+    </Badge>
   )
 }

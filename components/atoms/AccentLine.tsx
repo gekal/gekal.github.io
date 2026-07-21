@@ -1,14 +1,18 @@
+import Box from '@mui/material/Box'
+import type { SxProps, Theme } from '@mui/material/styles'
+
 interface AccentLineProps {
-  className?: string
-  animate?: boolean
+  sx?: SxProps<Theme>
 }
 
-/** Small horizontal blue accent line — used above headings */
-export default function AccentLine({ className = '', animate = false }: AccentLineProps) {
+/** 見出しの上に置く短いアクセント線 */
+export default function AccentLine({ sx }: AccentLineProps) {
   return (
-    <div
-      className={`w-8 h-0.5 rounded-full ${animate ? 'animate-fade-up' : ''} ${className}`}
-      style={{ background: 'var(--apple-blue)' }}
+    <Box
+      sx={[
+        { width: 32, height: 3, borderRadius: 9999, bgcolor: 'primary.main' },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     />
   )
 }

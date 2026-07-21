@@ -1,3 +1,6 @@
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
+import List from '@mui/material/List'
 import SkillItem from '@/components/molecules/SkillItem'
 
 interface SkillGroupProps {
@@ -8,18 +11,15 @@ interface SkillGroupProps {
 
 export default function SkillGroup({ name, accent, skills }: SkillGroupProps) {
   return (
-    <div className="rounded-2xl p-6" style={{ background: 'var(--dark-surface)' }}>
-      <p
-        className="text-[11px] font-bold uppercase tracking-[0.1em] mb-4"
-        style={{ color: accent }}
-      >
+    <Paper elevation={0} sx={{ p: 3, height: '100%', bgcolor: 'grey.900', borderRadius: 3 }}>
+      <Typography variant="overline" sx={{ color: accent, fontWeight: 700 }}>
         {name}
-      </p>
-      <ul className="space-y-2.5">
+      </Typography>
+      <List dense disablePadding sx={{ mt: 1 }}>
         {skills.map((skill) => (
           <SkillItem key={skill} skill={skill} accent={accent} />
         ))}
-      </ul>
-    </div>
+      </List>
+    </Paper>
   )
 }

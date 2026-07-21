@@ -1,3 +1,10 @@
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import Stack from '@mui/material/Stack'
+import Chip from '@mui/material/Chip'
+import Box from '@mui/material/Box'
+
 interface ServiceCardProps {
   icon: string
   title: string
@@ -7,38 +14,21 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ icon, title, desc, tags }: ServiceCardProps) {
   return (
-    <div
-      className="rounded-2xl p-6"
-      style={{
-        background: 'var(--surface-secondary)',
-        border: '1px solid var(--separator-opaque)',
-      }}
-    >
-      <div className="text-3xl mb-4">{icon}</div>
-      <h3
-        className="font-semibold text-[15px] mb-2 tracking-[-0.01em]"
-        style={{ color: 'var(--text-primary)' }}
-      >
-        {title}
-      </h3>
-      <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
-        {desc}
-      </p>
-      <div className="flex flex-wrap gap-1.5">
-        {tags.map((t) => (
-          <span
-            key={t}
-            className="text-[11px] rounded-md px-2 py-0.5 border"
-            style={{
-              background: 'var(--surface)',
-              borderColor: 'var(--separator)',
-              color: 'var(--text-secondary)',
-            }}
-          >
-            {t}
-          </span>
-        ))}
-      </div>
-    </div>
+    <Card sx={{ height: '100%' }}>
+      <CardContent>
+        <Box sx={{ fontSize: 32, mb: 1.5, lineHeight: 1 }}>{icon}</Box>
+        <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
+          {title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          {desc}
+        </Typography>
+        <Stack direction="row" spacing={0.75} useFlexGap sx={{ flexWrap: 'wrap' }}>
+          {tags.map((t) => (
+            <Chip key={t} label={t} size="small" variant="outlined" />
+          ))}
+        </Stack>
+      </CardContent>
+    </Card>
   )
 }

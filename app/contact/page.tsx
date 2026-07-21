@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
 import HeroSection from '@/components/organisms/HeroSection'
 import ContactForm from '@/components/organisms/ContactForm'
 import ContactInfo from '@/components/organisms/ContactInfo'
@@ -17,16 +19,16 @@ export default function ContactPage() {
         backgroundImage="/img/bg-contact.jpg"
         size="sm"
       />
-      <div className="max-w-4xl mx-auto px-6 sm:px-10 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
-          <div className="lg:col-span-2">
+      <Container maxWidth="md" sx={{ py: 8 }}>
+        <Grid container spacing={5}>
+          <Grid size={{ xs: 12, md: 5 }}>
             <ContactInfo />
-          </div>
-          <div className="lg:col-span-3">
+          </Grid>
+          <Grid size={{ xs: 12, md: 7 }}>
             <ContactForm />
-          </div>
-        </div>
-      </div>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   )
 }

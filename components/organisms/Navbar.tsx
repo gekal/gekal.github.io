@@ -1,10 +1,24 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import AppBar from '@mui/material/AppBar'
+import Link from '@mui/material/Link'
+import Toolbar from '@mui/material/Toolbar'
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import Divider from '@mui/material/Divider'
+import Typography from '@mui/material/Typography'
+import MenuIcon from '@mui/icons-material/Menu'
+import CloseIcon from '@mui/icons-material/Close'
 import NavLink from '@/components/molecules/NavLink'
-import Icon from '@/components/atoms/Icon'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -12,6 +26,44 @@ const navLinks = [
   { href: '/posts', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ]
+
+function Logo({ dark }: { dark: boolean }) {
+  return (
+    <Link
+      href="/"
+      underline="none"
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1.25,
+        userSelect: 'none',
+      }}
+    >
+      <Box
+        sx={{
+          width: 32,
+          height: 32,
+          borderRadius: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
+          fontWeight: 700,
+          fontSize: 15,
+        }}
+      >
+        鷹
+      </Box>
+      <Typography
+        component="span"
+        sx={{ fontWeight: 700, fontSize: 16, color: dark ? '#fff' : 'text.primary' }}
+      >
+        鴻鷹
+      </Typography>
+    </Link>
+  )
+}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -29,52 +81,35 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close menu on route change
-  useEffect(() => { setIsOpen(false) }, [pathname])
-
-  // Lock body scroll when mobile menu is open
+  // ルート変更でメニューを閉じる
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [isOpen])
+    setIsOpen(false)
+  }, [pathname])
 
-  // All pages start with a dark hero image, so use white text until the user scrolls
+  // 全ページがダークなヒーロー画像で始まるため、スクロールするまでは白文字
   const useDark = isHero
 
   return (
     <>
-      {/* ── Desktop / Scroll bar ───────────────────── */}
-      <nav
-        className={`fixed top-0 w-full z-40 transition-all duration-300 ${
-          scrolled
+      <AppBar
+        position="fixed"
+        sx={{
+          zIndex: (t) => t.zIndex.drawer + 1,
+          transition: 'background-color 300ms, box-shadow 300ms',
+          bgcolor: scrolled
             ? useDark
-              ? 'glass-nav-dark shadow-lg shadow-black/10'
-              : 'glass-nav shadow-sm shadow-black/[0.06]'
-            : 'bg-transparent'
-        }`}
+              ? 'rgba(18,18,18,0.85)'
+              : 'rgba(255,255,255,0.85)'
+            : 'transparent',
+          backdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'none',
+          boxShadow: scrolled ? 3 : 0,
+        }}
       >
-        <div className="max-w-5xl mx-auto px-6 sm:px-10">
-          <div className="flex items-center justify-between h-[60px]">
+        <Container maxWidth="lg">
+          <Toolbar disableGutters sx={{ minHeight: 60, justifyContent: 'space-between' }}>
+            <Logo dark={useDark} />
 
-            {/* Logo */}
-            <Link href="/" className="group flex items-center gap-2.5 select-none">
-              <span
-                className="w-8 h-8 rounded-[10px] flex items-center justify-center text-white font-bold text-[15px] shadow-sm transition-transform duration-200 group-hover:scale-95"
-                style={{ background: 'var(--apple-blue)' }}
-              >
-                鷹
-              </span>
-              <span
-                className={`font-bold text-[16px] tracking-[-0.03em] transition-opacity duration-200 group-hover:opacity-70 ${
-                  useDark ? 'text-white' : 'text-[#1D1D1F]'
-                }`}
-              >
-                鴻鷹
-              </span>
-            </Link>
-
-            {/* Desktop links */}
-            <div className="hidden md:flex items-center gap-1">
+            <Stack direction="row" spacing={0.5} sx={{ display: { xs: 'none', md: 'flex' } }}>
               {navLinks.map(({ href, label }) => (
                 <NavLink
                   key={href}
@@ -84,163 +119,76 @@ export default function Navbar() {
                   dark={useDark}
                 />
               ))}
-            </div>
+            </Stack>
 
-            {/* Desktop CTA */}
-            <div className="hidden md:flex items-center">
-              <Link
-                href="/contact"
-                className="px-5 py-2 rounded-full text-white text-[13px] font-medium tracking-[-0.01em] transition-all duration-200 hover:opacity-85 hover:scale-[0.97] active:scale-95 shadow-sm"
-                style={{ background: 'var(--apple-blue)' }}
-              >
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Button href="/contact" variant="contained" size="small">
                 お問い合わせ
-              </Link>
-            </div>
+              </Button>
+            </Box>
 
-            {/* Mobile hamburger */}
-            <button
+            <IconButton
               onClick={() => setIsOpen(true)}
-              className={`md:hidden w-10 h-10 flex items-center justify-center rounded-xl transition-colors ${
-                useDark
-                  ? 'text-white/70 hover:text-white hover:bg-white/10'
-                  : 'text-[#6E6E73] hover:text-[#1D1D1F] hover:bg-black/[0.05]'
-              }`}
               aria-label="メニューを開く"
+              sx={{
+                display: { xs: 'inline-flex', md: 'none' },
+                color: useDark ? 'rgba(255,255,255,0.85)' : 'text.secondary',
+              }}
             >
-              <Icon name="menu" className="h-5 w-5" strokeWidth={1.8} />
-            </button>
-          </div>
-        </div>
-      </nav>
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </Container>
+      </AppBar>
 
-      {/* ── Mobile full-screen overlay ─────────────── */}
-      <div
-        className={`fixed inset-0 z-50 md:hidden transition-all duration-500 ${
-          isOpen ? 'visible' : 'invisible'
-        }`}
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        slotProps={{ paper: { sx: { width: { xs: '100%', sm: 360 } } } }}
       >
-        {/* Backdrop */}
-        <div
-          className={`absolute inset-0 transition-opacity duration-400 ${
-            isOpen ? 'opacity-100' : 'opacity-0'
-          }`}
-          style={{
-            background: 'rgba(0, 0, 0, 0.93)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-          }}
-          onClick={() => setIsOpen(false)}
-        />
+        <Stack
+          direction="row"
+          sx={{ alignItems: 'center', justifyContent: 'space-between', minHeight: 60, px: 2 }}
+        >
+          <Logo dark={false} />
+          <IconButton onClick={() => setIsOpen(false)} aria-label="メニューを閉じる">
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+        <Divider />
 
-        {/* Panel */}
-        <div className="relative z-10 flex flex-col h-full px-7 pb-10">
+        <List sx={{ flex: 1, py: 2 }}>
+          {navLinks.map(({ href, label }) => (
+            <ListItemButton
+              key={href}
 
-          {/* Top bar */}
-          <div className="flex items-center justify-between h-[60px] flex-shrink-0">
-            <Link
-              href="/"
-              className="flex items-center gap-2.5"
+              href={href}
+              selected={pathname === href}
               onClick={() => setIsOpen(false)}
+              sx={{ borderRadius: 2, mx: 1, mb: 0.5 }}
             >
-              <span
-                className="w-8 h-8 rounded-[10px] flex items-center justify-center text-white font-bold text-[15px]"
-                style={{ background: 'var(--apple-blue)' }}
-              >
-                鷹
-              </span>
-              <span className="font-bold text-[16px] tracking-[-0.03em] text-white">
-                鴻鷹
-              </span>
-            </Link>
+              <ListItemText
+                primary={label}
+                slotProps={{ primary: { sx: { fontSize: 22, fontWeight: 500 } } }}
+              />
+            </ListItemButton>
+          ))}
+        </List>
 
-            <button
-              onClick={() => setIsOpen(false)}
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 text-white/70 hover:text-white hover:bg-white/15 transition-colors"
-              aria-label="メニューを閉じる"
-            >
-              <Icon name="close" className="h-5 w-5" strokeWidth={1.8} />
-            </button>
-          </div>
+        <Box sx={{ p: 2 }}>
+          <Button
 
-          {/* Divider */}
-          <div className="h-px bg-white/[0.08] flex-shrink-0" />
-
-          {/* Links */}
-          <nav className="flex-1 flex flex-col justify-center gap-1 py-8">
-            {navLinks.map(({ href, label }, i) => {
-              const isActive = pathname === href
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setIsOpen(false)}
-                  className={`
-                    group flex items-center justify-between
-                    px-4 py-4 rounded-2xl
-                    transition-all duration-300
-                    ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}
-                    ${isActive
-                      ? 'bg-white/[0.08] text-white'
-                      : 'text-white/50 hover:text-white hover:bg-white/[0.05]'
-                    }
-                  `}
-                  style={{ transitionDelay: isOpen ? `${80 + i * 50}ms` : '0ms' }}
-                >
-                  <span
-                    className="text-[32px] font-bold tracking-[-0.04em] leading-none"
-                  >
-                    {label}
-                  </span>
-                  <span
-                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 ${
-                      isActive ? 'bg-white/10' : 'opacity-0 group-hover:opacity-100'
-                    }`}
-                  >
-                    <Icon name="arrow-right" className="h-4 w-4" strokeWidth={2} />
-                  </span>
-                </Link>
-              )
-            })}
-          </nav>
-
-          {/* CTA at bottom */}
-          <div
-            className={`flex-shrink-0 transition-all duration-300 ${
-              isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
-            style={{ transitionDelay: isOpen ? '320ms' : '0ms' }}
+            href="/contact"
+            variant="contained"
+            fullWidth
+            size="large"
+            onClick={() => setIsOpen(false)}
           >
-            <Link
-              href="/contact"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white text-[16px] font-medium tracking-[-0.01em] transition-opacity hover:opacity-85"
-              style={{ background: 'var(--apple-blue)' }}
-            >
-              お問い合わせ
-              <Icon name="arrow-right" className="h-4 w-4" strokeWidth={2} />
-            </Link>
-
-            {/* Social links row */}
-            <div className="flex items-center justify-center gap-4 mt-6">
-              {[
-                { href: 'https://github.com/gekal', label: 'GitHub' },
-                { href: 'https://twitter.com/GekalCn', label: 'X (Twitter)' },
-                { href: 'https://www.linkedin.com/in/gekal', label: 'LinkedIn' },
-              ].map(({ href, label }) => (
-                <a
-                  key={href}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[12px] text-white/30 hover:text-white/60 transition-colors"
-                >
-                  {label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+            お問い合わせ
+          </Button>
+        </Box>
+      </Drawer>
     </>
   )
 }
