@@ -1,0 +1,55 @@
+version: 2
+
+updates:
+  # ── サイト本体の npm 依存 ────────────────────────────────
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+      include: scope
+    # 依存は最初にマッチしたグループに入るため、順序に意味がある。
+    # なお groups の既定は applies-to: version-updates。
+    # セキュリティ更新は個別 PR のまま流したいので、あえて何も指定しない。
+    groups:
+      # react と react-dom はバージョンがずれると実行時に壊れるため常に同一 PR へ。
+      # update-types を絞っていないのでメジャーも一緒に上がる
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      # eslint-config-next は next 本体とバージョンを揃える必要がある
+      next:
+        patterns:
+          - "next"
+          - "eslint-config-next"
+      # 残りのマイナー・パッチはまとめて 1 PR に (patterns 未指定は "*" 扱い)。
+      # メジャーはここに入らないため個別 PR になり、破壊的変更に気づける
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  # ── ワークフローで使う GitHub Actions ────────────────────
+  # Node 20 廃止のようなランタイム更新をまとめて拾わせる
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
