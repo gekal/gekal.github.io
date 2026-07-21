@@ -72,6 +72,18 @@ The certificate is a separate stack because `gekal.cn` is served by Aliyun DNS, 
 
 Domain and repo names come from `context` in `cdk/cdk.json`. Set `createGithubOidcProvider` to `false` if the account already has a `token.actions.githubusercontent.com` provider.
 
+See [cdk/README.md](cdk/README.md) for the deployment runbook, including the manual DNS steps.
+
+### Domain: www only
+
+The apex `gekal.cn` is deliberately unused — Aliyun DNS's free tier has no CNAME flattening, and CloudFront has no static IP to point an A record at. `www.gekal.cn` is the single canonical origin, declared in:
+
+- `lib/site.ts` — `SITE_URL`, the single source of truth
+- `app/layout.tsx` — `metadataBase` and `alternates.canonical: './'` (each route emits its own canonical)
+- `app/sitemap.ts` / `app/robots.ts` — statically generated at build time
+
+When adding absolute URLs anywhere, import `SITE_URL` rather than hardcoding the host.
+
 ### Deployment
 
 Pushing to `master` triggers `.github/workflows/deploy.yml`: `npm ci && npm run build`, then assumes the CDK-created role via OIDC and syncs `out/` to S3 in three passes, each setting a different `Cache-Control` (CloudFront honours the origin header):

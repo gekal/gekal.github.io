@@ -2,8 +2,15 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from '@/components/organisms/Navbar'
 import Footer from '@/components/organisms/Footer'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  // 各ルートが自身の URL を canonical として出す。apex を廃止し www に
+  // 一本化しているため、正規 URL を明示しておく
+  alternates: {
+    canonical: './',
+  },
   title: {
     default: '鴻鷹 | フリーランスエンジニア',
     template: '%s | 鴻鷹',
