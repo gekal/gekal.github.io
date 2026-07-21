@@ -31,20 +31,35 @@ export default function SkillBadgeBar() {
             <Chip
               key={label}
               variant="outlined"
+              // Chip の icon/label スロットは span の中に描画されるため、
+              // div を返す Box/Stack をそのまま渡すと <span> 内に <div> という
+              // 不正な入れ子になり、ブラウザの構造補正でハイドレーションがずれる。
+              // どちらも component="span" で inline に保つこと。
               icon={
                 <Box
-                  sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: color, ml: '10px !important' }}
+                  component="span"
+                  sx={{
+                    display: 'block',
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    bgcolor: color,
+                    ml: '10px !important',
+                  }}
                 />
               }
               label={
-                <Stack direction="row" spacing={0.75} sx={{ alignItems: 'baseline' }}>
+                <Box
+                  component="span"
+                  sx={{ display: 'inline-flex', alignItems: 'baseline', gap: 0.75 }}
+                >
                   <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
                     {label}
                   </Typography>
                   <Typography component="span" variant="caption" color="text.secondary">
                     {sub}
                   </Typography>
-                </Stack>
+                </Box>
               }
               sx={{ bgcolor: 'background.paper', py: 2.25 }}
             />

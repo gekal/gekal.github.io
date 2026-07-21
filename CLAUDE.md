@@ -50,7 +50,20 @@ These were previously `icon.tsx` / `apple-icon.tsx` generating PNGs via `ImageRe
 
 ### Styling
 
-Tailwind CSS with `@tailwindcss/typography`. Primary color `#0085A1` is defined as `primary` in `tailwind.config.ts`. Post content uses the `prose` class. Code blocks are highlighted **at build time** by `rehype-highlight` in `lib/posts.ts`; the GitHub Dark Dimmed theme is inlined in `app/globals.css` (no CDN, no client-side highlighting).
+**MUI (Material UI) v9 with Emotion.** There is no Tailwind and no global stylesheet — style with the `sx` prop and the theme.
+
+- `app/theme.ts` — `'use client'`. Material Design palette with `colorSchemes` (light/dark) and `cssVariables`, so the site follows the OS colour scheme. Roboto + Noto Sans JP via `next/font`.
+- `app/layout.tsx` — `AppRouterCacheProvider` (from `@mui/material-nextjs/v16-appRouter`) wraps `ThemeProvider` + `CssBaseline`. `InitColorSchemeScript` settles the colour scheme before hydration to avoid a flash.
+- `app/MarkdownStyles.tsx` — `GlobalStyles` for the `.markdown-body` class. Post bodies are generated HTML injected via `dangerouslySetInnerHTML`, so `sx` cannot reach them; this replaces what `@tailwindcss/typography` used to do, plus the GitHub Dark Dimmed syntax theme.
+
+Code blocks are highlighted **at build time** by `rehype-highlight` in `lib/posts.ts` (no CDN, no client-side highlighting).
+
+#### MUI v9 gotchas hit during the migration
+
+- **System props were removed from `Stack` and `Typography`.** `alignItems`, `justifyContent`, `flexWrap`, `fontWeight`, `display` etc. must go inside `sx`. `Stack` accepts only `children`, `direction`, `divider`, `spacing`, `sx`, `useFlexGap`.
+- **Never pass a function across the RSC boundary.** Two things break prerendering from a Server Component: `component={NextLink}` (the theme sets `MuiButtonBase.defaultProps.LinkComponent` and `MuiLink.defaultProps.component` instead — override with `component="a"` for external and `mailto:` links), and theme callbacks in `sx` such as ``background: (t) => `...${t.palette.primary.main}` `` — use a CSS variable like `var(--mui-palette-primary-main)`.
+- **Icon names are variant-suffixed.** `CheckCircleOutline` and `MailOutline` do not exist; use `CheckCircleOutlined` / `MailOutlineOutlined`.
+- `Grid` uses the v2 API (`size={{ xs: 12, md: 6 }}`), not `item xs={12}`.
 
 ### Canonical URL
 
