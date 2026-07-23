@@ -1,23 +1,40 @@
 'use client'
 
 import { createTheme } from '@mui/material/styles'
-import { Roboto, Noto_Sans_JP } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import NextLink from 'next/link'
 
+// 欧文のみ。latin サブセットは数ファイルで済むので配信しても軽い。
+// 300 は HomeHero のサブタイトルが使っている
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
 })
 
-// 本文の大半が日本語なので、Roboto だけだと和文がフォールバックになる
-const notoSansJP = Noto_Sans_JP({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-})
+/**
+ * 和文は OS 内蔵フォントに任せる。
+ *
+ * Noto Sans JP を next/font で配信していた頃は、記事 1 ページあたり
+ * woff2 が 41 ファイル / 794KB に達していた。Google Fonts は和文を
+ * 約 120 個の unicode-range サブセットに分割するため、ウェイト数が
+ * そのまま倍率で効いてしまう。
+ * macOS / Windows / Android のいずれも上質な和文ゴシックを内蔵しており、
+ * ここを OS 任せにするとフォント転送量がほぼゼロになる。
+ */
+const japaneseFallback = [
+  'Hiragino Kaku Gothic ProN', // macOS / iOS
+  'Hiragino Sans',
+  'Noto Sans CJK JP', // Linux / Android
+  'Noto Sans JP',
+  'Yu Gothic UI', // Windows
+  'Yu Gothic',
+  'Meiryo',
+]
+  .map((f) => `"${f}"`)
+  .join(',')
 
-const fontFamily = [roboto.style.fontFamily, notoSansJP.style.fontFamily, 'sans-serif'].join(',')
+const fontFamily = [roboto.style.fontFamily, japaneseFallback, 'sans-serif'].join(',')
 
 export const monoFontFamily = [
   'ui-monospace',

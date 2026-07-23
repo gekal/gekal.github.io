@@ -74,7 +74,7 @@ These were previously `icon.tsx` / `apple-icon.tsx` generating PNGs via `ImageRe
 
 **MUI (Material UI) v9 with Emotion.** There is no Tailwind and no global stylesheet — style with the `sx` prop and the theme.
 
-- `app/theme.ts` — `'use client'`. Material Design palette with `colorSchemes` (light/dark) and `cssVariables`, so the site follows the OS colour scheme. Roboto + Noto Sans JP via `next/font`.
+- `app/theme.ts` — `'use client'`. Material Design palette with `colorSchemes` (light/dark) and `cssVariables`, so the site follows the OS colour scheme. Roboto via `next/font` for Latin; **Japanese text is deliberately left to OS-installed fonts** (Hiragino / Yu Gothic / Noto Sans CJK). Serving Noto Sans JP through `next/font` cost 41 woff2 files / 794 KB per article page — Google Fonts splits CJK into ~120 unicode-range subsets, so every extra weight multiplies that. The current stack is 3 files / 88 KB. Do not add a webfont for Japanese without re-measuring.
 - `app/layout.tsx` — `AppRouterCacheProvider` (from `@mui/material-nextjs/v16-appRouter`) wraps `ThemeProvider` + `CssBaseline`. `InitColorSchemeScript` settles the colour scheme before hydration to avoid a flash.
 - `app/MarkdownStyles.tsx` — `GlobalStyles` for the `.markdown-body` class. Post bodies are generated HTML injected via `dangerouslySetInnerHTML`, so `sx` cannot reach them; this replaces what `@tailwindcss/typography` used to do, plus the GitHub Dark Dimmed syntax theme.
 
