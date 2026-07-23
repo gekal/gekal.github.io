@@ -10,6 +10,65 @@ interface PostContentProps {
 export default function PostContent({ content }: PostContentProps) {
   const articleRef = useRef<HTMLElement>(null)
 
+  // コードブロックのコピーボタンと言語ラベル。
+  // mermaid の描画より先に走ると図のソースにもボタンが付いてしまうので、
+  // language-mermaid は除外している
+  useEffect(() => {
+    const article = articleRef.current
+    if (!article) return
+
+    const timers = new Set<ReturnType<typeof setTimeout>>()
+
+    article.querySelectorAll<HTMLPreElement>('pre').forEach((pre) => {
+      const code = pre.querySelector('code')
+      if (!code || code.classList.contains('language-mermaid')) return
+
+      pre.classList.add('has-code-toolbar')
+
+      const toolbar = document.createElement('div')
+      toolbar.className = 'code-toolbar'
+
+      const language = [...code.classList]
+        .find((c) => c.startsWith('language-'))
+        ?.replace('language-', '')
+      if (language) {
+        const label = document.createElement('span')
+        label.className = 'code-language'
+        label.textContent = language
+        toolbar.append(label)
+      }
+
+      const button = document.createElement('button')
+      button.type = 'button'
+      button.className = 'code-copy-button'
+      button.textContent = 'コピー'
+      button.setAttribute('aria-label', 'コードをコピー')
+      button.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(code.textContent ?? '')
+          button.textContent = 'コピーしました'
+          button.dataset.copied = 'true'
+        } catch {
+          button.textContent = 'コピーできません'
+        }
+        const timer = setTimeout(() => {
+          button.textContent = 'コピー'
+          delete button.dataset.copied
+          timers.delete(timer)
+        }, 2000)
+        timers.add(timer)
+      })
+
+      toolbar.append(button)
+      pre.prepend(toolbar)
+    })
+
+    return () => {
+      timers.forEach(clearTimeout)
+      timers.clear()
+    }
+  }, [content])
+
   useEffect(() => {
     let cancelled = false
     let disconnectSchemeWatcher: (() => void) | undefined

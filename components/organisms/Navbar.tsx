@@ -81,10 +81,9 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // ルート変更でメニューを閉じる
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
+  // ドロワー内の遷移要素はいずれも onClick で閉じているため、
+  // pathname を見て閉じる副作用は不要 (effect 内の同期 setState は
+  // 連鎖レンダリングを招くと react-hooks/set-state-in-effect が指摘する)
 
   // 全ページがダークなヒーロー画像で始まるため、スクロールするまでは白文字
   const useDark = isHero

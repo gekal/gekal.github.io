@@ -10,6 +10,11 @@ npm run build    # Static export → out/ directory (required before deploy)
 npm run lint     # ESLint check
 ```
 
+`lint` runs `eslint .` directly against `eslint.config.mjs` (flat config). `next lint` was removed
+in Next.js 16, and `eslint-config-next` 16 exports flat config natively — no `FlatCompat` shim.
+**ESLint must stay pinned to v9**: the `eslint-plugin-react` bundled with `eslint-config-next`
+still calls `context.getFilename()`, which ESLint 10 removed, so v10 crashes on every React file.
+
 There are no automated tests. Verify changes with `npm run build` to catch type errors and prerendering failures.
 
 ## Architecture
@@ -27,6 +32,22 @@ This is a **Next.js 15 static export** personal blog/portfolio site deployed to 
 
 Posts live in `_posts/` as `.markdown` or `.md` files with Jekyll-style YAML frontmatter (`title`, `date`, `categories`, `tags`, `background`, `subtitle`). The file `lib/posts.ts` reads them at build time using `gray-matter` (frontmatter) → `remark` + `remark-gfm` + `remark-html` (Markdown → HTML). Date parsing is guarded against invalid values (falls back to `new Date(0)`). Tags may be a space-separated string or an array.
 
+The rehype chain in `getPostData` is **order-sensitive**:
+
+`rehype-slug` → `collectToc` → `rehype-autolink-headings` → `withImageDimensions` → `rehype-highlight`
+
+- `collectToc` must come *after* slug (needs the `id`s) but *before* autolink — otherwise the
+  appended `#` anchor text gets swept into the TOC labels.
+- `collectToc` / `withImageDimensions` live in `lib/markdown-plugins.ts`. The latter reads real
+  files from `public/` to emit `width`/`height`, since `next/image` is unavailable under static
+  export and missing dimensions cause layout shift. Broken image paths are skipped, not fatal.
+- hast `Properties` are not HTML attributes: `className` takes an **array**, and `aria-*` take
+  **strings** (`ariaHidden: 'true'`, not `true`). Passing the HTML-ish form is a type error.
+
+`buildExcerpt` feeds `meta description`, OGP, JSON-LD and RSS. It collapses links/images
+structurally rather than stripping the punctuation — deleting just `[`/`]`/`(`/`)` glued label
+and URL together (`Claude Codehttps://…`).
+
 New posts: add a file to `_posts/` named `YYYY-MM-DD-slug.markdown`. No other changes needed — `generateStaticParams` in `app/posts/[slug]/page.tsx` picks them up automatically.
 
 ### Routing
@@ -37,7 +58,8 @@ New posts: add a file to `_posts/` named `YYYY-MM-DD-slug.markdown`. No other ch
 | `/about` | `app/about/page.tsx` | Freelance engineer profile — static content |
 | `/posts` | `app/posts/page.tsx` | Full post list |
 | `/posts/[slug]` | `app/posts/[slug]/page.tsx` | Rendered from `_posts/` |
-| `/contact` | `app/contact/page.tsx` | `'use client'` — Formspree form. Replace `YOUR_FORM_ID` with real ID |
+| `/contact` | `app/contact/page.tsx` | Formspree form — the live endpoint is in `components/organisms/ContactForm.tsx` |
+| `/feed.xml` | `app/feed.xml/route.ts` | RSS 2.0, 20 most recent posts. Needs `dynamic = 'force-static'` |
 
 ### Favicon / icons
 
@@ -55,6 +77,21 @@ These were previously `icon.tsx` / `apple-icon.tsx` generating PNGs via `ImageRe
 - `app/theme.ts` — `'use client'`. Material Design palette with `colorSchemes` (light/dark) and `cssVariables`, so the site follows the OS colour scheme. Roboto + Noto Sans JP via `next/font`.
 - `app/layout.tsx` — `AppRouterCacheProvider` (from `@mui/material-nextjs/v16-appRouter`) wraps `ThemeProvider` + `CssBaseline`. `InitColorSchemeScript` settles the colour scheme before hydration to avoid a flash.
 - `app/MarkdownStyles.tsx` — `GlobalStyles` for the `.markdown-body` class. Post bodies are generated HTML injected via `dangerouslySetInnerHTML`, so `sx` cannot reach them; this replaces what `@tailwindcss/typography` used to do, plus the GitHub Dark Dimmed syntax theme.
+
+> **In `MarkdownStyles.tsx`, read colours from `theme.vars.palette`, never `theme.palette`.**
+> With `cssVariables` enabled, `theme.palette.*` resolves to the *default* (light) scheme's literal
+> colour, so it bakes light values into dark mode. This once shipped body text at **1.09:1** contrast
+> in dark mode. `theme.vars.palette.*` emits `var(--mui-palette-*)`, which follows the scheme.
+> `theme.vars` is typed optional, so destructure as `const { palette, shadows } = theme.vars ?? theme`.
+>
+> The same trap applies to anything picking colours in JS: `components/organisms/PostContent.tsx`
+> chooses the Mermaid theme from the `data-mui-color-scheme` attribute and re-renders diagrams from
+> preserved source when it changes, because Mermaid's own palette cannot follow CSS variables.
+
+Article measure is capped by `COLUMN_WIDTH` in `app/posts/[slug]/page.tsx` (784px incl. padding
+≈ 40 Japanese characters per line), shared by the hero and the body so their left edges align.
+Inside `.markdown-body`, `pre` / `table` / `.mermaid-figure` break out by `-3rem` above 900px —
+that rule **must stay last**, since the earlier `margin` shorthands would otherwise override it.
 
 Code blocks are highlighted **at build time** by `rehype-highlight` in `lib/posts.ts` (no CDN, no client-side highlighting).
 

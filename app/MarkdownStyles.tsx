@@ -63,6 +63,19 @@ export default function MarkdownStyles() {
             color: palette.text.secondary,
           },
 
+          /* ── 見出しへの直リンク (rehype-autolink-headings) ── */
+          '& .heading-anchor': {
+            marginLeft: '0.4em',
+            color: palette.text.secondary,
+            textDecoration: 'none',
+            // 常時見えていると本文の邪魔になるので、見出しへのホバーで出す。
+            // キーボード操作でも辿れるようフォーカス時にも表示する
+            opacity: 0,
+            transition: 'opacity 120ms',
+          },
+          '& h1:hover .heading-anchor, & h2:hover .heading-anchor, & h3:hover .heading-anchor, & h4:hover .heading-anchor, & h5:hover .heading-anchor, & h6:hover .heading-anchor, & .heading-anchor:focus-visible':
+            { opacity: 1 },
+
           /* ── 本文 ── */
           '& p': { marginTop: 0, marginBottom: '1.5rem' },
 
@@ -118,6 +131,8 @@ export default function MarkdownStyles() {
           '& tbody tr:nth-of-type(even)': { backgroundColor: palette.action.hover },
 
           /* ── 画像・区切り ── */
+          // width/height 属性はレイアウトシフト防止のためにビルド時に埋めている。
+          // 表示上は必ず可変にしたいので、CSS 側で上書きしておく
           '& img': {
             maxWidth: '100%',
             height: 'auto',
@@ -165,6 +180,43 @@ export default function MarkdownStyles() {
             tabSize: 2,
           },
           '& pre ::selection': { background: 'rgba(88,166,255,0.4)', color: '#fff' },
+
+          /* ── コードブロックのツールバー (言語ラベル + コピー) ── */
+          '& pre.has-code-toolbar': { position: 'relative' },
+          '& .code-toolbar': {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.5rem 0.6rem',
+            // コードの上に重なるので、下地なしだと文字同士が干渉する
+            background: 'linear-gradient(to left, #22272e 70%, rgba(34,39,46,0))',
+            paddingLeft: '2.5rem',
+          },
+          '& .code-language': {
+            color: '#768390',
+            fontFamily: monoFontFamily,
+            fontSize: '0.7rem',
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+          },
+          '& .code-copy-button': {
+            margin: 0,
+            padding: '0.25rem 0.6rem',
+            border: '1px solid rgba(205,217,229,0.25)',
+            borderRadius: 6,
+            background: 'transparent',
+            color: '#adbac7',
+            font: 'inherit',
+            fontSize: '0.75rem',
+            lineHeight: 1.6,
+            cursor: 'pointer',
+            transition: 'color 120ms, border-color 120ms',
+            '&:hover': { color: '#cdd9e5', borderColor: 'rgba(205,217,229,0.55)' },
+            '&[data-copied="true"]': { color: '#8ddb8c', borderColor: '#8ddb8c' },
+          },
 
           /* ── Mermaid ── */
           '& .mermaid-figure': { margin: '2rem 0' },

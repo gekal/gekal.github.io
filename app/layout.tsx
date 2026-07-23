@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   // 正規形が www であることを明示しておく
   alternates: {
     canonical: './',
+    types: {
+      'application/rss+xml': `${SITE_URL}/feed.xml`,
+    },
   },
   title: {
     default: '鴻鷹 | フリーランスエンジニア',
