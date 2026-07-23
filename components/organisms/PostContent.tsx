@@ -12,6 +12,15 @@ export default function PostContent({ content }: PostContentProps) {
 
   useEffect(() => {
     let cancelled = false
+    let disconnectSchemeWatcher: (() => void) | undefined
+
+    // ダークモードで neutral (明色) テーマのまま描くと、ノード外に置かれる
+    // エッジラベルが暗い背景に暗い文字で載ってしまい読めない。
+    // 配色は theme.ts の colorSchemeSelector が html 属性として書き出している
+    const currentMermaidTheme = () =>
+      document.documentElement.getAttribute('data-mui-color-scheme') === 'dark'
+        ? ('dark' as const)
+        : ('neutral' as const)
 
     async function renderMermaidDiagrams() {
       const article = articleRef.current
@@ -26,11 +35,14 @@ export default function PostContent({ content }: PostContentProps) {
       mermaid.initialize({
         startOnLoad: false,
         securityLevel: 'strict',
-        theme: 'neutral',
+        theme: currentMermaidTheme(),
       })
 
       const diagrams: HTMLElement[] = []
       const diagramFigures = new Map<HTMLElement, HTMLElement>()
+      // mermaid.run は描画時に元のソースを SVG で置き換えてしまうので、
+      // 配色が変わったときに描き直せるよう元テキストを控えておく
+      const diagramSources = new Map<HTMLElement, string>()
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
       codeBlocks.forEach((codeBlock, index) => {
@@ -42,14 +54,16 @@ export default function PostContent({ content }: PostContentProps) {
         figure.setAttribute('aria-label', `フロー図 ${index + 1}`)
         figure.dataset.animationPaused = String(reduceMotion)
 
+        const source = codeBlock.textContent ?? ''
         const diagram = document.createElement('div')
         diagram.className = 'mermaid'
         diagram.id = `mermaid-diagram-${index}`
-        diagram.textContent = codeBlock.textContent ?? ''
+        diagram.textContent = source
         figure.append(diagram)
         pre.replaceWith(figure)
         diagrams.push(diagram)
         diagramFigures.set(diagram, figure)
+        diagramSources.set(diagram, source)
       })
 
       try {
@@ -92,12 +106,36 @@ export default function PostContent({ content }: PostContentProps) {
       } catch (error) {
         console.error('Mermaid diagram rendering failed:', error)
       }
+
+      // OS の配色設定が読んでいる途中で変わっても図が取り残されないよう、
+      // html 属性の変化を見て控えたソースから描き直す
+      let renderedTheme = currentMermaidTheme()
+      const observer = new MutationObserver(() => {
+        const nextTheme = currentMermaidTheme()
+        if (cancelled || nextTheme === renderedTheme) return
+        renderedTheme = nextTheme
+
+        mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: nextTheme })
+        diagrams.forEach((diagram) => {
+          diagram.textContent = diagramSources.get(diagram) ?? ''
+          diagram.removeAttribute('data-processed')
+        })
+        mermaid
+          .run({ nodes: diagrams, suppressErrors: false })
+          .catch((error) => console.error('Mermaid diagram re-rendering failed:', error))
+      })
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-mui-color-scheme'],
+      })
+      disconnectSchemeWatcher = () => observer.disconnect()
     }
 
     void renderMermaidDiagrams()
 
     return () => {
       cancelled = true
+      disconnectSchemeWatcher?.()
     }
   }, [content])
 

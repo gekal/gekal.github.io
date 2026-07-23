@@ -39,18 +39,25 @@ const theme = createTheme({
     colorSchemeSelector: 'data-mui-color-scheme',
   },
   colorSchemes: {
+    // 長文を読む前提の配色。純白 × 純黒はコントラストが強すぎて目が疲れるので、
+    // 背景をわずかに落とし、文字色も真っ黒 / 真っ白を避けている
+    // (それでも本文は 13:1 以上あり WCAG AAA を満たす)。
     light: {
       palette: {
-        primary: { main: '#1976d2' },
-        secondary: { main: '#9c27b0' },
-        background: { default: '#ffffff', paper: '#ffffff' },
+        // #1976d2 は白背景で 4.6:1 と本文リンクにはぎりぎり。少し暗くして余裕を持たせる
+        primary: { main: '#1565c0' },
+        secondary: { main: '#7b1fa2' },
+        background: { default: '#fbfbfc', paper: '#ffffff' },
+        text: { primary: '#1a1d21', secondary: '#59616b' },
       },
     },
     dark: {
       palette: {
         primary: { main: '#90caf9' },
         secondary: { main: '#ce93d8' },
-        background: { default: '#121212', paper: '#1e1e1e' },
+        // コードブロック (#22272e) がページより明るく浮くよう、背景を少し沈めている
+        background: { default: '#121417', paper: '#1a1d22' },
+        text: { primary: '#e2e5e9', secondary: '#9aa3ad' },
       },
     },
   },

@@ -16,6 +16,15 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+/**
+ * 記事カラムの幅 (左右 padding 込み)。
+ *
+ * maxWidth="md" (852px) だと和文で 1 行 50 字を超えてしまい、行を折り返すたびに
+ * 視線が迷う。本文が 1 行 40 字程度に収まる幅に絞っている。
+ * ヒーローとパンくずにも同じ値を使い、タイトルと本文の左端を揃える。
+ */
+const COLUMN_WIDTH = 784
+
 export async function generateStaticParams() {
   return getAllPostSlugs()
 }
@@ -70,7 +79,10 @@ export default async function PostPage({ params }: Props) {
               'linear-gradient(to bottom, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.15) 20%, transparent 40%)',
           }}
         />
-        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1, pb: 5 }}>
+        <Container
+          maxWidth={false}
+          sx={{ maxWidth: COLUMN_WIDTH, position: 'relative', zIndex: 1, pb: 5 }}
+        >
           <TagList tags={tags.slice(0, 4)} dark sx={{ mb: 2.5 }} />
           <AccentLine sx={{ mb: 2 }} />
           <Typography variant="h3" component="h1" sx={{ color: '#fff', fontWeight: 700 }}>
@@ -91,7 +103,7 @@ export default async function PostPage({ params }: Props) {
       </Box>
 
       {/* ── 本文 ── */}
-      <Container maxWidth="md" sx={{ py: 6 }}>
+      <Container maxWidth={false} sx={{ maxWidth: COLUMN_WIDTH, py: 6 }}>
         <BreadcrumbNav
           items={[
             { label: 'Home', href: '/' },
