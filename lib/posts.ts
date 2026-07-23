@@ -24,7 +24,11 @@ export interface Post {
   slug: string
   title: string
   date: string
+  /** frontmatter に `updated` があるときだけ入る。公開日と同じなら省く */
+  updated?: string
   excerpt: string
+  /** 読了時間 (分)。最低 1 分。 */
+  readingMinutes: number
   content?: string
   categories?: string | string[]
   tags?: string | string[]
@@ -34,6 +38,35 @@ export interface Post {
 }
 
 const EXCERPT_LENGTH = 160
+
+// 和文の読字速度。日本語は 400〜600 字/分とされるので中間を取る。
+// 記事は和文主体なので、欧文の「200 語/分」ではなく文字数で数える
+const CHARS_PER_MINUTE = 500
+
+/**
+ * 読了時間の目安。
+ *
+ * コードブロックは読み飛ばされることも精読されることもあり見積もりが難しいので、
+ * 素の文字数の 1/3 だけ数えて過大評価を避けている。
+ */
+function estimateReadingMinutes(markdown: string): number {
+  const code = markdown.match(/```[\s\S]*?```/g)?.join('') ?? ''
+  const prose = markdown.replace(/```[\s\S]*?```/g, '')
+
+  const chars = countChars(prose) + countChars(code) / 3
+  return Math.max(1, Math.round(chars / CHARS_PER_MINUTE))
+}
+
+function countChars(text: string): number {
+  return text.replace(/\s+/g, '').length
+}
+
+/** frontmatter の日付を ISO 文字列にする。不正な値は握りつぶす。 */
+function toIsoDate(value: unknown): string | undefined {
+  if (!value) return undefined
+  const parsed = new Date(value as string)
+  return isNaN(parsed.getTime()) ? undefined : parsed.toISOString()
+}
 
 /**
  * 記事本文から抜粋を作る。meta description・OGP・JSON-LD・RSS が共通で使う。
@@ -71,18 +104,16 @@ export function getSortedPostsData(): Post[] {
       const { data, content } = matter(fileContents)
 
       const excerpt = buildExcerpt(content)
-
-      const parsedDate = data.date ? new Date(data.date) : null
-      const dateIso =
-        parsedDate && !isNaN(parsedDate.getTime())
-          ? parsedDate.toISOString()
-          : new Date(0).toISOString()
+      const dateIso = toIsoDate(data.date) ?? new Date(0).toISOString()
+      const updated = toIsoDate(data.updated)
 
       return {
         slug,
         title: data.title || slug,
         date: dateIso,
+        updated: updated && updated !== dateIso ? updated : undefined,
         excerpt,
+        readingMinutes: estimateReadingMinutes(content),
         categories: data.categories,
         tags: data.tags,
         background: data.background,
@@ -139,17 +170,16 @@ export async function getPostData(slug: string): Promise<Post> {
 
   const contentHtml = processedContent.toString()
 
-  const parsedDate2 = data.date ? new Date(data.date) : null
-  const dateIso2 =
-    parsedDate2 && !isNaN(parsedDate2.getTime())
-      ? parsedDate2.toISOString()
-      : new Date(0).toISOString()
+  const dateIso = toIsoDate(data.date) ?? new Date(0).toISOString()
+  const updated = toIsoDate(data.updated)
 
   return {
     slug,
     title: data.title || slug,
-    date: dateIso2,
+    date: dateIso,
+    updated: updated && updated !== dateIso ? updated : undefined,
     excerpt: buildExcerpt(content),
+    readingMinutes: estimateReadingMinutes(content),
     content: contentHtml,
     categories: data.categories,
     tags: data.tags,

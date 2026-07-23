@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box'
+import { heroBackgroundSx } from '@/lib/background-image'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
@@ -17,7 +18,7 @@ export default function HomeHero() {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         pt: '52px',
-        backgroundImage: 'url(/img/bg-index.jpg)',
+        ...heroBackgroundSx('/img/bg-index.jpg'),
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

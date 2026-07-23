@@ -41,7 +41,8 @@ export function collectToc(sink: TocItem[]) {
  */
 export function withImageDimensions(publicDir: string) {
   return () => (tree: Root) => {
-    visit(tree, 'element', (node: Element) => {
+    // 親を書き換える (img → picture) ため、visit の index/parent を使う
+    visit(tree, 'element', (node: Element, index, parent) => {
       if (node.tagName !== 'img') return
 
       const props = (node.properties ??= {})
@@ -51,13 +52,39 @@ export function withImageDimensions(publicDir: string) {
       const src = typeof props.src === 'string' ? props.src : null
       // 外部URL・data URI はビルド時に寸法を測れない
       if (!src || !src.startsWith('/')) return
-      if (props.width != null || props.height != null) return
 
-      const size = measure(path.join(publicDir, decodeURIComponent(src)))
-      if (!size) return
+      const decoded = decodeURIComponent(src)
 
-      props.width = size.width
-      props.height = size.height
+      if (props.width == null && props.height == null) {
+        const size = measure(path.join(publicDir, decoded))
+        if (size) {
+          props.width = size.width
+          props.height = size.height
+        }
+      }
+
+      // scripts/optimize-images.mjs が置いた WebP があれば <picture> で優先させる。
+      // 元より大きくなる画像には WebP を作っていないので、隣に無ければ何もしない
+      if (!parent || index === undefined) return
+      if (!/\.(png|jpe?g|gif)$/i.test(decoded)) return
+
+      const webpSrc = decoded.replace(/\.(png|jpe?g|gif)$/i, '.webp')
+      if (!fs.existsSync(path.join(publicDir, webpSrc))) return
+
+      parent.children[index] = {
+        type: 'element',
+        tagName: 'picture',
+        properties: {},
+        children: [
+          {
+            type: 'element',
+            tagName: 'source',
+            properties: { srcSet: webpSrc, type: 'image/webp' },
+            children: [],
+          },
+          node,
+        ],
+      }
     })
   }
 }

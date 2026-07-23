@@ -41,6 +41,8 @@ The rehype chain in `getPostData` is **order-sensitive**:
 - `collectToc` / `withImageDimensions` live in `lib/markdown-plugins.ts`. The latter reads real
   files from `public/` to emit `width`/`height`, since `next/image` is unavailable under static
   export and missing dimensions cause layout shift. Broken image paths are skipped, not fatal.
+  It also wraps `<img>` in `<picture>` with a WebP `<source>` when a `.webp` sibling exists —
+  see Images below.
 - hast `Properties` are not HTML attributes: `className` takes an **array**, and `aria-*` take
   **strings** (`ariaHidden: 'true'`, not `true`). Passing the HTML-ish form is a type error.
 
@@ -49,6 +51,10 @@ structurally rather than stripping the punctuation — deleting just `[`/`]`/`(`
 and URL together (`Claude Codehttps://…`).
 
 New posts: add a file to `_posts/` named `YYYY-MM-DD-slug.markdown`. No other changes needed — `generateStaticParams` in `app/posts/[slug]/page.tsx` picks them up automatically.
+
+An optional `updated:` frontmatter field renders an update date next to the published date and
+feeds `dateModified` in the JSON-LD. It is ignored when absent or equal to `date`. Reading time
+is derived from character count (500 chars/min, code blocks weighted at 1/3) — no frontmatter.
 
 ### Routing
 
@@ -60,6 +66,30 @@ New posts: add a file to `_posts/` named `YYYY-MM-DD-slug.markdown`. No other ch
 | `/posts/[slug]` | `app/posts/[slug]/page.tsx` | Rendered from `_posts/` |
 | `/contact` | `app/contact/page.tsx` | Formspree form — the live endpoint is in `components/organisms/ContactForm.tsx` |
 | `/feed.xml` | `app/feed.xml/route.ts` | RSS 2.0, 20 most recent posts. Needs `dynamic = 'force-static'` |
+
+### Images
+
+`public/` holds the original PNG/JPEG/GIF plus a generated `.webp` sibling for each. Delivered
+bytes for the image set dropped from **17.6 MB to 3.1 MB (-82%)**; several posts carried
+3648×2736 camera originals against a 736px text column.
+
+Regenerate after adding images:
+
+```bash
+npm i -D sharp && node scripts/optimize-images.mjs && npm un -D sharp
+```
+
+- **`sharp` is deliberately not a dependency.** It is a native module with per-platform optional
+  packages — exactly the lockfile trap described under Deployment. Install it only for the run,
+  then remove it, and commit the generated `.webp` files. Re-runs skip up-to-date output.
+- The script **never overwrites originals**; they remain the `<picture>` fallback. It also drops
+  any `.webp` that came out larger than its source (flat diagrams sometimes do), so a missing
+  sibling is a valid state, not an error.
+- Markdown images are handled by `withImageDimensions`. **CSS backgrounds cannot be**, so heroes
+  use `heroBackgroundSx()` from `lib/background-image.ts`, which layers `image-set()` inside an
+  `@supports` block over a plain `url()` fallback. Do **not** express that fallback as an array
+  value in `sx` — MUI reads arrays as responsive breakpoint values, not as CSS fallback
+  declarations, and the `image-set()` silently never applies.
 
 ### Favicon / icons
 

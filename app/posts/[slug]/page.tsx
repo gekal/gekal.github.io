@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { getAllPostSlugs, getPostData, getAdjacentPosts, formatDate } from '@/lib/posts'
 import { SITE_URL } from '@/lib/site'
+import { heroBackgroundSx } from '@/lib/background-image'
 import TagList from '@/components/molecules/TagList'
 import BreadcrumbNav from '@/components/molecules/BreadcrumbNav'
 import AccentLine from '@/components/atoms/AccentLine'
@@ -83,7 +84,7 @@ export default async function PostPage({ params }: Props) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.updated ?? post.date,
     image: new URL(heroImage(post.background), SITE_URL).toString(),
     author: { '@type': 'Person', name: 'gekal', url: SITE_URL },
     publisher: { '@type': 'Person', name: 'gekal', url: SITE_URL },
@@ -107,7 +108,7 @@ export default async function PostPage({ params }: Props) {
           alignItems: 'flex-end',
           pt: '52px',
           minHeight: 320,
-          backgroundImage: `url(${heroImage(post.background)})`,
+          ...heroBackgroundSx(heroImage(post.background)),
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -142,11 +143,24 @@ export default async function PostPage({ params }: Props) {
           )}
           <Typography
             variant="body2"
-            component="time"
-            dateTime={post.date}
-            sx={{ display: 'block', mt: 2, color: 'rgba(255,255,255,0.55)' }}
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: 1.5,
+              mt: 2,
+              color: 'rgba(255,255,255,0.55)',
+            }}
           >
-            {formatDate(post.date)}
+            <time dateTime={post.date}>{formatDate(post.date)}</time>
+            {post.updated && (
+              <>
+                <span aria-hidden>·</span>
+                <time dateTime={post.updated}>{formatDate(post.updated)} 更新</time>
+              </>
+            )}
+            <span aria-hidden>·</span>
+            <span>約 {post.readingMinutes} 分で読めます</span>
           </Typography>
         </Container>
       </Box>

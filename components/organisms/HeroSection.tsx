@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import AccentLine from '@/components/atoms/AccentLine'
+import { heroBackgroundSx } from '@/lib/background-image'
 
 interface HeroSectionProps {
   title: string
@@ -27,7 +28,7 @@ export default function HeroSection({
         alignItems: 'flex-end',
         pt: '52px',
         minHeight: heights[size],
-        backgroundImage: `url(${backgroundImage})`,
+        ...heroBackgroundSx(backgroundImage),
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

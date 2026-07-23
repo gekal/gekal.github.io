@@ -63,9 +63,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeProvider theme={theme} defaultMode="system">
             <CssBaseline />
             <MarkdownStyles />
+            {/*
+              スキップリンク。キーボード操作でナビを毎回辿らずに本文へ飛べるようにする。
+              display:none だとフォーカスを受け取れないので、画面外に逃がしておき
+              フォーカス時だけ引き戻す
+            */}
+            <Box
+              component="a"
+              href="#main"
+              sx={{
+                position: 'fixed',
+                top: 8,
+                left: 8,
+                zIndex: 2000,
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                bgcolor: 'background.paper',
+                color: 'text.primary',
+                boxShadow: 3,
+                textDecoration: 'none',
+                transform: 'translateY(-200%)',
+                // :focus-visible ではなく :focus。このリンクは画面外に置かれていて
+                // キーボードからしか到達できないうえ、:focus-visible は
+                // ブラウザのヒューリスティック次第で発火しないことがある
+                '&:focus': { transform: 'translateY(0)' },
+              }}
+            >
+              本文へスキップ
+            </Box>
             <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
               <Navbar />
-              <Box component="main" sx={{ flex: 1 }}>
+              <Box component="main" id="main" sx={{ flex: 1, scrollMarginTop: '80px' }}>
                 {children}
               </Box>
               <Footer />
