@@ -3,6 +3,9 @@
 out/
 next-env.d.ts
 
+# TypeScript (インクリメンタルビルドのキャッシュ。生成物なので追跡しない)
+*.tsbuildinfo
+
 # Node
 node_modules/
 npm-debug.log*
