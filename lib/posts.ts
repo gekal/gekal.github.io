@@ -11,6 +11,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeStringify from 'rehype-stringify'
 import { all } from 'lowlight'
 import { collectToc, withImageDimensions, type TocItem } from './markdown-plugins'
+import { parseTags, tagSlug, type TagSummary } from './tags'
 
 export type { TocItem }
 
@@ -204,10 +205,33 @@ export function getAdjacentPosts(slug: string): { prev: Post | null; next: Post 
   }
 }
 
-export function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+
+/** 全記事のタグを出現数つきで集計する。多い順 → 名前順。 */
+export function getAllTags(): TagSummary[] {
+  const buckets = new Map<string, { labels: Map<string, number>; count: number }>()
+
+  for (const post of getSortedPostsData()) {
+    for (const tag of parseTags(post.tags)) {
+      const slug = tagSlug(tag)
+      const bucket = buckets.get(slug) ?? { labels: new Map<string, number>(), count: 0 }
+      bucket.count += 1
+      bucket.labels.set(tag, (bucket.labels.get(tag) ?? 0) + 1)
+      buckets.set(slug, bucket)
+    }
+  }
+
+  return [...buckets.entries()]
+    .map(([slug, { labels, count }]) => ({
+      slug,
+      count,
+      label: [...labels.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0][0],
+    }))
+    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+}
+
+/** 指定タグの記事 (新しい順)。slug は `tagSlug` の出力。 */
+export function getPostsByTag(slug: string): Post[] {
+  return getSortedPostsData().filter((post) =>
+    parseTags(post.tags).some((tag) => tagSlug(tag) === slug),
+  )
 }

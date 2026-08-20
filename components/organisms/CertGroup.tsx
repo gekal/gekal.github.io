@@ -5,12 +5,9 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import List from '@mui/material/List'
 import CertItem from '@/components/molecules/CertItem'
+import type { CredentialGroup } from '@/lib/credentials'
 
-interface CertGroupProps {
-  vendor: string
-  accent: string
-  items: string[]
-}
+type CertGroupProps = CredentialGroup
 
 export default function CertGroup({ vendor, accent, items }: CertGroupProps) {
   return (
@@ -27,7 +24,7 @@ export default function CertGroup({ vendor, accent, items }: CertGroupProps) {
         </Stack>
         <List dense disablePadding>
           {items.map((item) => (
-            <CertItem key={item} name={item} />
+            <CertItem key={item.name} {...item} />
           ))}
         </List>
       </CardContent>

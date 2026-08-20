@@ -6,6 +6,7 @@ import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
 import Box from '@mui/material/Box'
 import theme from './theme'
 import MarkdownStyles from './MarkdownStyles'
+import Analytics from './Analytics'
 import Navbar from '@/components/organisms/Navbar'
 import Footer from '@/components/organisms/Footer'
 import { SITE_URL } from '@/lib/site'
@@ -99,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Box>
               <Footer />
             </Box>
+            <Analytics />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

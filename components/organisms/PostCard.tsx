@@ -5,18 +5,14 @@ import CardMedia from '@mui/material/CardMedia'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { type Post, formatDate } from '@/lib/posts'
+import type { Post } from '@/lib/posts'
+import { formatDate } from '@/lib/format'
+import { parseTags } from '@/lib/tags'
 import TagList from '@/components/molecules/TagList'
 
 interface PostCardProps {
   post: Post
   featured?: boolean
-}
-
-function parseTags(raw: Post['tags']): string[] {
-  if (Array.isArray(raw)) return raw
-  if (raw) return String(raw).split(/\s+/).filter(Boolean)
-  return []
 }
 
 /** 2 行で省略するための共通スタイル */

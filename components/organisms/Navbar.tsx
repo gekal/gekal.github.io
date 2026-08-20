@@ -19,10 +19,13 @@ import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import NavLink from '@/components/molecules/NavLink'
+import { WORKS_DRAFT } from '@/lib/works'
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
+  // 事例がサンプルのままの間は出さない (lib/works.ts の WORKS_DRAFT)
+  ...(WORKS_DRAFT ? [] : [{ href: '/works', label: 'Works' }]),
   { href: '/posts', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ]

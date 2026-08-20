@@ -17,6 +17,12 @@ still calls `context.getFilename()`, which ESLint 10 removed, so v10 crashes on 
 Dependabot is configured to ignore `eslint >=10` in `.github/dependabot.yml` — it had already
 bumped it to v10 once, and `npm run build` does not catch it because CI never runs lint.
 
+**`npm run lint` is currently broken** — Dependabot bumped `typescript` to 7.0.2 and
+`typescript-eslint` (bundled with `eslint-config-next`) refuses to run against TS 7.0
+("typescript-eslint does not support TS 7.0"). This is unrelated to the ESLint 9 pin above.
+Until `typescript-eslint` ships TS 7 support, either pin `typescript` back to 6.x or run the
+TS 6 API side by side. `npm run build` still type-checks, so it is the working gate.
+
 There are no automated tests. Verify changes with `npm run build` to catch type errors and prerendering failures.
 
 ## Architecture
@@ -63,11 +69,58 @@ is derived from character count (500 chars/min, code blocks weighted at 1/3) —
 | Route | File | Notes |
 |---|---|---|
 | `/` | `app/page.tsx` | Shows 6 most recent posts |
-| `/about` | `app/about/page.tsx` | Freelance engineer profile — static content |
-| `/posts` | `app/posts/page.tsx` | Full post list |
+| `/about` | `app/about/page.tsx` | Profile, services, skills, certifications, working conditions |
+| `/works` | `app/works/page.tsx` | Case studies. **Gated by `WORKS_DRAFT`** — see below |
+| `/posts` | `app/posts/page.tsx` | Full post list + client-side search/tag filter |
 | `/posts/[slug]` | `app/posts/[slug]/page.tsx` | Rendered from `_posts/` |
+| `/tags` | `app/tags/page.tsx` | All tags with post counts |
+| `/tags/[tag]` | `app/tags/[tag]/page.tsx` | Posts for one tag |
 | `/contact` | `app/contact/page.tsx` | Formspree form — the live endpoint is in `components/organisms/ContactForm.tsx` |
+| `/privacy` | `app/privacy/page.tsx` | Privacy policy. Section numbering is derived from an array |
 | `/feed.xml` | `app/feed.xml/route.ts` | RSS 2.0, 20 most recent posts. Needs `dynamic = 'force-static'` |
+
+### Business content (profile / conditions / credentials / works)
+
+Numbers that appear in more than one place are derived, never typed twice — the About page
+used to list 17 certifications while displaying "16 資格".
+
+- `lib/profile.ts` — name, role, bio, links, and `EXPERIENCE_YEARS` (computed from
+  `CAREER_START_YEAR` at **build time**, so it only advances on redeploy).
+- `lib/credentials.ts` — `CREDENTIALS` + `CREDENTIAL_COUNT`. Each item takes an optional `url`
+  for a verifiable public badge (Credly / Microsoft Learn); `CertItem` renders it as a link.
+- `lib/business.ts` — `AVAILABILITY` (with an `asOf` date that the badge text always shows) and
+  `BUSINESS` (事業形態・屋号・所在地・インボイス登録番号). **Empty `BUSINESS` fields are not
+  rendered**, so unknown values can stay `''` rather than being faked.
+- `lib/works.ts` — case studies. `WORKS_DRAFT = true` means the entries are still the sample
+  placeholders: `/works` is `noindex`, and it is dropped from the navbar, footer and sitemap.
+  Flip it to `false` only after replacing `WORKS` with real projects.
+- `lib/structured-data.ts` — `personJsonLd()`, emitted on `/` and `/about` (articles keep their
+  own `BlogPosting`).
+
+### Tags
+
+`lib/tags.ts` holds the pure helpers (`parseTags`, `tagSlug`, `tagHref`, `TagSummary`);
+`lib/posts.ts` holds the fs-backed aggregation (`getAllTags`, `getPostsByTag`).
+
+**Nothing a client component imports may come from `lib/posts.ts`** — it imports `fs`, and
+Turbopack follows the import even through a server-component parent, failing the build with
+`Can't resolve 'fs'`. That is why `parseTags` lives in `lib/tags.ts` and `formatDate` in
+`lib/format.ts`: `PostSearch` (`'use client'`) renders `PostCard`, which needs both. Types are
+safe to import from `lib/posts.ts` with `import type`, since they are erased.
+
+Tag slugs are lower-cased (`Windows` and `windows` collapse into one page) and **not**
+percent-encoded — `generateStaticParams` takes decoded values and Next encodes them. Use
+`tagHref()` when building links. Japanese tags (`目標`, `フリーランス`) produce UTF-8 directory
+names under `out/tags/` and percent-encoded URLs in the sitemap; both are served correctly.
+
+MUI `Chip` passes `component="div"` down to `ButtonBase`, so `href` alone renders a `<div href>`.
+Linked chips must set `component="a"` explicitly (a plain anchor — no `next/link` client nav).
+
+### Analytics
+
+`app/Analytics.tsx` emits GA4 only when `NEXT_PUBLIC_GA_ID` is set (`GA_MEASUREMENT_ID` in
+`lib/site.ts`). Unset = no script, no cookies, and the privacy policy's Cookie section is
+omitted along with it. To start measuring, add the env var to `.github/workflows/deploy.yml`.
 
 ### Images
 
@@ -149,3 +202,13 @@ When adding absolute URLs anywhere, import `SITE_URL` rather than hardcoding the
 Pushing to `main` triggers `.github/workflows/deploy.yml`, which runs `npm ci && npm run build` and deploys `out/` to GitHub Pages via `actions/deploy-pages@v5`. GitHub Pages must be configured to use **GitHub Actions** as the source (not the legacy branch method). `public/CNAME` contains `www.gekal.cn` for the custom domain — it also drives the apex→www redirect, so do not delete it.
 
 Because the workflow runs `npm ci`, `package-lock.json` must always be committed alongside `package.json`. A lockfile missing platform-specific optional dependencies installs fine on macOS but fails `npm ci` on the Linux runner.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

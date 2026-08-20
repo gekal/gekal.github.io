@@ -6,19 +6,24 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Chip from '@mui/material/Chip'
 import Button from '@mui/material/Button'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import HeroSection from '@/components/organisms/HeroSection'
 import ServiceCard from '@/components/organisms/ServiceCard'
 import SkillGroup from '@/components/organisms/SkillGroup'
 import CertGroup from '@/components/organisms/CertGroup'
+import ConditionsTable from '@/components/organisms/ConditionsTable'
 import CTASection from '@/components/organisms/CTASection'
 import Avatar from '@/components/atoms/Avatar'
 import SectionLabel from '@/components/atoms/SectionLabel'
 import AccentLine from '@/components/atoms/AccentLine'
+import { PROFILE, EXPERIENCE_YEARS, CAREER_START_YEAR } from '@/lib/profile'
+import { CREDENTIALS, CREDENTIAL_COUNT } from '@/lib/credentials'
+import { personJsonLd } from '@/lib/structured-data'
+import { WORKS_DRAFT } from '@/lib/works'
 
 export const metadata: Metadata = {
   title: 'About',
-  description:
-    'フリーランスエンジニア gekal のプロフィール。AWS/GCP/Azure マルチクラウド専門、システム開発から DevOps まで。',
+  description: `フリーランスエンジニア gekal のプロフィール。AWS/GCP/Azure マルチクラウド専門、実務 ${EXPERIENCE_YEARS} 年・${CREDENTIAL_COUNT} 資格。稼働条件も掲載しています。`,
 }
 
 const services = [
@@ -67,59 +72,17 @@ const skillGroups = [
   },
 ]
 
-const certs = [
-  {
-    vendor: 'AWS',
-    accent: '#FF9500',
-    items: [
-      'Cloud Practitioner',
-      'Developer Associate',
-      'Solutions Architect Associate',
-      'SysOps Administrator Associate',
-      'Solutions Architect Professional',
-    ],
-  },
-  {
-    vendor: 'Google Cloud',
-    accent: '#34A853',
-    items: [
-      'Associate Cloud Engineer',
-      'Professional Cloud Architect',
-      'Professional Cloud DevOps Engineer',
-      'Professional Data Engineer',
-      'Professional Cloud Developer',
-    ],
-  },
-  {
-    vendor: 'Azure',
-    accent: '#0078D4',
-    items: [
-      'Fundamentals (AZ-900)',
-      'Developer Associate (AZ-204)',
-      'Administrator Associate (AZ-104)',
-      'DevOps Engineer Expert (AZ-400)',
-      'Solutions Architect Expert (AZ-305)',
-      'Security Fundamentals (SC-900)',
-    ],
-  },
-  {
-    vendor: 'Cloud Native',
-    accent: '#326CE5',
-    items: ['CKAD — Certified Kubernetes Application Developer'],
-  },
-]
-
 const profileBadges = [
-  '13 年以上の経験',
+  `${EXPERIENCE_YEARS} 年以上の経験`,
   'マルチクラウド対応',
-  '16 資格取得',
+  `${CREDENTIAL_COUNT} 資格取得`,
   'リモート作業可',
   '日本語・中国語',
 ]
 
 const profileLinks = [
-  { href: 'https://github.com/gekal', label: 'GitHub' },
-  { href: 'https://www.linkedin.com/in/gekal', label: 'LinkedIn' },
+  { href: PROFILE.github, label: 'GitHub' },
+  { href: PROFILE.linkedin, label: 'LinkedIn' },
 ]
 
 /** 各セクションの中央寄せ見出し */
@@ -137,9 +100,13 @@ function SectionHeading({ label, children }: { label: string; children: React.Re
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd()) }}
+      />
       <HeroSection
         title="About Me"
-        subtitle="フリーランスエンジニア — 13 年以上の経験 · 16 資格"
+        subtitle={`フリーランスエンジニア — ${EXPERIENCE_YEARS} 年以上の経験 · ${CREDENTIAL_COUNT} 資格`}
         backgroundImage="/img/bg-about.jpg"
         size="sm"
       />
@@ -150,11 +117,11 @@ export default function AboutPage() {
           <Grid container spacing={6} component="section">
             <Grid size={{ xs: 12, md: 4 }}>
               <Stack spacing={1.5} sx={{ alignItems: 'center' }}>
-                <Avatar src="https://github.com/gekal.png" alt="gekal" size="lg" online />
+                <Avatar src={PROFILE.avatar} alt={PROFILE.handle} size="lg" online />
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6">鴻 鷹</Typography>
+                  <Typography variant="h6">{PROFILE.name}</Typography>
                   <Typography variant="caption" color="text.secondary">
-                    gekal · @GekalCn
+                    {PROFILE.handle} · @GekalCn
                   </Typography>
                 </Box>
                 <Stack direction="row" spacing={1}>
@@ -187,7 +154,7 @@ export default function AboutPage() {
               </Typography>
               <Stack spacing={1.5} sx={{ color: 'text.secondary' }}>
                 <Typography>
-                  2011 年よりソフトウェアエンジニアとして活動。Java・JavaScript・.NET
+                  {CAREER_START_YEAR} 年よりソフトウェアエンジニアとして活動。Java・JavaScript・.NET
                   など多様な言語で開発経験を積んだ後、クラウドとコンテナ技術に特化。
                 </Typography>
                 <Typography>
@@ -202,6 +169,12 @@ export default function AboutPage() {
                   <Chip key={b} label={b} size="small" color="primary" variant="outlined" />
                 ))}
               </Stack>
+              {/* 事例が実データに差し替わるまでは導線を出さない (lib/works.ts) */}
+              {!WORKS_DRAFT && (
+                <Button href="/works" endIcon={<ArrowForwardIcon />} sx={{ mt: 2, ml: -1.5 }}>
+                  実績・事例を見る
+                </Button>
+              )}
             </Grid>
           </Grid>
 
@@ -234,16 +207,22 @@ export default function AboutPage() {
             <SectionHeading label="Certifications">
               取得資格{' '}
               <Box component="span" sx={{ color: 'primary.main' }}>
-                16
+                {CREDENTIAL_COUNT}
               </Box>
             </SectionHeading>
             <Grid container spacing={3}>
-              {certs.map((c) => (
+              {CREDENTIALS.map((c) => (
                 <Grid key={c.vendor} size={{ xs: 12, sm: 6 }}>
                   <CertGroup {...c} />
                 </Grid>
               ))}
             </Grid>
+          </Box>
+
+          {/* ── 稼働条件 ── */}
+          <Box component="section">
+            <SectionHeading label="Conditions">稼働条件</SectionHeading>
+            <ConditionsTable />
           </Box>
 
           <CTASection
