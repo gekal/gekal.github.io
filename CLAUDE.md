@@ -14,6 +14,8 @@ npm run lint     # ESLint check
 in Next.js 16, and `eslint-config-next` 16 exports flat config natively — no `FlatCompat` shim.
 **ESLint must stay pinned to v9**: the `eslint-plugin-react` bundled with `eslint-config-next`
 still calls `context.getFilename()`, which ESLint 10 removed, so v10 crashes on every React file.
+Dependabot is configured to ignore `eslint >=10` in `.github/dependabot.yml` — it had already
+bumped it to v10 once, and `npm run build` does not catch it because CI never runs lint.
 
 There are no automated tests. Verify changes with `npm run build` to catch type errors and prerendering failures.
 

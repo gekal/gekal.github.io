@@ -13,6 +13,12 @@ updates:
     commit-message:
       prefix: "chore(deps)"
       include: scope
+    # eslint v10 は eslint-config-next が同梱する eslint-plugin-react が
+    # 削除済みの context.getFilename() を呼ぶため、全 React ファイルで
+    # クラッシュする。プラグイン側が追随するまで v9 に留める
+    ignore:
+      - dependency-name: "eslint"
+        versions: [">=10"]
     # 依存は最初にマッチしたグループに入るため、順序に意味がある。
     # なお groups の既定は applies-to: version-updates。
     # セキュリティ更新は個別 PR のまま流したいので、あえて何も指定しない。
