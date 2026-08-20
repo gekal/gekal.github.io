@@ -11,6 +11,7 @@ import HomeHero from '@/components/organisms/HomeHero'
 import SkillBadgeBar from '@/components/organisms/SkillBadgeBar'
 import CTASection from '@/components/organisms/CTASection'
 import SectionLabel from '@/components/atoms/SectionLabel'
+import { personJsonLd } from '@/lib/structured-data'
 
 export default function HomePage() {
   const posts = getSortedPostsData()
@@ -19,6 +20,11 @@ export default function HomePage() {
 
   return (
     <>
+      {/* 「誰なのか」を機械可読で示す。記事の BlogPosting とは別に必要 */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd()) }}
+      />
       <HomeHero />
       <SkillBadgeBar />
 

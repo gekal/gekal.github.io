@@ -6,7 +6,9 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { getAllPostSlugs, getPostData, getAdjacentPosts, formatDate } from '@/lib/posts'
+import { getAllPostSlugs, getPostData, getAdjacentPosts } from '@/lib/posts'
+import { formatDate } from '@/lib/format'
+import { parseTags } from '@/lib/tags'
 import { SITE_URL } from '@/lib/site'
 import { heroBackgroundSx } from '@/lib/background-image'
 import TagList from '@/components/molecules/TagList'
@@ -15,6 +17,7 @@ import AccentLine from '@/components/atoms/AccentLine'
 import PostContent from '@/components/organisms/PostContent'
 import PostToc from '@/components/organisms/PostToc'
 import AdjacentPostNav from '@/components/organisms/AdjacentPostNav'
+import PostAuthorCta from '@/components/organisms/PostAuthorCta'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -69,11 +72,7 @@ export default async function PostPage({ params }: Props) {
   const post = await getPostData(slug).catch(() => null)
   if (!post) notFound()
 
-  const tags = Array.isArray(post.tags)
-    ? post.tags
-    : post.tags
-      ? String(post.tags).split(/\s+/).filter(Boolean)
-      : []
+  const tags = parseTags(post.tags)
 
   const { prev, next } = getAdjacentPosts(slug)
 
@@ -181,7 +180,9 @@ export default async function PostPage({ params }: Props) {
 
         <Divider sx={{ mt: 8, mb: 4 }} />
 
-        <TagList tags={tags} sx={{ mb: 4 }} />
+        <TagList tags={tags} linked sx={{ mb: 4 }} />
+
+        <PostAuthorCta />
 
         <AdjacentPostNav prev={prev} next={next} />
 

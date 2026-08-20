@@ -1,28 +1,23 @@
 import type { Metadata } from 'next'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Grid from '@mui/material/Grid'
-import Stack from '@mui/material/Stack'
-import Typography from '@mui/material/Typography'
-import { getSortedPostsData } from '@/lib/posts'
-import PostCard from '@/components/organisms/PostCard'
+import Button from '@mui/material/Button'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { getSortedPostsData, getAllTags } from '@/lib/posts'
 import HeroSection from '@/components/organisms/HeroSection'
+import PostSearch from '@/components/organisms/PostSearch'
 
 export const metadata: Metadata = {
   title: 'ブログ',
   description: 'クラウド・DevOps・バックエンド開発に関する技術記事一覧',
 }
 
+/** 絞り込みチップに出すタグ数。多すぎると選べないので上位のみ。 */
+const FILTER_TAG_LIMIT = 12
+
 export default function PostsPage() {
   const posts = getSortedPostsData()
-
-  const byYear = posts.reduce<Record<string, typeof posts>>((acc, post) => {
-    const year = new Date(post.date).getFullYear().toString()
-    if (!acc[year]) acc[year] = []
-    acc[year].push(post)
-    return acc
-  }, {})
-  const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a))
+  const tags = getAllTags()
 
   return (
     <>
@@ -34,29 +29,13 @@ export default function PostsPage() {
       />
 
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        {years.map((year) => (
-          <Box key={year} sx={{ mb: 8 }}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'baseline', mb: 4 }}>
-              <Typography
-                component="p"
-                sx={{ color: 'text.disabled', userSelect: 'none', fontSize: 48, fontWeight: 700 }}
-              >
-                {year}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {byYear[year].length} 記事
-              </Typography>
-            </Stack>
+        <PostSearch posts={posts} tags={tags.slice(0, FILTER_TAG_LIMIT)} />
 
-            <Grid container spacing={3}>
-              {byYear[year].map((post) => (
-                <Grid key={post.slug} size={{ xs: 12, sm: 6, lg: 4 }}>
-                  <PostCard post={post} />
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        ))}
+        <Box sx={{ textAlign: 'center' }}>
+          <Button href="/tags" endIcon={<ArrowForwardIcon />}>
+            すべてのタグを見る
+          </Button>
+        </Box>
       </Container>
     </>
   )

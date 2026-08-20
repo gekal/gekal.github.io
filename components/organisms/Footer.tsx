@@ -7,18 +7,23 @@ import Link from '@mui/material/Link'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import SocialLink, { type SocialIconName } from '@/components/molecules/SocialLink'
+import { PROFILE } from '@/lib/profile'
+import { WORKS_DRAFT } from '@/lib/works'
 
 const pages = [
   { href: '/', label: 'ホーム' },
   { href: '/about', label: 'About' },
+  ...(WORKS_DRAFT ? [] : [{ href: '/works', label: '実績' }]),
   { href: '/posts', label: 'ブログ' },
+  { href: '/tags', label: 'タグ' },
   { href: '/contact', label: 'Contact' },
+  { href: '/privacy', label: 'プライバシーポリシー' },
 ]
 
 const socials: { href: string; label: string; icon: SocialIconName }[] = [
-  { href: 'https://github.com/gekal', label: 'GitHub', icon: 'github' },
+  { href: PROFILE.github, label: 'GitHub', icon: 'github' },
   { href: 'https://twitter.com/GekalCn', label: 'X (Twitter)', icon: 'twitter' },
-  { href: 'https://www.linkedin.com/in/gekal', label: 'LinkedIn', icon: 'linkedin' },
+  { href: PROFILE.linkedin, label: 'LinkedIn', icon: 'linkedin' },
 ]
 
 export default function Footer() {
@@ -88,12 +93,12 @@ export default function Footer() {
             <Stack spacing={1.25} sx={{ mt: 1.5 }}>
               <Link
                 component="a"
-                href="mailto:liu.hongying@hotmail.com"
+                href={`mailto:${PROFILE.email}`}
                 variant="body2"
                 color="text.secondary"
                 sx={{ wordBreak: 'break-all' }}
               >
-                liu.hongying@hotmail.com
+                {PROFILE.email}
               </Link>
               <Link component="a" href="https://www.gekal.cn" variant="body2" color="text.secondary">
                 www.gekal.cn
