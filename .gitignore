@@ -6,6 +6,9 @@ next-env.d.ts
 # TypeScript (インクリメンタルビルドのキャッシュ。生成物なので追跡しない)
 *.tsbuildinfo
 
+# AWS CDK (infra/)
+infra/cdk.out/
+
 # Node
 node_modules/
 npm-debug.log*

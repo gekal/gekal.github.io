@@ -1,0 +1,97 @@
+name: Deploy to AWS
+
+# GitHub Pages 版 (deploy.yml) と併存させている。DNS を CloudFront へ向け、
+# 十分に様子を見てから Pages 側を停止する想定。
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # OIDC で AWS のロールを引き受けるために必要 (アクセスキーは保持しない)。
+  id-token: write
+
+concurrency:
+  group: "aws"
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: ap-northeast-1
+  STACK_NAME: GekalSite
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js static site
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Resolve stack outputs
+        id: stack
+        run: |
+          outputs=$(aws cloudformation describe-stacks \
+            --stack-name "$STACK_NAME" \
+            --query 'Stacks[0].Outputs' --output json)
+          get() { printf '%s' "$outputs" | jq -r ".[] | select(.OutputKey==\"$1\") | .OutputValue"; }
+          echo "bucket=$(get BucketName)" >> "$GITHUB_OUTPUT"
+          echo "distribution_id=$(get DistributionId)" >> "$GITHUB_OUTPUT"
+
+      # Cache-Control は同期時に付ける。CloudFront 側の CachePolicy は
+      # CACHING_OPTIMIZED (オリジンの Cache-Control を尊重) なので、
+      # ここでの指定がそのまま TTL になる。
+      - name: Upload immutable assets
+        run: |
+          aws s3 sync out/ "s3://${{ steps.stack.outputs.bucket }}" \
+            --exclude "*" --include "_next/static/*" \
+            --cache-control "public, max-age=31536000, immutable" \
+            --only-show-errors
+        # HTML より先に上げる。逆順だと新しい HTML が未配置のアセットを参照しうる。
+
+      - name: Upload images
+        run: |
+          aws s3 sync out/ "s3://${{ steps.stack.outputs.bucket }}" \
+            --exclude "*" --include "img/*" --include "assets/*" \
+            --cache-control "public, max-age=86400" \
+            --only-show-errors
+
+      # 最後に HTML・sitemap・feed など。--delete は --exclude したキーには
+      # 及ばないので、上の 2 つで上げたファイルが消えることはない。裏を返すと
+      # 古いハッシュ付きアセットは残り続けるが、これは意図的:
+      # デプロイ中に読み込まれた HTML が参照し続けるため即時削除は危険で、
+      # 1 ビルドあたり数百 KB なので放置してよい。
+      # CNAME は GitHub Pages 専用のファイルなので S3 には置かない。
+      - name: Upload documents and prune removed files
+        run: |
+          aws s3 sync out/ "s3://${{ steps.stack.outputs.bucket }}" --delete \
+            --exclude "_next/static/*" --exclude "img/*" --exclude "assets/*" \
+            --exclude "CNAME" \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --only-show-errors
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ steps.stack.outputs.distribution_id }}" \
+            --paths "/*" \
+            --query 'Invalidation.Id' --output text

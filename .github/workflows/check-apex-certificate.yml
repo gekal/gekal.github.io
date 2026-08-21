@@ -1,0 +1,55 @@
+name: Check apex certificate
+
+# www を CloudFront に移した後も、apex (gekal.cn) は GitHub Pages が応答し
+# public/CNAME に従って www へ 301 し続ける。GitHub Pages の証明書は apex と www を
+# 1 枚でカバーしているため、www が CloudFront を指した状態では更新時に www 側の
+# HTTP-01 検証が通らず、apex の HTTPS ごと失効しうる。静かに壊れると気付けないので
+# 週次で見張る。失敗すると Actions の通知が飛ぶ。
+#
+# 対処は infra/README.md の「証明書が更新されなかったら」を参照。
+on:
+  schedule:
+    # 毎週月曜 06:00 JST
+    - cron: "0 21 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Verify apex HTTPS and redirect
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check certificate expiry and apex redirect
+        env:
+          APEX: gekal.cn
+          CANONICAL: www.gekal.cn
+          # GitHub Pages (Let's Encrypt) は期限の 30 日前あたりから更新を試みる。
+          # 21 日を切っていれば更新に失敗していると判断してよい。
+          THRESHOLD_DAYS: "21"
+        run: |
+          set -euo pipefail
+
+          not_after=$(echo | openssl s_client -connect "$APEX:443" -servername "$APEX" 2>/dev/null \
+            | openssl x509 -noout -enddate | cut -d= -f2)
+          days=$(( ( $(date -u -d "$not_after" +%s) - $(date -u +%s) ) / 86400 ))
+          echo "証明書の有効期限: $not_after (残り ${days} 日)"
+
+          location=$(curl -fsSI "https://$APEX/posts/" | tr -d '\r' \
+            | awk 'tolower($1) == "location:" { print $2 }')
+          echo "https://$APEX/posts/ のリダイレクト先: ${location:-(なし)}"
+
+          failed=0
+
+          if [ "$location" != "https://$CANONICAL/posts/" ]; then
+            echo "::error::apex から www への 301 が期待どおりではありません"
+            failed=1
+          fi
+
+          if [ "$days" -lt "$THRESHOLD_DAYS" ]; then
+            echo "::error::証明書の残りが ${THRESHOLD_DAYS} 日を切りました。GitHub Pages が更新に失敗している可能性があります。infra/README.md を参照してください"
+            failed=1
+          fi
+
+          exit "$failed"

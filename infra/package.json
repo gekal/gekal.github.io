@@ -1,0 +1,26 @@
+{
+  "name": "gekal-site-infra",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "gekal.cn 静的サイトの AWS 配信基盤 (S3 + CloudFront) を定義する CDK アプリ",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test",
+    "synth": "cdk synth",
+    "diff": "cdk diff",
+    "deploy": "cdk deploy"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.230.0",
+    "constructs": "^10.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "aws-cdk": "^2.1129.0",
+    "typescript": "~5.9.3"
+  }
+}

@@ -203,6 +203,36 @@ Pushing to `main` triggers `.github/workflows/deploy.yml`, which runs `npm ci &&
 
 Because the workflow runs `npm ci`, `package-lock.json` must always be committed alongside `package.json`. A lockfile missing platform-specific optional dependencies installs fine on macOS but fails `npm ci` on the Linux runner.
 
+#### AWS (S3 + CloudFront) — running alongside GitHub Pages
+
+`infra/` is a separate CDK app (its own `package.json`, excluded from the site's
+`tsconfig.json` and ESLint config) that builds the AWS delivery path: a private S3
+bucket read through CloudFront via OAC, with a CloudFront Function doing what GitHub
+Pages used to do for free — the apex→www 301 and the `trailingSlash: true` resolution
+(`/about/` → `/about/index.html`, `/about` → 301 `/about/`). `.github/workflows/deploy-aws.yml`
+builds and syncs `out/` using GitHub OIDC (no access keys) and invalidates the distribution.
+
+Both workflows run on every push to `main` and both are expected to stay green until the
+DNS cutover is confirmed. See `infra/README.md` for the runbook.
+
+Two things about it are load-bearing:
+
+- **Host names live only in `infra/cdk.json`.** `lib/functions/viewer-request.js` carries
+  placeholders that `SiteStack` substitutes at deploy time.
+- **The apex cannot reach CloudFront while DNS stays on Aliyun.** CloudFront has no static
+  IP, apex CNAMEs are not valid DNS, and Alibaba Cloud DNS gates ALIAS records behind its
+  enterprise tiers. The adopted plan keeps `gekal.cn` on GitHub Pages (whose apex→www 301 is
+  driven by `public/CNAME`), so **`public/CNAME` and `deploy.yml` cannot be deleted** and
+  `WORKS`-style cleanup of the Pages workflow must not happen. The CloudFront Function's own
+  apex→www 301 never fires under this arrangement; it is there for a later DNS move.
+- **That arrangement has a known failure mode.** GitHub serves apex and www from a *single*
+  Let's Encrypt certificate. Once www resolves to CloudFront, the HTTP-01 validation for www
+  fails, and if GitHub drops the whole renewal the apex certificate goes with it.
+  `.github/workflows/check-apex-certificate.yml` watches this weekly and fails the run when
+  the apex certificate drops under 21 days or the apex→www 301 stops working. The fix is to
+  move DNS to Cloudflare (free, CNAME flattening) or Route 53 and point the apex at
+  CloudFront — see `infra/README.md`.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
