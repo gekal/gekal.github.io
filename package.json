@@ -13,15 +13,15 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.3.1",
+    "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.2.0",
-    "@mui/material-nextjs": "^9.3.0",
+    "@mui/material-nextjs": "^9.4.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.12.0",
     "image-size": "^2.0.2",
     "lowlight": "^3.3.0",
-    "mermaid": "^11.17.0",
-    "next": "^16.3.1",
+    "mermaid": "^11.17.2",
+    "next": "^16.3.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "rehype-autolink-headings": "^7.1.0",
@@ -41,7 +41,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9.39.5",
-    "eslint-config-next": "^16.3.1",
+    "eslint-config-next": "^16.3.4",
     "typescript": "^7"
   }
 }
